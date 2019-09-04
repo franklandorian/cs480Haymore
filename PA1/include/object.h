@@ -21,6 +21,7 @@ class Object
     GLuint VB;
     GLuint IB;
 
+
     float angle;
 };
 
