@@ -14,7 +14,7 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height);
+    bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename);
     void Update(unsigned int dt);
     void Render();
 

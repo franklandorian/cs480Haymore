@@ -4,6 +4,8 @@
 #include <vector>
 
 #include "graphics_headers.h"
+#include <iostream>
+#include <fstream>
 
 class Shader
 {
@@ -12,7 +14,7 @@ class Shader
     ~Shader();
     bool Initialize();
     void Enable();
-    bool AddShader(GLenum ShaderType);
+    bool AddShader(GLenum ShaderType, char* filename);
     bool Finalize();
     GLint GetUniformLocation(const char* pUniformName);
 
