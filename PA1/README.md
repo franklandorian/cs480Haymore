@@ -54,3 +54,15 @@ OpenGL 3.3 will run on the [ubuntu.cse.unr.edu](https://ubuntu.cse.unr.edu/) web
 ```bash
 /usr/NX/scripts/vgl/vglrun ./Tutorial
 ```
+
+## Running Instructions
+shader files are located in ../PA1/shaders/ they are called "vertexShader.txt" and "fragmentShader.txt".
+after running cmake and make...
+Example execute example:
+-v specifies the vertex shader
+-f specififes the fragment shader
+```bash
+./Tutorial -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
+```
+
+
