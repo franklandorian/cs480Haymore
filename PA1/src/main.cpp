@@ -21,6 +21,7 @@ int main(int argc, char **argv)
 			fragmentFilename = argv[i+1];
 		}
 	}
+  
   Engine *engine = new Engine("Revolving Spinning Cube", 1366, 768);
   if(!engine->Initialize(vertexFilename, fragmentFilename))
   {

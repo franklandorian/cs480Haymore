@@ -12,12 +12,6 @@ This project uses OpenGL 3.3. Some computers, such as virtual machines in the EC
 sudo apt-get install libglew-dev libglm-dev libsdl2-dev
 ```
 
-### Mac OSX
-Installation of brew is suggested to easily install the libs. Ensure that the latest version of the Developer Tools is installed.
-```bash
-brew install glew glm sdl2
-```
-
 ## Building and Running
 To build this project there are two options. One is to use CMake which makes including new libraries easier, and handles new files added automatically to the src and include directory. CMake is a small new learning curve but makes things easier in the future.
 The second option is to use the provided Makefile which is used as usual.
@@ -35,34 +29,11 @@ mkdir build
 cd build
 cmake ..
 make
-./Tutorial
+./Tutorial -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
 ```
-
-### Makefile Instructions 
-The makefile works as expected and must be updated with new files added in.
-
-```bash
-mkdir build
-cd build
-cp ../makefile .
-make
-./Tutorial
-```
-
-## Ubuntu.cse.unr.edu
-OpenGL 3.3 will run on the [ubuntu.cse.unr.edu](https://ubuntu.cse.unr.edu/) website. To do so follow the build instructions, but when running the Tutorial executable use this line to execute.
-```bash
-/usr/NX/scripts/vgl/vglrun ./Tutorial
-```
-
-## Running Instructions
 shader files are located in ../PA1/shaders/ they are called "vertexShader.txt" and "fragmentShader.txt".
 after running cmake and make...
 -v specifies the vertex shader
 -f specififes the fragment shader
-Example execute example:
-```bash
-./Tutorial -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
-```
 
 

@@ -76,11 +76,16 @@ Object::~Object()
   Vertices.clear();
   Indices.clear();
 }
-
+/*
+ *	Object::Update() currently makes the object revovle around the world center and then rotates about its own y axis.
+ *	this is done by first rotating the object then translating it and then rotating again. The first rotation is so we get the revolving motion
+ *	while the second rotation is so we get the spinning motion. 
+ *	rotationMod is simple how fast and which direction the object is spinning
+ */
 void Object::Update(unsigned int dt)
 {
   angle += dt * M_PI/2500;
-  rotationMod = 2;
+  rotationMod = 4;
   model = glm::translate(glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(glm::sin(angle) * 7, 0.0, 0.0)) * glm::rotate(glm::mat4(1.0f), ((rotationMod)*angle), glm::vec3(0.0, 1.0, 0.0));
 }
 
