@@ -60,7 +60,11 @@ Object::Object()
     Indices[i] = Indices[i] - 1;
   }
 
-  angle = 0.0f;
+  moving = true;
+  revolveDirection = 1;
+  rotationAngle = revolveAngle = 0.0f;
+  rotationDirection = 1;
+  rotationMod = 4;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -69,6 +73,7 @@ Object::Object()
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+  
 }
 
 Object::~Object()
@@ -84,9 +89,30 @@ Object::~Object()
  */
 void Object::Update(unsigned int dt)
 {
-  angle += dt * M_PI/2500;
-  rotationMod = 4;
-  model = glm::translate(glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(glm::sin(angle) * 7, 0.0, 0.0)) * glm::rotate(glm::mat4(1.0f), ((rotationMod)*angle), glm::vec3(0.0, 1.0, 0.0));
+  revolveAngle +=  moving * revolveDirection * (int)dt * M_PI/2500;
+  rotationAngle += moving * rotationDirection * rotationMod * (int)dt * M_PI/2500;
+  model = glm::translate(glm::rotate(glm::mat4(1.0f), (revolveAngle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(glm::sin(revolveAngle) * 7, 0.0, 0.0)) * glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(0.0, 1.0, 0.0));
+}
+
+
+void Object::spinCClockwise(){
+  rotationDirection = -1;
+}
+
+void Object::spinClockwise(){
+  rotationDirection = 1;
+}
+
+void Object::revolveCClockwise(){
+  revolveDirection = -1;
+}
+
+void Object::revolveClockwise(){
+  revolveDirection = 1;
+}
+
+void Object::toggleMovement(){
+  moving = !moving;
 }
 
 glm::mat4 Object::GetModel()

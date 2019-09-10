@@ -86,6 +86,16 @@ void Engine::Keyboard()
     if (m_event.key.keysym.sym == SDLK_ESCAPE)
     {
       m_running = false;
+    }else if(m_event.key.keysym.sym == SDLK_q){
+      m_graphics->getCube()->spinCClockwise();
+    }else if(m_event.key.keysym.sym == SDLK_e){
+      m_graphics->getCube()->spinClockwise();
+    }else if(m_event.key.keysym.sym == SDLK_a){
+      m_graphics->getCube()->revolveCClockwise();
+    }else if(m_event.key.keysym.sym == SDLK_d){
+      m_graphics->getCube()->revolveClockwise();
+    }else if(m_event.key.keysym.sym == SDLK_SPACE){
+      m_graphics->getCube()->toggleMovement();
     }
   }
 }

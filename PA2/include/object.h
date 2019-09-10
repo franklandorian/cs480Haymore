@@ -11,6 +11,11 @@ class Object
     ~Object();
     void Update(unsigned int dt);
     void Render();
+    void spinCClockwise();
+    void spinClockwise();
+    void revolveCClockwise();
+    void revolveClockwise();
+    void toggleMovement();
 
     glm::mat4 GetModel();
 
@@ -20,10 +25,16 @@ class Object
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+
+    bool moving;
+
+    int revolveDirection;
     int rotationMod;
+    int rotationDirection;
 
+    float revolveAngle;
+    float rotationAngle;
 
-    float angle;
 };
 
 #endif /* OBJECT_H */

@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 		}
 	}
   
-  Engine *engine = new Engine("Revolving Spinning Cube", 1366, 768);
+  Engine *engine = new Engine("Spinning cube with interaction", 1366, 768);
   if(!engine->Initialize(vertexFilename, fragmentFilename))
   {
     printf("The engine failed to start.\n");

@@ -29,11 +29,25 @@ mkdir build
 cd build
 cmake ..
 make
-./Tutorial -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
+./PA2 -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt
 ```
 shader files are located in ../PA1/shaders/ they are called "vertexShader.txt" and "fragmentShader.txt".
 after running cmake and make...
 -v specifies the vertex shader
 -f specififes the fragment shader
+
+
+
+### Controls
+
+The controls are fairly simple:
+
+q: causes the cube to rotate counter clockwise.
+e: cuases the cube to rotate clockwise.
+
+a: causes the cube to revolve counter clockwise.
+d: causes the cube to revolve clockwise.
+
+spacebar: causes all motion to stop.
 
 
