@@ -43,9 +43,11 @@ after running cmake and make...
 The controls are fairly simple:
 
 q: causes the cube to rotate counter clockwise.
+
 e: cuases the cube to rotate clockwise.
 
 a: causes the cube to revolve counter clockwise.
+
 d: causes the cube to revolve clockwise.
 
 spacebar: causes all motion to stop.
