@@ -87,9 +87,9 @@ void Engine::Keyboard()
     {
       m_running = false;
     }else if(m_event.key.keysym.sym == SDLK_q){
-      m_graphics->getCube()->spinCClockwise();
+      m_graphics->getCube()->rotateCClockwise();
     }else if(m_event.key.keysym.sym == SDLK_e){
-      m_graphics->getCube()->spinClockwise();
+      m_graphics->getCube()->rotateClockwise();
     }else if(m_event.key.keysym.sym == SDLK_a){
       m_graphics->getCube()->revolveCClockwise();
     }else if(m_event.key.keysym.sym == SDLK_d){
@@ -97,7 +97,13 @@ void Engine::Keyboard()
     }else if(m_event.key.keysym.sym == SDLK_SPACE){
       m_graphics->getCube()->toggleMovement();
     }
-  }
+  }/*else if(m_event.type == SDL_MOUSEBUTTONDOWN){
+    if(m_event.button == SDL_BUTTON_LEFT){
+      m_graphics->getCube()->swapRotation();
+    }else if(m_event.button == SDL_BUTTON_RIGHT){
+      m_graphics->getCube()->swapRevolve();
+    }
+  }*/
 }
 
 unsigned int Engine::getDT()

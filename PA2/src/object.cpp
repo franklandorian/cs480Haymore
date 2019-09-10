@@ -95,11 +95,11 @@ void Object::Update(unsigned int dt)
 }
 
 
-void Object::spinCClockwise(){
+void Object::rotateCClockwise(){
   rotationDirection = -1;
 }
 
-void Object::spinClockwise(){
+void Object::rotateClockwise(){
   rotationDirection = 1;
 }
 
@@ -113,6 +113,22 @@ void Object::revolveClockwise(){
 
 void Object::toggleMovement(){
   moving = !moving;
+}
+
+void Object::swapRotation(){
+  if(rotationDirection == 1){
+    this->rotateCClockwise();
+  }else{
+    this->rotateClockwise();
+  }
+}
+
+void Object::swapRevolve(){
+  if(revolveDirection == 1){
+    this->revolveCClockwise();
+  }else{
+    this->revolveClockwise();
+  }
 }
 
 glm::mat4 Object::GetModel()

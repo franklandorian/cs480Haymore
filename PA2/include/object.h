@@ -11,11 +11,13 @@ class Object
     ~Object();
     void Update(unsigned int dt);
     void Render();
-    void spinCClockwise();
-    void spinClockwise();
+    void rotateCClockwise();
+    void rotateClockwise();
     void revolveCClockwise();
     void revolveClockwise();
     void toggleMovement();
+    void swapRotation();
+    void swapRevolve();
 
     glm::mat4 GetModel();
 
