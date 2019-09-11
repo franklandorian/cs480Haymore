@@ -18,6 +18,7 @@ class Object
     void toggleMovement();
     void swapRotation();
     void swapRevolve();
+    void mouseClick(SDL_MouseButtonEvent& mouseEvent);
 
     glm::mat4 GetModel();
 

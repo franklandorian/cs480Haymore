@@ -131,6 +131,17 @@ void Object::swapRevolve(){
   }
 }
 
+void Object::mouseClick(SDL_MouseButtonEvent& mouseEvent){
+	switch(mouseEvent.button){
+		case SDL_BUTTON_LEFT:
+			swapRotation();
+			break;
+		case SDL_BUTTON_RIGHT:
+			swapRevolve();
+			break;
+	}
+}
+
 glm::mat4 Object::GetModel()
 {
   return model;

@@ -52,6 +52,10 @@ d: causes the cube to revolve clockwise.
 
 spacebar: causes all motion to stop.
 
+left click: toggles rotation direction.
+
+right click: toggles revolution direction.
+
 
 
 
