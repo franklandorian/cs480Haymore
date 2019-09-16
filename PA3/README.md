@@ -56,6 +56,7 @@ left click: toggles rotation direction.
 
 right click: toggles revolution direction.
 
+Shift + any previous input modifies the moon in the same way.
 
-TODO: WORK ON GETTING MOON.CPP TO WORK AND CUBE.CPP
+TODO: MAKE THE SPACEBAR AND CLICKING WORK FOR THE MOON
 

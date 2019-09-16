@@ -19,6 +19,7 @@ class Graphics
     void Update(unsigned int dt);
     void Render();
     Cube* getCube();
+    Moon* getMoon();
 
   private:
     std::string ErrorString(GLenum error);

@@ -48,7 +48,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   m_cube = new Cube();
 
   //create the moon
-  m_moon = new Moon();
+  m_moon = new Moon(m_cube);
 
   // Set up the shaders
   m_shader = new Shader();

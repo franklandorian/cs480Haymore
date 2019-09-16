@@ -1,16 +1,24 @@
-#ifndef Cube_H
-#define Cube_H
+#ifndef Moon_H
+#define Moon_H
 
 #include <vector>
 #include "graphics_headers.h"
+#include "Cube.h"
 
-class Cube
+class Moon
 {
   public:
-    Cube();
-    ~Cube();
+    Moon();
+    Moon(Cube* planet);
+    ~Moon();
     void Update(unsigned int dt);
     void Render();
+    void mouseClick(SDL_MouseButtonEvent& mouseEvent);
+    void buttonHandler(SDL_Keycode& keysym);
+
+    glm::mat4 GetModel();
+
+  private:
     void rotateCClockwise();
     void rotateClockwise();
     void revolveCClockwise();
@@ -18,19 +26,19 @@ class Cube
     void toggleMovement();
     void swapRotation();
     void swapRevolve();
-    void mouseClick(SDL_MouseButtonEvent& mouseEvent);
 
-    glm::mat4 GetModel();
-
-  private:
     glm::mat4 model;
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+    glm::mat4 translationMatrix;
+
+    Cube* p_planet;
 
     bool moving;
 
+    int revolveMod;
     int revolveDirection;
     int rotationMod;
     int rotationDirection;
@@ -40,4 +48,4 @@ class Cube
 
 };
 
-#endif /* Cube_H */
+#endif /* Moon_H */

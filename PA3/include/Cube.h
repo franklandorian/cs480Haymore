@@ -11,6 +11,13 @@ class Cube
     ~Cube();
     void Update(unsigned int dt);
     void Render();
+    void mouseClick(SDL_MouseButtonEvent& mouseEvent);
+    void buttonHandler(SDL_Keycode& sym);
+
+    glm::mat4 GetModel();
+    glm::mat4 GetTranslationM();
+
+  private:
     void rotateCClockwise();
     void rotateClockwise();
     void revolveCClockwise();
@@ -18,11 +25,7 @@ class Cube
     void toggleMovement();
     void swapRotation();
     void swapRevolve();
-    void mouseClick(SDL_MouseButtonEvent& mouseEvent);
 
-    glm::mat4 GetModel();
-
-  private:
     glm::mat4 model;
     glm::mat4 translationMatrix;
     std::vector<Vertex> Vertices;

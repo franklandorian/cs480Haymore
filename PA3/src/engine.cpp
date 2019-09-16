@@ -86,16 +86,13 @@ void Engine::Keyboard()
     if (m_event.key.keysym.sym == SDLK_ESCAPE)
     {
       m_running = false;
-    }else if(m_event.key.keysym.sym == SDLK_q){
-      m_graphics->getCube()->rotateClockwise();
-    }else if(m_event.key.keysym.sym == SDLK_e){
-      m_graphics->getCube()->rotateCClockwise();
-    }else if(m_event.key.keysym.sym == SDLK_a){
-      m_graphics->getCube()->revolveClockwise();
-    }else if(m_event.key.keysym.sym == SDLK_d){
-      m_graphics->getCube()->revolveCClockwise();
-    }else if(m_event.key.keysym.sym == SDLK_SPACE){
-      m_graphics->getCube()->toggleMovement();
+    }else if(m_event.key.keysym.mod == KMOD_LSHIFT + 4096){
+      m_graphics->getMoon()->buttonHandler(m_event.key.keysym.sym);
+      if(m_event.type == SDL_MOUSEBUTTONDOWN){
+        m_graphics->getMoon()->mouseClick(m_event.button);
+      }
+    }else if(m_event.key.keysym.mod == KMOD_NONE + 4096){
+      m_graphics->getCube()->buttonHandler(m_event.key.keysym.sym);
     }
   }else if(m_event.type == SDL_MOUSEBUTTONDOWN){
     m_graphics->getCube()->mouseClick(m_event.button);

@@ -1,6 +1,8 @@
 #include "Moon.h"
 
-Moon::Moon()
+Moon::Moon(){}
+
+Moon::Moon(Cube* planet)
 {  
   /*
     # Blender File for a Moon
@@ -62,9 +64,12 @@ Moon::Moon()
 
   moving = true;
   revolveDirection = 1;
+  revolveMod = 3;
   rotationAngle = revolveAngle = 0.0f;
   rotationDirection = 1;
   rotationMod = 4;
+
+  p_planet = planet;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -89,11 +94,32 @@ Moon::~Moon()
  */
 void Moon::Update(unsigned int dt)
 {
-  revolveAngle +=  moving * revolveDirection * (int)dt * M_PI/2500;
+  revolveAngle +=  moving * revolveDirection * revolveMod * (int)dt * M_PI/2500;
   rotationAngle += moving * rotationDirection * rotationMod * (int)dt * M_PI/2500;
-  model = glm::translate(glm::rotate(glm::mat4(1.0f), (revolveAngle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(glm::sin(revolveAngle) * 7, 0.0, 0.0)) * glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(0.0, 1.0, 0.0));
+  translationMatrix = glm::rotate(glm::translate(glm::rotate(p_planet->GetTranslationM(), (revolveAngle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(3.0, 0.0, 0.0)), (-revolveAngle), glm::vec3(0.0,1.0,0.0));
+  model = glm::scale(translationMatrix * glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(0.0, 1.0, 0.0)), glm::vec3(0.5,0.5,0.5));
 }
 
+void Moon::buttonHandler(SDL_Keycode& sym){
+  switch (sym){
+    case SDLK_q:
+      rotateClockwise();
+      break;
+    case SDLK_e:
+      rotateCClockwise();
+      break;
+    case SDLK_a:
+      revolveClockwise();
+      break;
+    case SDLK_d:
+      revolveCClockwise();
+      break;
+    case SDLK_SPACE:
+      toggleMovement();
+      break;
+    
+  }
+}
 
 void Moon::rotateCClockwise(){
   rotationDirection = -1;

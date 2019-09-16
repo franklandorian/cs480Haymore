@@ -91,10 +91,30 @@ void Cube::Update(unsigned int dt)
 {
   revolveAngle +=  moving * revolveDirection * (int)dt * M_PI/2500;
   rotationAngle += moving * rotationDirection * rotationMod * (int)dt * M_PI/2500;
-  tranlationMatrix = glm::translate(glm::mat4(1.0f), )
-  model = glm::translate(glm::rotate(glm::mat4(1.0f), (revolveAngle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(7, 0.0, 0.0)) * glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(0.0, 1.0, 0.0));
+  translationMatrix = glm::rotate(glm::translate(glm::rotate(glm::mat4(1.0f), (revolveAngle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(7.0, 0.0, 0.0)), (-revolveAngle), glm::vec3(0.0,1.0,0.0));
+  model = translationMatrix * glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(0.0, 1.0, 0.0));
 }
 
+void Cube::buttonHandler(SDL_Keycode& sym){
+  switch (sym){
+    case SDLK_q:
+      this->rotateClockwise();
+      break;
+    case SDLK_e:
+      this->rotateCClockwise();
+      break;
+    case SDLK_a:
+      this->revolveClockwise();
+      break;
+    case SDLK_d:
+      this->revolveCClockwise();
+      break;
+    case SDLK_SPACE:
+      this->toggleMovement();
+      break;
+    
+  }
+}
 
 void Cube::rotateCClockwise(){
   rotationDirection = -1;
@@ -148,6 +168,10 @@ glm::mat4 Cube::GetModel()
   return model;
 }
 
+glm::mat4 Cube::GetTranslationM(){
+  return translationMatrix;
+}
+
 void Cube::Render()
 {
   glEnableVertexAttribArray(0);
@@ -164,4 +188,5 @@ void Cube::Render()
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
 }
+
 

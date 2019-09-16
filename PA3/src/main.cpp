@@ -8,7 +8,7 @@ int main(int argc, char **argv)
   // Start an engine and run it then cleanup after
 
   if(argc == 1){
-  	printf("No shaders submitted, ex: ./Tutorial -v <vertexFilename> -f <fragmentFilename>");
+  	printf("No shaders submitted, ex: ./PA3 -v <vertexFilename> -f <fragmentFilename>");
   	return 1;
   }
 	char* vertexFilename;
@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 		}
 	}
   
-  Engine *engine = new Engine("Spinning cube with interaction", 1366, 768);
+  Engine *engine = new Engine("Cube planet with cube moon", 1366, 768);
   if(!engine->Initialize(vertexFilename, fragmentFilename))
   {
     printf("The engine failed to start.\n");
