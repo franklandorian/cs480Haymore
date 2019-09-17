@@ -88,14 +88,12 @@ void Engine::Keyboard()
       m_running = false;
     }else if(m_event.key.keysym.mod == KMOD_LSHIFT + 4096){
       m_graphics->getMoon()->buttonHandler(m_event.key.keysym.sym);
-      if(m_event.type == SDL_MOUSEBUTTONDOWN){
-        m_graphics->getMoon()->mouseClick(m_event.button);
-      }
     }else if(m_event.key.keysym.mod == KMOD_NONE + 4096){
       m_graphics->getCube()->buttonHandler(m_event.key.keysym.sym);
     }
   }else if(m_event.type == SDL_MOUSEBUTTONDOWN){
     m_graphics->getCube()->mouseClick(m_event.button);
+    m_graphics->getMoon()->mouseClick(m_event.button);
   }
 }
 

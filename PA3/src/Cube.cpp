@@ -60,11 +60,9 @@ Cube::Cube()
     Indices[i] = Indices[i] - 1;
   }
 
-  moving = true;
-  revolveDirection = 1;
+  setDefault();
+
   rotationAngle = revolveAngle = 0.0f;
-  rotationDirection = 1;
-  rotationMod = 4;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -89,30 +87,50 @@ Cube::~Cube()
  */
 void Cube::Update(unsigned int dt)
 {
-  revolveAngle +=  moving * revolveDirection * (int)dt * M_PI/2500;
+  revolveAngle +=  moving * revolveDirection * revolveMod * (int)dt * M_PI/2500;
   rotationAngle += moving * rotationDirection * rotationMod * (int)dt * M_PI/2500;
-  translationMatrix = glm::rotate(glm::translate(glm::rotate(glm::mat4(1.0f), (revolveAngle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(7.0, 0.0, 0.0)), (-revolveAngle), glm::vec3(0.0,1.0,0.0));
-  model = translationMatrix * glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(0.0, 1.0, 0.0));
+  translationMatrix = glm::rotate(glm::translate(glm::rotate(glm::mat4(1.0f), (revolveAngle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(5.0, 0.0, 0.0)), (-revolveAngle), glm::vec3(0.0,1.0,0.0));
+  model = glm::scale(translationMatrix * glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(0.0, 1.0, 0.0)), glm::vec3(scaleFactor,scaleFactor,scaleFactor));
 }
 
 void Cube::buttonHandler(SDL_Keycode& sym){
   switch (sym){
     case SDLK_q:
-      this->rotateClockwise();
+      rotateClockwise();
       break;
     case SDLK_e:
-      this->rotateCClockwise();
+      rotateCClockwise();
       break;
     case SDLK_a:
-      this->revolveClockwise();
+      revolveClockwise();
       break;
     case SDLK_d:
-      this->revolveCClockwise();
+      revolveCClockwise();
       break;
     case SDLK_SPACE:
-      this->toggleMovement();
+      toggleMovement();
       break;
-    
+    case SDLK_w:
+      scaleFactor += 0.1f;
+      break;
+    case SDLK_s:
+      scaleFactor -= 0.1f;
+      break;
+    case SDLK_UP:
+      rotationMod += 1;
+      break;
+    case SDLK_DOWN:
+      rotationMod -= 1;
+      break;
+    case SDLK_RIGHT:
+      revolveMod += 0.5f;
+      break;
+    case SDLK_LEFT:
+      revolveMod -= 0.5f;
+      break;
+    case SDLK_r:
+      setDefault();
+      break;
   }
 }
 
@@ -150,6 +168,15 @@ void Cube::swapRevolve(){
   }else{
     this->revolveClockwise();
   }
+}
+
+void Cube::setDefault(){
+  moving = true;
+  revolveDirection = 1;
+  revolveMod = 1;
+  scaleFactor = 1.0f;
+  rotationDirection = 1;
+  rotationMod = 4;
 }
 
 void Cube::mouseClick(SDL_MouseButtonEvent& mouseEvent){

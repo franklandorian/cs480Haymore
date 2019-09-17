@@ -26,6 +26,8 @@ class Cube
     void swapRotation();
     void swapRevolve();
 
+    void setDefault();
+
     glm::mat4 model;
     glm::mat4 translationMatrix;
     std::vector<Vertex> Vertices;
@@ -35,10 +37,12 @@ class Cube
 
     bool moving;
 
+    float revolveMod;
     int revolveDirection;
     int rotationMod;
     int rotationDirection;
 
+    float scaleFactor;
     float revolveAngle;
     float rotationAngle;
 

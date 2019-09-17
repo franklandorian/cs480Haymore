@@ -27,6 +27,8 @@ class Moon
     void swapRotation();
     void swapRevolve();
 
+    void setDefault();
+
     glm::mat4 model;
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
@@ -38,11 +40,12 @@ class Moon
 
     bool moving;
 
-    int revolveMod;
+    float revolveMod;
     int revolveDirection;
     int rotationMod;
     int rotationDirection;
 
+    float scaleFactor;
     float revolveAngle;
     float rotationAngle;
 
