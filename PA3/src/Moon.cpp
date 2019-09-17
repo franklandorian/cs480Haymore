@@ -62,12 +62,9 @@ Moon::Moon(Cube* planet)
     Indices[i] = Indices[i] - 1;
   }
 
-  moving = true;
-  revolveDirection = 1;
-  revolveMod = 3;
+  setDefault();
+
   rotationAngle = revolveAngle = 0.0f;
-  rotationDirection = 1;
-  rotationMod = 4;
 
   p_planet = planet;
 
@@ -87,17 +84,17 @@ Moon::~Moon()
   Indices.clear();
 }
 /*
- *	Moon::Update() currently makes the Moon revovle around the world center and then rotates about its own y axis.
- *	this is done by first rotating the Moon then translating it and then rotating again. The first rotation is so we get the revolving motion
+ *	Moon::Update() currently makes the Moon revovle around the Cube center and then rotates about its own y axis.
+ *	this is done by first translating the moon to the Cubes coordinates then rotating, translating and rotating again. The first rotation is so we get the revolving motion
  *	while the second rotation is so we get the spinning motion. 
- *	rotationMod is simple how fast and which direction the Moon is spinning
+ *	rotationMod is simply how fast and which direction the Moon is spinning
  */
 void Moon::Update(unsigned int dt)
 {
   revolveAngle +=  moving * revolveDirection * revolveMod * (int)dt * M_PI/2500;
   rotationAngle += moving * rotationDirection * rotationMod * (int)dt * M_PI/2500;
   translationMatrix = glm::rotate(glm::translate(glm::rotate(p_planet->GetTranslationM(), (revolveAngle), glm::vec3(0.0, 1.0, 0.0)), glm::vec3(3.0, 0.0, 0.0)), (-revolveAngle), glm::vec3(0.0,1.0,0.0));
-  model = glm::scale(translationMatrix * glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(0.0, 1.0, 0.0)), glm::vec3(0.5,0.5,0.5));
+  model = glm::scale(translationMatrix * glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(0.0, 1.0, 0.0)), glm::vec3(scaleFactor,scaleFactor,scaleFactor));
 }
 
 void Moon::buttonHandler(SDL_Keycode& sym){
@@ -117,7 +114,27 @@ void Moon::buttonHandler(SDL_Keycode& sym){
     case SDLK_SPACE:
       toggleMovement();
       break;
-    
+    case SDLK_w:
+      scaleFactor += 0.1f;
+      break;
+    case SDLK_s:
+      scaleFactor -= 0.1f;
+      break;
+    case SDLK_UP:
+      rotationMod += 1;
+      break;
+    case SDLK_DOWN:
+      rotationMod -= 1;
+      break;
+    case SDLK_RIGHT:
+      revolveMod += 0.5f;
+      break;
+    case SDLK_LEFT:
+      revolveMod -= 0.5f;
+      break;
+    case SDLK_r:
+      setDefault();
+      break;
   }
 }
 
@@ -155,6 +172,15 @@ void Moon::swapRevolve(){
   }else{
     this->revolveClockwise();
   }
+}
+
+void Moon::setDefault(){
+  moving = true;
+  revolveDirection = 1;
+  revolveMod = 3;
+  scaleFactor = 0.5f;
+  rotationDirection = 1;
+  rotationMod = 6;
 }
 
 void Moon::mouseClick(SDL_MouseButtonEvent& mouseEvent){
