@@ -72,6 +72,9 @@ left click: toggles rotation direction.
 
 right click: toggles revolution direction.
 
+TODO: MAKE THE SPACEBAR AND CLICKING WORK FOR THE MOON
+
+
 
 ### Extra Credit
 
