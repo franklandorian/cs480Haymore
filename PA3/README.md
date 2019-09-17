@@ -72,10 +72,6 @@ left click: toggles rotation direction.
 
 right click: toggles revolution direction.
 
-TODO: MAKE THE SPACEBAR AND CLICKING WORK FOR THE MOON
-
-
-
 ### Extra Credit
 
 I have included scaling and resizing for the moon as well as for the planet. I have also included increasing/reducing the rotation and revolution speeds.
