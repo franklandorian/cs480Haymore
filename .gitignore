@@ -28,3 +28,4 @@
 *.app
 build/
 obj/
+!obj/cube.obj
