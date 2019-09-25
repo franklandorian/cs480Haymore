@@ -26,6 +26,7 @@
 *.exe
 *.out
 *.app
+*.obj
+!tray.obj
 build/
-obj/*
-!obj/tray.obj
+
