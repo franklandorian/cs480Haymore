@@ -29,7 +29,7 @@ mkdir build
 cd build
 cmake ..
 make
-./PA4 -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../obj/beveldtray.obj
+./PA4 -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../obj/tray.obj
 ```
 shader files are located in ../PA3/shaders/ they are called "vertexShader.txt" and "fragmentShader.txt".
 after running cmake and make...
