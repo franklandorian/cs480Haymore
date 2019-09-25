@@ -28,4 +28,4 @@
 *.app
 build/
 obj/*
-!obj/beveledtray.obj
+!obj/tray.obj
