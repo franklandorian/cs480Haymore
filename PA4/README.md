@@ -1,4 +1,4 @@
-# PA1: Spinning Cube
+# PA4: Model Loading and stuff
 
 # Dependencies, Building, and Running
 
@@ -31,10 +31,12 @@ cmake ..
 make
 ./PA4 -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../obj/tray.obj
 ```
-shader files are located in ../PA3/shaders/ they are called "vertexShader.txt" and "fragmentShader.txt".
+shader files are located in ../PA4/shaders/ they are called "vertexShader.txt" and "fragmentShader.txt".
+object files are in ../PA4/obj/ the included one is ../obj.tray.obj
 after running cmake and make...
 -v specifies the vertex shader
 -f specififes the fragment shader
+-o specifies the object to be loaded
 
 
 
