@@ -8,19 +8,22 @@ object::object(char* filename)
 
 
   Assimp::Importer importer;
+  srand(time(NULL));
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
   for(unsigned int iMesh = 0; iMesh < scene->mNumMeshes; iMesh++){
+    Indices.reserve(scene->mMeshes[iMesh]->mNumFaces * 3);
+    Vertices.reserve(scene->mMeshes[iMesh]->mNumVertices);
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
       for(unsigned int index = 0; index < 3; index++){
         Indices.push_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
       }
-      for(unsigned int iVert = 0; iVert < scene->mMeshes[iMesh]->mNumVertices; iVert++){
+    }
+    for(unsigned int iVert = 0; iVert < scene->mMeshes[iMesh]->mNumVertices; iVert++){
         glm::vec3 temp_vertex(scene->mMeshes[iMesh]->mVertices[iVert].x,scene->mMeshes[iMesh]->mVertices[iVert].y,scene->mMeshes[iMesh]->mVertices[iVert].z);
-        glm::vec3 temp_color(glm::vec3(0,0,0));
+        glm::vec3 temp_color(glm::vec3(0.5,0.5,0.5));
         Vertex verts(temp_vertex, temp_color);
         Vertices.push_back(verts);
       }
-    }
   }
 
 
@@ -54,10 +57,10 @@ object::object(char* filename)
   }*/
 
   // The index works at a 0th index
-  for(unsigned int i = 0; i < Indices.size(); i++)
+  /*for(unsigned int i = 0; i < Indices.size(); i++)
   {
     Indices[i] = Indices[i] - 1;
-  }
+  }*/
 
   setDefault();
 
