@@ -5,24 +5,36 @@
 
 object::object(char* filename)
 {  
-
-
   Assimp::Importer importer;
   srand(time(NULL));
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
+
+
   for(unsigned int iMesh = 0; iMesh < scene->mNumMeshes; iMesh++){
+<<<<<<< HEAD
     Indices.reserve(scene->mMeshes[iMesh]->mNumFaces * 3);
     Vertices.reserve(scene->mMeshes[iMesh]->mNumVertices);
+=======
+
+>>>>>>> 56a8944c894d121f0183bfc235dc98cdcf5df4c5
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
-      for(unsigned int index = 0; index < 3; index++){
-        Indices.push_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
+			for(unsigned int index = 0; index < 3; index++){
+				//std::cout << scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index] << std::endl;
+        Indices.emplace_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
       }
     }
+<<<<<<< HEAD
     for(unsigned int iVert = 0; iVert < scene->mMeshes[iMesh]->mNumVertices; iVert++){
+=======
+		  for(unsigned int iVert = 0; iVert < scene->mMeshes[iMesh]->mNumVertices; iVert++){
+>>>>>>> 56a8944c894d121f0183bfc235dc98cdcf5df4c5
         glm::vec3 temp_vertex(scene->mMeshes[iMesh]->mVertices[iVert].x,scene->mMeshes[iMesh]->mVertices[iVert].y,scene->mMeshes[iMesh]->mVertices[iVert].z);
         glm::vec3 temp_color(glm::vec3(0.5,0.5,0.5));
         Vertex verts(temp_vertex, temp_color);
-        Vertices.push_back(verts);
+		    verts.color.r = rand()%100/100.0;
+		    verts.color.g = rand()%100/100.0;
+		    verts.color.b = rand()%100/100.0;
+        Vertices.emplace_back(verts);
       }
   }
 
