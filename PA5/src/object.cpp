@@ -8,24 +8,33 @@ object::object(char* filename)
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
 
+	meshNumber = scene->mNumMeshes;
+	std::vector<Vertex> lmao;
+	std::vector<unsigned int> lmao2;
 
-  for(unsigned int iMesh = 0; iMesh < scene->mNumMeshes; iMesh++){
+  for(unsigned int iMesh = 0; iMesh < meshNumber; iMesh++){
+
 
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
 			for(unsigned int index = 0; index < 3; index++){
-				//std::cout << scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index] << std::endl;
-        Indices.emplace_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
+        lmao2.emplace_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
       }
     }
-		  for(unsigned int iVert = 0; iVert < scene->mMeshes[iMesh]->mNumVertices; iVert++){
-        glm::vec3 temp_vertex(scene->mMeshes[iMesh]->mVertices[iVert].x,scene->mMeshes[iMesh]->mVertices[iVert].y,scene->mMeshes[iMesh]->mVertices[iVert].z);
-        glm::vec3 temp_color(glm::vec3(0,0,0));
-        Vertex verts(temp_vertex, temp_color);
-		    verts.color.r = rand()%100/100.0;
-		    verts.color.g = rand()%100/100.0;
-		    verts.color.b = rand()%100/100.0;
-        Vertices.emplace_back(verts);
-      }
+
+		for(unsigned int iVert = 0; iVert < scene->mMeshes[iMesh]->mNumVertices; iVert++){
+      glm::vec3 temp_vertex(scene->mMeshes[iMesh]->mVertices[iVert].x,scene->mMeshes[iMesh]->mVertices[iVert].y,scene->mMeshes[iMesh]->mVertices[iVert].z);
+      glm::vec3 temp_color(glm::vec3(0,0,0));
+      Vertex verts(temp_vertex, temp_color);
+		  verts.color.r = rand()%100/100.0;
+		  verts.color.g = rand()%100/100.0;
+		  verts.color.b = rand()%100/100.0;
+      lmao.emplace_back(verts);
+    }
+		
+		meshes.push_back(lmao);
+		meshIndexes.push_back(lmao2);
+		lmao.clear();
+		lmao2.clear();
   }
 
 
@@ -68,13 +77,19 @@ object::object(char* filename)
 
   rotationAngle = revolveAngle = 0.0f;
 
-  glGenBuffers(1, &VB);
+	for(unsigned int i = 0; i < meshNumber; i++){
+		std::cout << "Hello" << std::endl;
+		glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * meshes[i].size(), &meshes[i][0], GL_STATIC_DRAW);
 
   glGenBuffers(1, &IB);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * meshIndexes[i].size(), &meshIndexes[i][0], GL_STATIC_DRAW);
+
+	}
+
+
   
 }
 

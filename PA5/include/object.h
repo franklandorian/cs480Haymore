@@ -40,11 +40,16 @@ class object
 
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
+
+		std::vector<std::vector<Vertex>> meshes;
+		std::vector<std::vector<unsigned int>> meshIndexes;
     
     GLuint VB;
     GLuint IB;
 
     bool moving;
+
+		unsigned int meshNumber;
 
     float revolveMod;
     int revolveDirection;
