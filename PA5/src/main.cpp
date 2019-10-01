@@ -2,7 +2,6 @@
 
 #include "engine.h"
 
-
 int main(int argc, char **argv)
 {
   // Start an engine and run it then cleanup after
@@ -16,6 +15,7 @@ int main(int argc, char **argv)
   char* objectFilename;
 	for(int i = 1; i < argc; i++){
 		if(argv[i][0] == '-' && argv[i][1] == 'v'){
+			
 			vertexFilename = argv[i+1];
 		}
 		if(argv[i][0] == '-' && argv[i][1] == 'f'){
