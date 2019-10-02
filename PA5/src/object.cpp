@@ -18,6 +18,7 @@ object::object(char* filename)
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
 			for(unsigned int index = 0; index < 3; index++){
         lmao2.emplace_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
+				Indices.push_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
       }
     }
 
@@ -29,68 +30,45 @@ object::object(char* filename)
 		  verts.color.g = rand()%100/100.0;
 		  verts.color.b = rand()%100/100.0;
       lmao.emplace_back(verts);
+			Vertices.push_back(verts);
     }
 		
 		meshes.push_back(lmao);
 		meshIndexes.push_back(lmao2);
+		VBS.push_back(iMesh);
+		IBS.push_back(iMesh);
 		lmao.clear();
 		lmao2.clear();
   }
-
-
-  // reading input filename
-  /*FILE * file = fopen(filename, "r");
-  srand(time(NULL));
-  if(file == NULL){
-    printf("Impossible to open the file. Check file location/name.\n");
-    throw "Filename mismatch";
-  }
-  while(1){
-    char header[128];
-    int res = fscanf(file, "%s", header);
-    if(res == EOF){ break;}
-
-    if(strcmp(header, "v") == 0){
-      glm::vec3 temp_vertex, temp_color;
-      Vertex vertex(temp_vertex, temp_color);
-      fscanf(file, "%f %f %f\n", &vertex.vertex.x, &vertex.vertex.y, &vertex.vertex.z);
-      vertex.color.r = rand()%100/100.0;
-      vertex.color.g = rand()%100/100.0;
-      vertex.color.b = rand()%100/100.0;
-      Vertices.push_back(vertex);
-    }else if(strcmp(header, "f") == 0){
-      unsigned int index[3];
-      fscanf(file, "%u %u %u\n", &index[0], &index[1], &index[2]);
-      for(int i = 0; i < 3; i++){
-        Indices.push_back(index[i]);
-      }
-    }
-  }*/
-
-  // The index works at a 0th index
-  /*for(unsigned int i = 0; i < Indices.size(); i++)
-  {
-    Indices[i] = Indices[i] - 1;
-  }*/
 
   setDefault();
 
   rotationAngle = revolveAngle = 0.0f;
 
-	for(unsigned int i = 0; i < meshNumber; i++){
-		std::cout << "Hello" << std::endl;
-		glGenBuffers(1, &VB);
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+
+	for(unsigned int i = 0; i < meshes.size(); i++){
+	       /*glBindBuffer(GL_ARRAY_BUFFER, VBS[i]);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)20);*/
+
+		glGenBuffers(1, &VBS[i]);
+  glBindBuffer(GL_ARRAY_BUFFER, VBS[i]);
   glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * meshes[i].size(), &meshes[i][0], GL_STATIC_DRAW);
 
-  glGenBuffers(1, &IB);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+  glGenBuffers(1, &IBS[i]);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBS[i]);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * meshIndexes[i].size(), &meshIndexes[i][0], GL_STATIC_DRAW);
 
+		//glDrawElements(GL_TRIANGLES, meshIndexes[i].size(), GL_UNSIGNED_INT, 0);
 	}
-
-
-  
+	
+    /*glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);*/
 }
 
 object::~object()
@@ -220,7 +198,7 @@ glm::mat4 object::GetTranslationM(){
 
 void object::Render()
 {
-  glEnableVertexAttribArray(0);
+  /*glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
 
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -232,7 +210,27 @@ void object::Render()
   glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
   glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(1);*/
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+
+    for (unsigned int i = 0 ; i < meshes.size() ; i++) {
+        glBindBuffer(GL_ARRAY_BUFFER, VBS[i]);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)20);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBS[i]);
+
+        glDrawElements(GL_TRIANGLES, meshIndexes[i].size(), GL_UNSIGNED_INT, 0);
+    }
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+
 }
 
 

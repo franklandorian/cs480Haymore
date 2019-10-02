@@ -43,6 +43,10 @@ class object
 
 		std::vector<std::vector<Vertex>> meshes;
 		std::vector<std::vector<unsigned int>> meshIndexes;
+
+		std::vector<GLuint> VBS;
+		std::vector<GLuint> IBS;
+
     
     GLuint VB;
     GLuint IB;
