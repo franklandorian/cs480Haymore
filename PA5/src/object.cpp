@@ -6,8 +6,9 @@
 object::object(char* filename)
 {  
   Assimp::Importer importer;
+  srand(time(NULL));
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
-
+  
 	meshNumber = scene->mNumMeshes;
 	std::vector<Vertex> temp_vertices;
 	std::vector<unsigned int> temp_indices;
