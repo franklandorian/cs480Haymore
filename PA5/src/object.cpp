@@ -9,36 +9,31 @@ object::object(char* filename)
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
 
 	meshNumber = scene->mNumMeshes;
-	std::vector<Vertex> lmao;
-	std::vector<unsigned int> lmao2;
+	std::vector<Vertex> temp_vertices;
+	std::vector<unsigned int> temp_indices;
+  srand(time(NULL));
 
   for(unsigned int iMesh = 0; iMesh < meshNumber; iMesh++){
-
-
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
 			for(unsigned int index = 0; index < 3; index++){
-        lmao2.emplace_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
+        temp_indices.emplace_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
 				Indices.push_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
       }
     }
 
 		for(unsigned int iVert = 0; iVert < scene->mMeshes[iMesh]->mNumVertices; iVert++){
       glm::vec3 temp_vertex(scene->mMeshes[iMesh]->mVertices[iVert].x,scene->mMeshes[iMesh]->mVertices[iVert].y,scene->mMeshes[iMesh]->mVertices[iVert].z);
-      glm::vec3 temp_color(glm::vec3(0,0,0));
+      glm::vec3 temp_color(glm::vec3(rand()%100/100.0,rand()%100/100.0,rand()%100/100.0));
       Vertex verts(temp_vertex, temp_color);
-		  verts.color.r = rand()%100/100.0;
-		  verts.color.g = rand()%100/100.0;
-		  verts.color.b = rand()%100/100.0;
-      lmao.emplace_back(verts);
+      temp_vertices.emplace_back(verts);
 			Vertices.push_back(verts);
-    }
-		
-		meshes.push_back(lmao);
-		meshIndexes.push_back(lmao2);
+    }		
+		meshes.push_back(temp_vertices);
+		meshIndexes.push_back(temp_indices);
 		VBS.push_back(iMesh);
 		IBS.push_back(iMesh);
-		lmao.clear();
-		lmao2.clear();
+		temp_vertices.clear();
+		temp_indices.clear();
   }
 
   setDefault();
@@ -50,18 +45,18 @@ object::object(char* filename)
     glEnableVertexAttribArray(2);
 
 	for(unsigned int i = 0; i < meshes.size(); i++){
-	       /*glBindBuffer(GL_ARRAY_BUFFER, VBS[i]);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)20);*/
+     /*glBindBuffer(GL_ARRAY_BUFFER, VBS[i]);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)20);*/
 
 		glGenBuffers(1, &VBS[i]);
-  glBindBuffer(GL_ARRAY_BUFFER, VBS[i]);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * meshes[i].size(), &meshes[i][0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, VBS[i]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * meshes[i].size(), &meshes[i][0], GL_STATIC_DRAW);
 
-  glGenBuffers(1, &IBS[i]);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBS[i]);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * meshIndexes[i].size(), &meshIndexes[i][0], GL_STATIC_DRAW);
+    glGenBuffers(1, &IBS[i]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBS[i]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * meshIndexes[i].size(), &meshIndexes[i][0], GL_STATIC_DRAW);
 
 		//glDrawElements(GL_TRIANGLES, meshIndexes[i].size(), GL_UNSIGNED_INT, 0);
 	}
