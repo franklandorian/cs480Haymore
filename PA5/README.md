@@ -1,4 +1,4 @@
-# PA4: Model Loading and stuff
+# PA5: Assimp model loading
 
 # Dependencies, Building, and Running
 
@@ -31,8 +31,8 @@ cmake ..
 make
 ./PA5 -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../assets/tray.obj
 ```
-shader files are located in ../PA4/shaders/ they are called "vertexShader.txt" and "fragmentShader.txt".
-object files are in ../PA4/obj/ the included one is ../obj.tray.obj
+shader files are located in ../PA5/shaders/ they are called "vertexShader.txt" and "fragmentShader.txt".
+object files are in ../PA5/obj/ the included one is ../assets/tray.obj
 after running cmake and make...
 -v specifies the vertex shader
 -f specififes the fragment shader
