@@ -10,6 +10,7 @@ object::object(char* filename)
 	meshNumber = scene->mNumMeshes;
 	std::vector<Vertex> temp_vertices;
 	std::vector<unsigned int> temp_indices;
+  textures.resize(meshNumber);
 
   for(unsigned int iMesh = 0; iMesh < meshNumber; iMesh++){
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
@@ -35,12 +36,23 @@ object::object(char* filename)
     aiString tName;
     mat->Get(AI_MATKEY_NAME, tName);
     // std::cout << "../granite" + tName.C_Str() << std::endl;
-    Magick::Image *image = new Magick::Image("../assets/checker.jpg");
+
+    std::string textName;
+
+    if(iMesh == 0){
+      textName = "../assets/granite.jpg";
+    }
+    else{
+      textName = "../assets/checker.jpg";
+    }
+
+    std::cout << textName << iMesh << std::endl;
+    Magick::Image *image = new Magick::Image(textName);
     Magick::Blob blob;
     image->write(&blob, "RGBA");
 
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glGenTextures(1, &textures[iMesh]);
+    glBindTexture(GL_TEXTURE_2D, textures[iMesh]);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -233,7 +245,7 @@ void object::Render()
 
         // Bind Texture
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture);
+        glBindTexture(GL_TEXTURE_2D, textures[i]);
 
         glDrawElements(GL_TRIANGLES, meshIndexes[i].size(), GL_UNSIGNED_INT, 0);
     }
