@@ -1,6 +1,5 @@
 #include "object.h"
 #include <stdlib.h>
-#include <time.h>
 
 
 object::object(char* filename)
@@ -11,21 +10,19 @@ object::object(char* filename)
 	meshNumber = scene->mNumMeshes;
 	std::vector<Vertex> temp_vertices;
 	std::vector<unsigned int> temp_indices;
-  srand(time(NULL));
 
   for(unsigned int iMesh = 0; iMesh < meshNumber; iMesh++){
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
 			for(unsigned int index = 0; index < 3; index++){
-        temp_indices.push_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
-				Indices.push_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
+        temp_indices.emplace_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
       }
     }
 		for(unsigned int iVert = 0; iVert < scene->mMeshes[iMesh]->mNumVertices; iVert++){
       glm::vec3 temp_vertex(scene->mMeshes[iMesh]->mVertices[iVert].x,scene->mMeshes[iMesh]->mVertices[iVert].y,scene->mMeshes[iMesh]->mVertices[iVert].z);
       glm::vec3 temp_color(glm::vec3(0.0,0.0,0.0));
-      Vertex verts(temp_vertex, temp_color, glm::vec2(0.0,0.0));
-      temp_vertices.push_back(verts);
-			Vertices.push_back(verts);
+      glm::vec2 temp_tCoords(scene->mMeshes[iMesh]->mTextureCoords[0][iVert].x,scene->mMeshes[iMesh]->mTextureCoords[0][iVert].y);
+      Vertex verts(temp_vertex, temp_color, temp_tCoords);
+      temp_vertices.emplace_back(verts);
     }
 		meshes.push_back(temp_vertices);
 		meshIndexes.push_back(temp_indices);
@@ -33,9 +30,23 @@ object::object(char* filename)
 		IBS.push_back(iMesh);
 		temp_vertices.clear();
 		temp_indices.clear();
+
+    aiMaterial* mat = scene->mMaterials[iMesh];
+    aiString tName;
+    mat->Get(AI_MATKEY_NAME, tName);
+    // std::cout << "../granite" + tName.C_Str() << std::endl;
+    Magick::Image *image = new Magick::Image("../assets/checker.jpg");
+    Magick::Blob blob;
+    image->write(&blob, "RGBA");
+
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    delete image;
   }
 
-  Magick::Blob blob;
 
   setDefault();
 
@@ -69,8 +80,8 @@ object::object(char* filename)
 
 object::~object()
 {
-  Vertices.clear();
-  Indices.clear();
+  meshes.clear();
+  meshIndexes.clear();
 }
 /*
  *	object::Update() currently makes the object revovle around the world center and then rotates about its own y axis.
@@ -215,10 +226,14 @@ void object::Render()
     for (unsigned int i = 0 ; i < meshes.size() ; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, VBS[i]);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)20);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture));
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBS[i]);
+
+        // Bind Texture
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture);
 
         glDrawElements(GL_TRIANGLES, meshIndexes[i].size(), GL_UNSIGNED_INT, 0);
     }

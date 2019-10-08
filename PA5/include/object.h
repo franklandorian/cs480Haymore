@@ -38,14 +38,14 @@ class object
     glm::mat4 model;
     glm::mat4 translationMatrix;
 
-    std::vector<Vertex> Vertices;
-    std::vector<unsigned int> Indices;
+    //std::vector<Vertex> Vertices;
+    //std::vector<unsigned int> Indices;
 
-		std::vector<std::vector<Vertex>> meshes;
-		std::vector<std::vector<unsigned int>> meshIndexes;
+	std::vector<std::vector<Vertex>> meshes;
+	std::vector<std::vector<unsigned int>> meshIndexes;
 
-		std::vector<GLuint> VBS;
-		std::vector<GLuint> IBS;
+	std::vector<GLuint> VBS;
+	std::vector<GLuint> IBS;
 
     
     GLuint VB;

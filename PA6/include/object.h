@@ -38,6 +38,8 @@ class object
     glm::mat4 model;
     glm::mat4 translationMatrix;
 
+    GLuint texture;
+
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
 

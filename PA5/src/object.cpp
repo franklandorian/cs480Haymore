@@ -18,7 +18,7 @@ object::object(char* filename)
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
 			for(unsigned int index = 0; index < 3; index++){
         temp_indices.emplace_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
-				Indices.push_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
+				//Indices.push_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
       }
     }
 
@@ -27,7 +27,7 @@ object::object(char* filename)
       glm::vec3 temp_color(glm::vec3(rand()%100/100.0,rand()%100/100.0,rand()%100/100.0));
       Vertex verts(temp_vertex, temp_color);
       temp_vertices.emplace_back(verts);
-			Vertices.push_back(verts);
+			//Vertices.push_back(verts);
     }		
 		meshes.push_back(temp_vertices);
 		meshIndexes.push_back(temp_indices);
@@ -69,8 +69,8 @@ object::object(char* filename)
 
 object::~object()
 {
-  Vertices.clear();
-  Indices.clear();
+  meshes.clear();
+  meshIndexes.clear();
 }
 /*
  *	object::Update() currently makes the object revovle around the world center and then rotates about its own y axis.
