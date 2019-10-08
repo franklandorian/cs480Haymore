@@ -38,6 +38,8 @@ class object
     glm::mat4 model;
     glm::mat4 translationMatrix;
 
+
+    std::vector<Magick::Blob> blobs;
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
 

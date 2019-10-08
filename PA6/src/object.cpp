@@ -1,6 +1,5 @@
 #include "object.h"
 #include <stdlib.h>
-#include <time.h>
 
 
 object::object(char* filename)
@@ -11,7 +10,6 @@ object::object(char* filename)
 	meshNumber = scene->mNumMeshes;
 	std::vector<Vertex> temp_vertices;
 	std::vector<unsigned int> temp_indices;
-  srand(time(NULL));
 
   for(unsigned int iMesh = 0; iMesh < meshNumber; iMesh++){
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
