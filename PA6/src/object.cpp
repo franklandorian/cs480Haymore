@@ -21,7 +21,7 @@ object::object(char* filename)
       glm::vec3 temp_vertex(scene->mMeshes[iMesh]->mVertices[iVert].x,scene->mMeshes[iMesh]->mVertices[iVert].y,scene->mMeshes[iMesh]->mVertices[iVert].z);
       glm::vec3 temp_color(glm::vec3(0.0,0.0,0.0));
       glm::vec2 temp_tCoords(scene->mMeshes[iMesh]->mTextureCoords[0][iVert].x,scene->mMeshes[iMesh]->mTextureCoords[0][iVert].y);
-      Vertex verts(temp_vertex, temp_color, glm::vec2(0,0));
+      Vertex verts(temp_vertex, temp_color, temp_tCoords);
       temp_vertices.emplace_back(verts);
     }
 		meshes.push_back(temp_vertices);
@@ -47,8 +47,6 @@ object::object(char* filename)
     delete image;
   }
 
-
-  
 
   setDefault();
 
