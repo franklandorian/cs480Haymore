@@ -34,8 +34,8 @@ object::object(char* filename)
     aiMaterial* mat = scene->mMaterials[iMesh];
     aiString tName;
     mat->Get(AI_MATKEY_NAME, tName);
-    std::cout << tName.C_Str() << std::endl;
-    Magick::Image *image = new Magick::Image(tName.C_Str());
+    // std::cout << "../granite" + tName.C_Str() << std::endl;
+    Magick::Image *image = new Magick::Image("../assets/checker.jpg");
     Magick::Blob blob;
     image->write(&blob, "RGBA");
 
@@ -228,10 +228,14 @@ void object::Render()
     for (unsigned int i = 0 ; i < meshes.size() ; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, VBS[i]);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)20);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture));
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBS[i]);
+
+        // Bind Texture
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture);
 
         glDrawElements(GL_TRIANGLES, meshIndexes[i].size(), GL_UNSIGNED_INT, 0);
     }
