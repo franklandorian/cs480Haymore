@@ -29,7 +29,7 @@ mkdir build
 cd build
 cmake ..
 make
-./PA6 -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../assets/tray.obj
+./PA6 -v ../shaders/vertexShader.txt -f ../shaders/fragmentShader.txt -o ../assets/buddha.obj
 ```
 shader files are located in ../PA5/shaders/ they are called "vertexShader.txt" and "fragmentShader.txt".
 object files are in ../PA5/obj/ the included one is ../assets/tray.obj

@@ -11,8 +11,9 @@ object::object(char* filename)
 	std::vector<Vertex> temp_vertices;
 	std::vector<unsigned int> temp_indices;
   textures.resize(meshNumber);
-
+  std::cout << scene->mNumMaterials << std::endl;
   for(unsigned int iMesh = 0; iMesh < meshNumber; iMesh++){
+    aiMaterial* mat = scene->mMaterials[iMesh+1];
     for(unsigned int iFaces = 0; iFaces < scene->mMeshes[iMesh]->mNumFaces; iFaces++){
 			for(unsigned int index = 0; index < 3; index++){
         temp_indices.emplace_back(scene->mMeshes[iMesh]->mFaces[iFaces].mIndices[index]);
@@ -21,7 +22,11 @@ object::object(char* filename)
 		for(unsigned int iVert = 0; iVert < scene->mMeshes[iMesh]->mNumVertices; iVert++){
       glm::vec3 temp_vertex(scene->mMeshes[iMesh]->mVertices[iVert].x,scene->mMeshes[iMesh]->mVertices[iVert].y,scene->mMeshes[iMesh]->mVertices[iVert].z);
       glm::vec3 temp_color(glm::vec3(0.0,0.0,0.0));
-      glm::vec2 temp_tCoords(scene->mMeshes[iMesh]->mTextureCoords[0][iVert].x,scene->mMeshes[iMesh]->mTextureCoords[0][iVert].y);
+      glm::vec2 temp_tCoords(0,0);
+      if(scene->mNumMaterials > 1){
+        temp_tCoords.x = scene->mMeshes[iMesh]->mTextureCoords[0][iVert].x;
+        temp_tCoords.y = scene->mMeshes[iMesh]->mTextureCoords[0][iVert].y;
+      }
       Vertex verts(temp_vertex, temp_color, temp_tCoords);
       temp_vertices.emplace_back(verts);
     }
@@ -32,31 +37,22 @@ object::object(char* filename)
 		temp_vertices.clear();
 		temp_indices.clear();
 
-    aiMaterial* mat = scene->mMaterials[iMesh];
     aiString tName;
-    mat->Get(AI_MATKEY_NAME, tName);
-    // std::cout << "../granite" + tName.C_Str() << std::endl;
+    char textureFile[256]; 
+    if(scene->mNumMaterials > 1 && mat->GetTextureCount(aiTextureType_DIFFUSE) > 0 && mat->GetTexture(aiTextureType_DIFFUSE, 0, &tName) == AI_SUCCESS){
+      strcpy(textureFile,"../assets/");
+      strcat(textureFile, tName.C_Str());
+      Magick::Image *image = new Magick::Image(textureFile);
+      Magick::Blob blob;
+      image->write(&blob, "RGBA");
 
-    std::string textName;
-
-    if(iMesh == 0){
-      textName = "../assets/granite.jpg";
+      glGenTextures(1, &textures[iMesh]);
+      glBindTexture(GL_TEXTURE_2D, textures[iMesh]);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      delete image;
     }
-    else{
-      textName = "../assets/checker.jpg";
-    }
-
-    std::cout << textName << iMesh << std::endl;
-    Magick::Image *image = new Magick::Image(textName);
-    Magick::Blob blob;
-    image->write(&blob, "RGBA");
-
-    glGenTextures(1, &textures[iMesh]);
-    glBindTexture(GL_TEXTURE_2D, textures[iMesh]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    delete image;
   }
 
 
