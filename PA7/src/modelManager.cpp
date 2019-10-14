@@ -1,35 +1,6 @@
 #include "modelManager.h"
 #include <stdlib.h>
 
-void modelManager::InitMesh(unsigned int Index, const aiMesh* paiMesh){
-  // Temporary Storage
-  std::vector<Vertex> temp_vertices;
-  std::vector<unsigned int> temp_indices;
-
-    // Store the faces
-    for(unsigned int iFaces = 0; iFaces < paiMesh->mNumFaces; iFaces++){
-      for(unsigned int index = 0; index < 3; index++){
-        temp_indices.emplace_back(paiMesh->mFaces[iFaces].mIndices[index]);
-      }
-    }
-
-    // Store the Vertices
-    for(unsigned int iVert = 0; iVert < paiMesh->mNumVertices; iVert++){
-      glm::vec3 temp_vertex(paiMesh->mVertices[iVert].x, paiMesh->mVertices[iVert].y,paiMesh->mVertices[iVert].z);
-      glm::vec3 temp_color(glm::vec3(0.0,0.0,0.0));
-      glm::vec2 temp_tCoords(0,0);
-      if(paiMesh->HasTextureCoords(0)){
-        temp_tCoords.x = paiMesh->mTextureCoords[0][iVert].x;
-        temp_tCoords.y = paiMesh->mTextureCoords[0][iVert].y;
-      }
-      Vertex verts(temp_vertex, temp_color, temp_tCoords);
-      temp_vertices.emplace_back(verts);
-    }
-
-    // Store into mesh
-    meshes[Index].Init(temp_vertices, temp_indices);
-}
-
 modelManager::modelManager(char* filename)
 {  
   Assimp::Importer importer;
@@ -66,6 +37,35 @@ modelManager::modelManager(char* filename)
       delete image;
     }
   }
+}
+
+void modelManager::InitMesh(unsigned int Index, const aiMesh* paiMesh){
+  // Temporary Storage
+  std::vector<Vertex> temp_vertices;
+  std::vector<unsigned int> temp_indices;
+
+    // Store the faces
+    for(unsigned int iFaces = 0; iFaces < paiMesh->mNumFaces; iFaces++){
+      for(unsigned int index = 0; index < 3; index++){
+        temp_indices.emplace_back(paiMesh->mFaces[iFaces].mIndices[index]);
+      }
+    }
+
+    // Store the Vertices
+    for(unsigned int iVert = 0; iVert < paiMesh->mNumVertices; iVert++){
+      glm::vec3 temp_vertex(paiMesh->mVertices[iVert].x, paiMesh->mVertices[iVert].y,paiMesh->mVertices[iVert].z);
+      glm::vec3 temp_color(glm::vec3(0.0,0.0,0.0));
+      glm::vec2 temp_tCoords(0,0);
+      if(paiMesh->HasTextureCoords(0)){
+        temp_tCoords.x = paiMesh->mTextureCoords[0][iVert].x;
+        temp_tCoords.y = paiMesh->mTextureCoords[0][iVert].y;
+      }
+      Vertex verts(temp_vertex, temp_color, temp_tCoords);
+      temp_vertices.emplace_back(verts);
+    }
+
+    // Store into mesh
+    meshes[Index].Init(temp_vertices, temp_indices);
 }
 
 modelManager::~modelManager()
