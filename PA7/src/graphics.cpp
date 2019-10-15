@@ -45,15 +45,10 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   }
 
 	
-  // Create the object
-	//m_object = new modelManager(allFiles[9]);
+  // Create the objects
 	for (int i = 0; i < allFiles.size(); ++i)
-	{
 		m_objs.push_back(new modelManager(allFiles[i]));
-		//delete obj;
-	}
-	//m_object = m_objs[7];
-
+	
   // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
@@ -116,12 +111,10 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 
 void Graphics::Update(unsigned int dt)
 {
-  // Update the object
-	//m_object->Update(dt);
+  // Update the objects
   for (int i = 0; i < m_objs.size(); ++i)
-	{
-		m_objs[i]->Update(dt, (i+1)*2);
-	}
+		m_objs[i]->Update(dt, (i+1)*2);		// rn offset is just some increasing so the planets aren't overlaying each other
+
 }
 
 void Graphics::Render()
