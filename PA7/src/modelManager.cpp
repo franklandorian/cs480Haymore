@@ -17,7 +17,6 @@ modelManager::modelManager(std::string filename)
     const aiMesh* paiMesh = scene->mMeshes[iMesh];
     InitMesh(iMesh, paiMesh);
 
-
     // Grab the texture names and run them
     aiString tName;
     aiMaterial* mat = scene->mMaterials[iMesh+1];
