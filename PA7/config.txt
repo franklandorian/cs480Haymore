@@ -1,0 +1,12 @@
+vs ../shaders/vertexShader.txt
+fs ../shaders/fragmentShader.txt
+obj ../assets/Sun.obj
+obj ../assets/Mercury.obj
+obj ../assets/Venus.obj
+obj ../assets/Earth.obj
+obj ../assets/Mars.obj
+obj ../assets/Jupiter.obj
+obj ../assets/Saturn.obj
+obj ../assets/Uranus.obj
+obj ../assets/Neptune.obj
+obj ../assets/Pluto.obj
