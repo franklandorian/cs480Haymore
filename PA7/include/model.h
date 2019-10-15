@@ -1,5 +1,5 @@
-#ifndef MODEL_MANAGER_H
-#define MODEL_MANAGER_H
+#ifndef MODEL_H
+#define MODEL_H
 
 #include <vector>
 #include <iostream>
@@ -14,11 +14,11 @@
 #include "graphics_headers.h"
 #include "MeshEntry.h"
 
-class modelManager
+class model
 {
   public:
-    modelManager(std::string objectFilename);
-    ~modelManager();
+    model(std::string objectFilename);
+    ~model();
     void Render();
     
     glm::mat4 GetModel();
@@ -34,4 +34,4 @@ class modelManager
     void InitMesh(unsigned int Index, const aiMesh* paiMesh);
 };
 
-#endif /* MODEL_MANAGER_H*/
+#endif /* MODEL_H*/

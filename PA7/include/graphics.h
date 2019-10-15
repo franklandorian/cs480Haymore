@@ -10,7 +10,7 @@ using namespace std;
 #include "camera.h"
 #include "shader.h"
 #include "object.h"
-#include "modelManager.h"
+#include "model.h"
 
 class Graphics
 {
@@ -20,7 +20,6 @@ class Graphics
     bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::vector<std::string> allFiles);
     void Update(unsigned int dt);
     void Render();
-    modelManager* getObject();
 
   private:
     std::string ErrorString(GLenum error);
@@ -32,8 +31,7 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-    modelManager *m_object;
-		vector<modelManager*> m_objs;
+	vector<model*> m_objs;
 };
 
 #endif /* GRAPHICS_H */

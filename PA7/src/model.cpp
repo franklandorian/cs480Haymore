@@ -1,8 +1,8 @@
-#include "modelManager.h"
+#include "model.h"
 #include <stdlib.h>
 #include <time.h>
 
-modelManager::modelManager(std::string filename)
+model::model(std::string filename)
 {  
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
@@ -40,7 +40,7 @@ modelManager::modelManager(std::string filename)
 	srand(time(NULL));
 }
 
-void modelManager::InitMesh(unsigned int Index, const aiMesh* paiMesh){
+void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
   // Temporary Storage
   std::vector<Vertex> temp_vertices;
   std::vector<unsigned int> temp_indices;
@@ -69,13 +69,13 @@ void modelManager::InitMesh(unsigned int Index, const aiMesh* paiMesh){
     meshes[Index].Init(temp_vertices, temp_indices);
 }
 
-modelManager::~modelManager()
+model::~model()
 {
   // meshes.clear();
   // meshIndexes.clear();
 }
 
-void modelManager::Render()
+void model::Render()
 {
   /*glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
@@ -116,10 +116,10 @@ void modelManager::Render()
 
 }
 
-glm::mat4 modelManager::GetModel(){
+glm::mat4 model::GetModel(){
   return meshes[0].GetModel();
 }
 
-void modelManager::Update(unsigned int dt, int offset){
+void model::Update(unsigned int dt, int offset){
   meshes[0].Update(dt, offset);
 }
