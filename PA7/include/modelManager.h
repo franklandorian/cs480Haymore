@@ -20,7 +20,6 @@ class modelManager
     modelManager(std::string objectFilename);
     ~modelManager();
     void Render();
-
     
     glm::mat4 GetModel();
   	void Update(unsigned int dt);
