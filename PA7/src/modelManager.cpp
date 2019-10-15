@@ -1,5 +1,6 @@
 #include "modelManager.h"
 #include <stdlib.h>
+#include <time.h>
 
 modelManager::modelManager(std::string filename)
 {  
@@ -36,6 +37,7 @@ modelManager::modelManager(std::string filename)
       delete image;
     }
   }
+	srand(time(NULL));
 }
 
 void modelManager::InitMesh(unsigned int Index, const aiMesh* paiMesh){
@@ -118,11 +120,6 @@ glm::mat4 modelManager::GetModel(){
   return meshes[0].GetModel();
 }
 
-void modelManager::Update(unsigned int dt){
-  meshes[0].Update(dt);
-}
-
-int modelManager::test()
-{
-	return 88;
+void modelManager::Update(unsigned int dt, int offset){
+  meshes[0].Update(dt, offset);
 }

@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::string objectFilename, std::vector<std::string> allFiles)
+bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::vector<std::string> allFiles)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -120,7 +120,7 @@ void Graphics::Update(unsigned int dt)
 	//m_object->Update(dt);
   for (int i = 0; i < m_objs.size(); ++i)
 	{
-		m_objs[i]->Update(dt);
+		m_objs[i]->Update(dt, (i+1)*2);
 	}
 }
 
