@@ -15,7 +15,7 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* objectFilename);
+    bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::string objectFilename);
     void Update(unsigned int dt);
     void Render();
     modelManager* getObject();
