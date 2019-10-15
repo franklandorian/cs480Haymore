@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::string objectFilename)
+bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::string objectFilename, std::vector<std::string> allFiles)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -44,8 +44,15 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
     return false;
   }
 
+	
   // Create the object
-  m_object = new modelManager(objectFilename);
+	//m_object = new modelManager(allFiles[9]);
+	for (int i = 0; i < allFiles.size(); ++i)
+	{
+		m_objs.push_back(new modelManager(allFiles[i]));
+		//delete obj;
+	}
+	//m_object = m_objs[7];
 
   // Set up the shaders
   m_shader = new Shader();
@@ -110,7 +117,11 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 void Graphics::Update(unsigned int dt)
 {
   // Update the object
-  m_object->Update(dt);
+	//m_object->Update(dt);
+  for (int i = 0; i < m_objs.size(); ++i)
+	{
+		m_objs[i]->Update(dt);
+	}
 }
 
 void Graphics::Render()
@@ -127,9 +138,12 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Render the object
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_object->GetModel()));
-  m_object->Render();
-
+	// NEED TO RENDER EACH OBJECT
+	for (int i = 0; i < m_objs.size(); ++i)
+	{
+		glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetModel()));
+		m_objs[i]->Render();
+	}
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )

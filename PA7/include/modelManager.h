@@ -24,6 +24,7 @@ class modelManager
     glm::mat4 GetModel();
   	void Update(unsigned int dt);
 
+		int test();
 
   private:
     std::vector<meshEntry> meshes;

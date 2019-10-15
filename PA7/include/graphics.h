@@ -2,6 +2,8 @@
 #define GRAPHICS_H
 
 #include <iostream>
+#include <vector>
+#include <string>
 using namespace std;
 
 #include "graphics_headers.h"
@@ -15,7 +17,7 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::string objectFilename);
+    bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::string objectFilename, std::vector<std::string> allFiles);
     void Update(unsigned int dt);
     void Render();
     modelManager* getObject();
@@ -31,6 +33,7 @@ class Graphics
     GLint m_modelMatrix;
 
     modelManager *m_object;
+		vector<modelManager*> m_objs;
 };
 
 #endif /* GRAPHICS_H */

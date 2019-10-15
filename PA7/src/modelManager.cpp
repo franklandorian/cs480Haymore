@@ -122,3 +122,7 @@ void modelManager::Update(unsigned int dt){
   meshes[0].Update(dt);
 }
 
+int modelManager::test()
+{
+	return 88;
+}
