@@ -13,7 +13,7 @@ class Engine
     Engine(string name, int width, int height);
     Engine(string name);
     ~Engine();
-    bool Initialize(char* vertexFilename, char* fragmentFilename, char* objectFilename);
+    bool Initialize(char* vertexFilename, char* fragmentFilename, std::string objectFilename);
     void Run();
     void Keyboard();
     unsigned int getDT();

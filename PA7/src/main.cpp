@@ -5,15 +5,14 @@
 
 int main(int argc, char **argv)
 {
-  // Start an engine and run it then cleanup after
-
+  // Check for config file, if not there, then throw an error
   if(argc == 1){
-  	printf("No shaders submitted, ex: ./PA3 -v <vertexFilename> -f <fragmentFilename>");
+  	printf("No shaders submitted, ex: ./PA7 config.txt");
   	return 1;
   }
 
+  // Grab the file name and open it
   std::string configFileName(argv[1]);
-
   FILE * configFile = fopen(("../" + configFileName).c_str(), "r");
 
   if( configFile == NULL ){
@@ -25,7 +24,9 @@ int main(int argc, char **argv)
   char vertexFilename[128];
   char fragmentFilename[128];
   char objectFilename[128];
+  std::vector<std::string> objectFilenames;
 
+  // Parse through the file
   while( 1 ){
     
     char lineHeader[128];
@@ -41,27 +42,14 @@ int main(int argc, char **argv)
       fscanf(configFile, "%s", fragmentFilename);
     } else if ( strcmp( lineHeader, "obj" ) == 0 ){
       fscanf(configFile, "%s", objectFilename);
+      std::string temp(objectFilename);
+      objectFilenames.emplace_back(temp);
     }
   }
-
-	// char* vertexFilename;
-	// char* fragmentFilename;
- //  char* objectFilename;
-	// for(int i = 1; i < argc; i++){
-	// 	if(argv[i][0] == '-' && argv[i][1] == 'v'){
-			
-	// 		vertexFilename = argv[i+1];
-	// 	}
-	// 	if(argv[i][0] == '-' && argv[i][1] == 'f'){
-	// 		fragmentFilename = argv[i+1];
-	// 	}
- //    if(argv[i][0] == '-' && argv[i][1] == 'o'){
- //      objectFilename = argv[i+1];
- //    }
-	// }
   
+  // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Spinning loaded obj with random colors", 1366, 768);
-  if(!engine->Initialize(vertexFilename, fragmentFilename, objectFilename))
+  if(!engine->Initialize(vertexFilename, fragmentFilename, objectFilenames[0]))
   {
     printf("The engine failed to start.\n");
     delete engine;

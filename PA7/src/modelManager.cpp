@@ -1,7 +1,7 @@
 #include "modelManager.h"
 #include <stdlib.h>
 
-modelManager::modelManager(char* filename)
+modelManager::modelManager(std::string filename)
 {  
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);

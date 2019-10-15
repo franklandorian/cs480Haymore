@@ -25,7 +25,7 @@ Engine::~Engine()
   m_graphics = NULL;
 }
 
-bool Engine::Initialize(char* vertexFilename, char* fragmentFilename, char* objectFilename)
+bool Engine::Initialize(char* vertexFilename, char* fragmentFilename, std::string objectFilename)
 {
   // Start a window
   m_window = new Window();

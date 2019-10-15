@@ -17,7 +17,7 @@
 class modelManager
 {
   public:
-    modelManager(char* objectFilename);
+    modelManager(std::string objectFilename);
     ~modelManager();
     void Render();
 

@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* objectFilename)
+bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::string objectFilename)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)

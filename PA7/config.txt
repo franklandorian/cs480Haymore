@@ -1,3 +1,4 @@
 vs ../shaders/vertexShader.txt
 fs ../shaders/fragmentShader.txt
 obj ../assets/Sun.obj
+obj ../assets/Earth.obj
