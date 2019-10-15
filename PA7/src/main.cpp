@@ -49,7 +49,7 @@ int main(int argc, char **argv)
   
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Spinning loaded obj with random colors", 1366, 768);
-  if(!engine->Initialize(vertexFilename, fragmentFilename, objectFilenames[2]))
+  if(!engine->Initialize(vertexFilename, fragmentFilename, objectFilenames))
   {
     printf("The engine failed to start.\n");
     delete engine;

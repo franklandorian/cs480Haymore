@@ -22,8 +22,7 @@ class modelManager
     void Render();
     
     glm::mat4 GetModel();
-  	void Update(unsigned int dt);
-
+  	void Update(unsigned int dt, int offset);
 
   private:
     std::vector<meshEntry> meshes;

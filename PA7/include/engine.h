@@ -3,6 +3,8 @@
 
 #include <sys/time.h>
 #include <assert.h>
+#include <string>
+#include <vector>
 
 #include "window.h"
 #include "graphics.h"
@@ -13,7 +15,7 @@ class Engine
     Engine(string name, int width, int height);
     Engine(string name);
     ~Engine();
-    bool Initialize(char* vertexFilename, char* fragmentFilename, std::string objectFilename);
+    bool Initialize(char* vertexFilename, char* fragmentFilename, std::vector<std::string> allFiles);
     void Run();
     void Keyboard();
     unsigned int getDT();
