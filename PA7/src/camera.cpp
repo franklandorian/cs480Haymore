@@ -29,7 +29,7 @@ bool Camera::Initialize(int w, int h)
 
 glm::mat4 Camera::GetProjection()
 {
-  return projection;
+  return glm::translate(projection, glm::vec3(0,0,0));
 }
 
 glm::mat4 Camera::GetView()

@@ -47,7 +47,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 	
   // Create the objects
 	for (int i = 0; i < allFiles.size(); ++i)
-		m_objs.push_back(new modelManager(allFiles[i]));
+		m_objs.push_back(new model(allFiles[i]));
 	
   // Set up the shaders
   m_shader = new Shader();
@@ -176,9 +176,4 @@ std::string Graphics::ErrorString(GLenum error)
   {
     return "None";
   }
-}
-
-
-modelManager* Graphics::getObject(){
-  return m_object;
 }
