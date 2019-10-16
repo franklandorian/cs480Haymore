@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <regex>
+#include <sstream>
 using namespace std;
 
 #include "graphics_headers.h"
@@ -17,7 +19,7 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::vector<std::string> allFiles);
+    bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* settingFilename, std::vector<std::string> allFiles);
     void Update(unsigned int dt);
     void Render();
 
@@ -31,7 +33,18 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-	vector<model*> m_objs;
+		struct setting
+		{
+			string objName;
+			int index;
+			float radius;
+		};
+
+		vector<model*> m_objs;
+		vector<setting> m_settings; 
+
+		// util functions
+		void initSetting(char* settingFilename);
 };
 
 #endif /* GRAPHICS_H */

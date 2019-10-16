@@ -24,6 +24,7 @@ int main(int argc, char **argv)
   char vertexFilename[128];
   char fragmentFilename[128];
   char objectFilename[128];
+	char settingFilename[128];
   std::vector<std::string> objectFilenames;
 
   // Parse through the file
@@ -45,11 +46,14 @@ int main(int argc, char **argv)
       std::string temp(objectFilename);
       objectFilenames.emplace_back(temp);
     }
+		else if ( strcmp( lineHeader, "set" ) == 0 ){
+      fscanf(configFile, "%s", settingFilename);
+    }
   }
   
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Spinning loaded obj with random colors", 1366, 768);
-  if(!engine->Initialize(vertexFilename, fragmentFilename, objectFilenames))
+  if(!engine->Initialize(vertexFilename, fragmentFilename, settingFilename, objectFilenames))
   {
     printf("The engine failed to start.\n");
     delete engine;

@@ -10,3 +10,4 @@ obj ../assets/Saturn.obj
 obj ../assets/Uranus.obj
 obj ../assets/Neptune.obj
 obj ../assets/Pluto.obj
+set ../assets/setting.txt

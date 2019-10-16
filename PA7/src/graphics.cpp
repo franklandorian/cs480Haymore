@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, std::vector<std::string> allFiles)
+bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* settingFilename, std::vector<std::string> allFiles)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -44,6 +44,8 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
     return false;
   }
 
+	// Set the setting?
+	initSetting(settingFilename);
 	
   // Create the objects
 	for (int i = 0; i < allFiles.size(); ++i)
@@ -176,4 +178,69 @@ std::string Graphics::ErrorString(GLenum error)
   {
     return "None";
   }
+}
+
+// initializes our setting for the objects
+void Graphics::initSetting(char* settingFilename)
+{
+	regex objNameReg("[A-Za-z]+\\: [0-9]*");
+	regex objPropReg("[a-zA-Z]+\\: [-+]?[0-9]*\\.?[0-9]+");
+	regex objEndReg("\\!");
+	vector<string> lines;
+	string line;
+	ifstream setFile;
+	setFile.open(settingFilename);
+
+	if (setFile.fail())
+		cout << "Failed to open setting file\n";
+	else
+	{
+		while (getline(setFile, line))
+		{
+			lines.push_back(line);
+			/*if ( regex_match(line, objNameReg) )
+			{
+				lines.push_back(line);
+			}
+			else if ( regex_match(line, objPropReg) )
+			{
+				lines.push_back(line);
+			}
+			else if ( regex_match(line, objEndReg) )
+			{
+				lines.push_back(line);
+			}*/
+		}
+	} // end file io
+	setFile.close();
+
+	smatch setMatch;
+	regex objNamePull("([A-Za-z]+)\\: ([0-9]*)");
+	regex objPropPull("([a-zA-Z]+)\\: ([-+]?[0-9]*\\.?[0-9]+)");
+	regex objEndPull("(\\!)");
+	float rad;
+	string name;
+	int index;
+	for (int i = 0; i < lines.size(); ++i)
+	{
+		cout << lines[i] << endl;
+		if (regex_search(lines[i], setMatch, objNamePull))
+		{
+			name = setMatch[1];
+			index = stoi(setMatch[2]);
+			cout << "obj: " << name << ": " << index << endl;
+		}
+		else if (regex_search(lines[i], setMatch, objPropPull))
+		{
+			name = setMatch[1];
+			cout << "dec: " << setMatch[2] << endl;
+			rad = stof(setMatch[2]);
+			cout << "prop: " << name << ": " << rad << endl;
+		}
+		else if (regex_search(lines[i], setMatch, objEndPull))
+		{
+			// push here?
+			cout << "...Ended object reading\n\n";
+		}
+	}
 }

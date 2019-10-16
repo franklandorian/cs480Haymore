@@ -25,7 +25,7 @@ Engine::~Engine()
   m_graphics = NULL;
 }
 
-bool Engine::Initialize(char* vertexFilename, char* fragmentFilename, std::vector<std::string> allFiles)
+bool Engine::Initialize(char* vertexFilename, char* fragmentFilename, char* settingFilename, std::vector<std::string> allFiles)
 {
   // Start a window
   m_window = new Window();
@@ -37,7 +37,7 @@ bool Engine::Initialize(char* vertexFilename, char* fragmentFilename, std::vecto
 
   // Start the graphics
   m_graphics = new Graphics();
-  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vertexFilename, fragmentFilename, allFiles))
+  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vertexFilename, fragmentFilename, settingFilename, allFiles))
   {
     printf("The graphics failed to initialize.\n");
     return false;
