@@ -14,16 +14,18 @@
 #include "graphics_headers.h"
 #include "MeshEntry.h"
 
+
+struct setting
+{
+	std::string name;
+	int index;
+	float radius;
+	float rotation;
+	float revolution;
+};
+
 class model
 {
-  public:
-    model(std::string objectFilename);
-    ~model();
-    void Render();
-    
-    glm::mat4 GetModel();
-  	void Update(unsigned int dt, int offset);
-
   private:
     std::vector<meshEntry> meshes;
     std::vector<GLuint> textures;
@@ -32,6 +34,16 @@ class model
 
     // Helper Method to initialize and bind each mesh
     void InitMesh(unsigned int Index, const aiMesh* paiMesh);
+
+		setting m_setting;
+
+	public:
+    model(std::string objectFilename, setting set);
+    ~model();
+    void Render();
+    
+    glm::mat4 GetModel();
+  	void Update(unsigned int dt, int offset);
 };
 
 #endif /* MODEL_H*/

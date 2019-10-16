@@ -49,7 +49,9 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 	
   // Create the objects
 	for (int i = 0; i < allFiles.size(); ++i)
-		m_objs.push_back(new model(allFiles[i]));
+	{
+		m_objs.push_back(new model(allFiles[i], m_settings[i]));
+	}
 	
   // Set up the shaders
   m_shader = new Shader();

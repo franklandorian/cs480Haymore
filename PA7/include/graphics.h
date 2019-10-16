@@ -33,15 +33,6 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-		struct setting
-		{
-			string name;
-			int index;
-			float radius;
-			float rotation;
-			float revolution;
-		};
-
 		vector<model*> m_objs;
 		vector<setting> m_settings; 
 
