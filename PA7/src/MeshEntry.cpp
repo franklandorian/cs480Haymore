@@ -22,7 +22,7 @@ glm::mat4 meshEntry::GetModel(){
     return model;
 }
 
-void meshEntry::Update(unsigned int dt, int offset, float radius, float rotation, float revolution){
+void meshEntry::Update(unsigned int dt, float radius, float rotation, float revolution){
     angleRev += (dt) * M_PI/10000;
     if(rotation)
         model = glm::translate(glm::mat4(1.0f), glm::vec3( (3.0f + revolution) * (glm::sin(angleRev)), 0, (3.0f + revolution) * (glm::cos(angleRev)) ));

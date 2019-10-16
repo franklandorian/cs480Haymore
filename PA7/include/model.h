@@ -44,7 +44,7 @@ class model
     void Render();
     
     glm::mat4 GetModel();
-  	void Update(unsigned int dt, int offset);
+  	void Update(unsigned int dt);
 };
 
 #endif /* MODEL_H*/

@@ -27,7 +27,7 @@ class meshEntry {
     bool Init(const std::vector<Vertex> incomingVertices, const std::vector<unsigned int> incomingIndices);
     void SetStart(float angle);
     glm::mat4 GetModel();
-    void Update(unsigned int dt, int offset, float radius, float rotation, float revolution);
+    void Update(unsigned int dt, float radius, float rotation, float revolution);
 };
 
 

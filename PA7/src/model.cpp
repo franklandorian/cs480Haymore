@@ -131,6 +131,6 @@ glm::mat4 model::GetModel(){
   return meshes[0].GetModel();
 }
 
-void model::Update(unsigned int dt, int offset){
-  meshes[0].Update(dt, offset, m_setting.radius, m_setting.rotation, m_setting.revolution);
+void model::Update(unsigned int dt){
+  meshes[0].Update(dt, m_setting.radius, m_setting.rotation, m_setting.revolution);
 }

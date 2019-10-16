@@ -117,7 +117,7 @@ void Graphics::Update(unsigned int dt)
 {
   // Update the objects
   for (int i = 0; i < m_objs.size(); ++i)
-		m_objs[i]->Update(dt, (i+1)*2);		// rn offset is just some increasing so the planets aren't overlaying each other
+		m_objs[i]->Update(dt);
 
 }
 
