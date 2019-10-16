@@ -183,9 +183,6 @@ std::string Graphics::ErrorString(GLenum error)
 // initializes our setting for the objects
 void Graphics::initSetting(char* settingFilename)
 {
-	regex objNameReg("[A-Za-z]+\\: [0-9]*");
-	regex objPropReg("[a-zA-Z]+\\: [-+]?[0-9]*\\.?[0-9]+");
-	regex objEndReg("\\!");
 	vector<string> lines;
 	string line;
 	ifstream setFile;
@@ -196,46 +193,30 @@ void Graphics::initSetting(char* settingFilename)
 	else
 	{
 		while (getline(setFile, line))
-		{
 			lines.push_back(line);
-			/*if ( regex_match(line, objNameReg) )
-			{
-				lines.push_back(line);
-			}
-			else if ( regex_match(line, objPropReg) )
-			{
-				lines.push_back(line);
-			}
-			else if ( regex_match(line, objEndReg) )
-			{
-				lines.push_back(line);
-			}*/
-		}
 	} // end file io
 	setFile.close();
 
 	smatch setMatch;
-	regex objNamePull("([A-Za-z]+)\\: ([0-9]*)");
-	regex objPropPull("([a-zA-Z]+)\\: ([-+]?[0-9]*\\.?[0-9]+)");
+	regex objNamePull("([A-Za-z]+)\\: ([0-9]+)");
+	regex objPropPull("([a-zA-Z]+)\\: ([-+]?[0-9]+\\.[0-9]+)");
 	regex objEndPull("(\\!)");
 	float rad;
 	string name;
 	int index;
 	for (int i = 0; i < lines.size(); ++i)
 	{
-		cout << lines[i] << endl;
-		if (regex_search(lines[i], setMatch, objNamePull))
+		if (regex_search(lines[i], setMatch, objPropPull))
+		{
+			name = setMatch[1];
+			rad = stof(setMatch[2]);
+			cout << "prop: " << name << "\t...\t" << rad << endl;
+		}
+		else if (regex_search(lines[i], setMatch, objNamePull))
 		{
 			name = setMatch[1];
 			index = stoi(setMatch[2]);
-			cout << "obj: " << name << ": " << index << endl;
-		}
-		else if (regex_search(lines[i], setMatch, objPropPull))
-		{
-			name = setMatch[1];
-			cout << "dec: " << setMatch[2] << endl;
-			rad = stof(setMatch[2]);
-			cout << "prop: " << name << ": " << rad << endl;
+			cout << "obj: " << name << "\t...\t" << index << endl;
 		}
 		else if (regex_search(lines[i], setMatch, objEndPull))
 		{
