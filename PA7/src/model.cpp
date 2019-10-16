@@ -41,7 +41,7 @@ model::model(std::string filename, setting set)
 	// fill settings
 	m_setting.name = set.name ;
 	m_setting.index = set.index;
-	m_setting.radius = set.radius;
+	m_setting.radius = set.radius/2;
 	m_setting.rotation = set.rotation;
 	m_setting.revolution = set.revolution;	
 

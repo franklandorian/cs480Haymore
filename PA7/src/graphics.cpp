@@ -137,7 +137,7 @@ void Graphics::Render()
   // Render the object
 	// NEED TO RENDER EACH OBJECT
 	for (int i = 0; i < m_objs.size(); ++i)
-	{
+	{  
 		glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetModel()));
 		m_objs[i]->Render();
 	}

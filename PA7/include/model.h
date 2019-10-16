@@ -35,7 +35,7 @@ class model
     // Helper Method to initialize and bind each mesh
     void InitMesh(unsigned int Index, const aiMesh* paiMesh);
 
-		setting m_setting;
+	setting m_setting;
 
 	public:
     model(std::string objectFilename, setting set);

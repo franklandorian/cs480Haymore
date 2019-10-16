@@ -46,21 +46,19 @@ class meshEntry {
     }
 
     void Update(unsigned int dt, int offset, float radius, float rotation, float revolution){
-        angleRev += (dt) * M_PI/1000;
-        model = glm::translate(glm::mat4(1.0f), glm::vec3( revolution * (glm::sin(angleRev)), 0, revolution * (glm::cos(angleRev)) ));
-				angleRotate += dt * M_PI/1000;
+        angleRev += (dt) * M_PI/10000;
+        if(rotation)
+            model = glm::translate(glm::mat4(1.0f), glm::vec3( (3.0f + revolution) * (glm::sin(angleRev)), 0, (3.0f + revolution) * (glm::cos(angleRev)) ));
+		// model += glm::mat4(1.0f);
+        else
+            model = glm::translate(glm::mat4(1.0f), glm::vec3( revolution * (glm::sin(angleRev)), 0, revolution * (glm::cos(angleRev)) ));
+
+        angleRotate += dt * M_PI/1000;
         model = glm::rotate(model, (rotation * angleRotate), glm::vec3(0.0, 1.0, 0.0));
 
-				model = glm::scale(model, glm::vec3(radius, radius, radius));
+		model = glm::scale(model, glm::vec3(radius, radius, radius));
     }
 };
 
-// meshEntry::meshEntry(){
-//     NumIndices = 0;
-// }
-
-// meshEntry::~meshEntry(){
-
-// }
 
 #endif /*MESH_ENTRY_H*/
