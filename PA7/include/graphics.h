@@ -38,6 +38,8 @@ class Graphics
 			string name;
 			int index;
 			float radius;
+			float rotation;
+			float revolution;
 		};
 
 		vector<model*> m_objs;

@@ -213,6 +213,10 @@ void Graphics::initSetting(char* settingFilename)
 			val = stof(setMatch[2]);
 			if (name.compare("radius") == 0)
 					passIn.radius = val;
+			else if (name.compare("rotation") == 0)
+					passIn.rotation = val;
+			else if (name.compare("revolution") == 0)
+					passIn.revolution = val;
 		}
 		else if (regex_search(lines[i], setMatch, objNamePull))
 		{
