@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-model::model(std::string filename)
+model::model(std::string filename, setting set)
 {  
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
@@ -37,6 +37,14 @@ model::model(std::string filename)
       delete image;
     }
   }
+
+	// fill settings
+	m_setting.name = set.name ;
+	m_setting.index = set.index;
+	m_setting.radius = set.radius;
+	m_setting.rotation = set.rotation;
+	m_setting.revolution = set.revolution;	
+
 	srand(time(NULL));
 }
 
@@ -121,5 +129,5 @@ glm::mat4 model::GetModel(){
 }
 
 void model::Update(unsigned int dt, int offset){
-  meshes[0].Update(dt, offset);
+  meshes[0].Update(dt, offset, m_setting.radius, m_setting.rotation, m_setting.revolution);
 }

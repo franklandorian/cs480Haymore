@@ -5,12 +5,18 @@ Graphics::Graphics()
 
 }
 
+Graphics::Graphics(string vShader, string fShader)
+{
+	m_Vertex = vShader;
+	m_Fragment = fShader;
+}
+
 Graphics::~Graphics()
 {
 
 }
 
-bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* settingFilename, std::vector<std::string> allFiles)
+bool Graphics::Initialize(int width, int height)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -44,17 +50,11 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
     return false;
   }
 
-	// Set the setting?
-	initSetting(settingFilename);
-	
-  // Create the objects
-	for (int i = 0; i < allFiles.size(); ++i)
-	{
-		m_objs.push_back(new model(allFiles[i], m_settings[i]));
-	}
-	
+  // Create the object
+  m_cube = new Object();
+
   // Set up the shaders
-  m_shader = new Shader();
+  m_shader = new Shader(m_Vertex, m_Fragment);
   if(!m_shader->Initialize())
   {
     printf("Shader Failed to Initialize\n");
@@ -62,14 +62,14 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   }
 
   // Add the vertex shader
-  if(!m_shader->AddShader(GL_VERTEX_SHADER, vertexFilename))
+  if(!m_shader->AddShader(GL_VERTEX_SHADER))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_shader->AddShader(GL_FRAGMENT_SHADER, fragmentFilename))
+  if(!m_shader->AddShader(GL_FRAGMENT_SHADER))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
@@ -113,12 +113,10 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   return true;
 }
 
-void Graphics::Update(unsigned int dt)
+void Graphics::Update(unsigned int dt, int keyValue)
 {
-  // Update the objects
-  for (int i = 0; i < m_objs.size(); ++i)
-		m_objs[i]->Update(dt, (i+1)*2);		// rn offset is just some increasing so the planets aren't overlaying each other
-
+  // Update the object
+  m_cube->Update(dt, keyValue);
 }
 
 void Graphics::Render()
@@ -135,12 +133,9 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Render the object
-	// NEED TO RENDER EACH OBJECT
-	for (int i = 0; i < m_objs.size(); ++i)
-	{
-		glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetModel()));
-		m_objs[i]->Render();
-	}
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cube->GetModel()));
+  m_cube->Render();
+
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )
@@ -182,56 +177,3 @@ std::string Graphics::ErrorString(GLenum error)
   }
 }
 
-// initializes our setting for the objects
-void Graphics::initSetting(char* settingFilename)
-{
-	vector<string> lines;
-	string line;
-	ifstream setFile;
-	setFile.open(settingFilename);
-
-	if (setFile.fail())
-		cout << "Failed to open setting file\n";
-	else
-	{
-		while (getline(setFile, line))
-			lines.push_back(line);
-	} // end file io
-	setFile.close();
-
-	smatch setMatch;
-	regex objNamePull("([A-Za-z]+)\\: ([0-9]+)");
-	regex objPropPull("([a-zA-Z]+)\\: ([-+]?[0-9]+\\.[0-9]+)");
-	regex objEndPull("(\\!)");
-	float val;
-	string name;
-	int index;
-	setting passIn;
-	for (int i = 0; i < lines.size(); ++i)
-	{
-		if (regex_search(lines[i], setMatch, objPropPull))
-		{
-			name = setMatch[1];
-			val = stof(setMatch[2]);
-			if (name.compare("radius") == 0)
-					passIn.radius = val;
-			else if (name.compare("rotation") == 0)
-					passIn.rotation = val;
-			else if (name.compare("revolution") == 0)
-					passIn.revolution = val;
-		}
-		else if (regex_search(lines[i], setMatch, objNamePull))
-		{
-			name = setMatch[1];
-			index = stoi(setMatch[2]);
-			passIn.name = name;
-			passIn.index = index;
-		}
-		else if (regex_search(lines[i], setMatch, objEndPull))
-		{
-			// push here?
-			m_settings.push_back(passIn);
-			passIn = {};		// clears the struct
-		}
-	}
-}

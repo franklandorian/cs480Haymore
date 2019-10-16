@@ -1,26 +1,23 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
+#define GLM_ENABLE_EXPERIMENTAL
 
 #include <iostream>
-#include <vector>
-#include <string>
-#include <regex>
-#include <sstream>
 using namespace std;
 
 #include "graphics_headers.h"
 #include "camera.h"
 #include "shader.h"
 #include "object.h"
-#include "model.h"
 
 class Graphics
 {
   public:
     Graphics();
+		Graphics(string vShader, string fShader);
     ~Graphics();
-    bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* settingFilename, std::vector<std::string> allFiles);
-    void Update(unsigned int dt);
+    bool Initialize(int width, int height);
+    void Update(unsigned int dt, int keyValue);
     void Render();
 
   private:
@@ -33,11 +30,11 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-		vector<model*> m_objs;
-		vector<setting> m_settings; 
+    Object *m_cube;
 
-		// util functions
-		void initSetting(char* settingFilename);
+		// String variables to pass in to the Shader object
+		std::string m_Vertex;
+		std::string m_Fragment;
 };
 
 #endif /* GRAPHICS_H */
