@@ -35,7 +35,7 @@ class Graphics
 
 		struct setting
 		{
-			string objName;
+			string name;
 			int index;
 			float radius;
 		};

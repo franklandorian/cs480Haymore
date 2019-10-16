@@ -201,27 +201,31 @@ void Graphics::initSetting(char* settingFilename)
 	regex objNamePull("([A-Za-z]+)\\: ([0-9]+)");
 	regex objPropPull("([a-zA-Z]+)\\: ([-+]?[0-9]+\\.[0-9]+)");
 	regex objEndPull("(\\!)");
-	float rad;
+	float val;
 	string name;
 	int index;
+	setting passIn;
 	for (int i = 0; i < lines.size(); ++i)
 	{
 		if (regex_search(lines[i], setMatch, objPropPull))
 		{
 			name = setMatch[1];
-			rad = stof(setMatch[2]);
-			cout << "prop: " << name << "\t...\t" << rad << endl;
+			val = stof(setMatch[2]);
+			if (name.compare("radius") == 0)
+					passIn.radius = val;
 		}
 		else if (regex_search(lines[i], setMatch, objNamePull))
 		{
 			name = setMatch[1];
 			index = stoi(setMatch[2]);
-			cout << "obj: " << name << "\t...\t" << index << endl;
+			passIn.name = name;
+			passIn.index = index;
 		}
 		else if (regex_search(lines[i], setMatch, objEndPull))
 		{
 			// push here?
-			cout << "...Ended object reading\n\n";
+			m_settings.push_back(passIn);
+			passIn = {};		// clears the struct
 		}
 	}
 }
