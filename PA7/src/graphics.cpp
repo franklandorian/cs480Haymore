@@ -219,6 +219,8 @@ void Graphics::initSetting(char* settingFilename)
 					passIn.rotation = val;
 			else if (name.compare("revolution") == 0)
 					passIn.revolution = val;
+      else if (name.compare("start") == 0)
+        passIn.start = val;
 		}
 		else if (regex_search(lines[i], setMatch, objNamePull))
 		{
