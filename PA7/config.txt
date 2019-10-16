@@ -1,5 +1,6 @@
 vs ../shaders/vertexShader.txt
 fs ../shaders/fragmentShader.txt
+obj ../assets/Space.obj
 obj ../assets/Sun.obj
 obj ../assets/Mercury.obj
 obj ../assets/Venus.obj

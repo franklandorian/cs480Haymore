@@ -1,3 +1,9 @@
+Space: -1
+radius: 30.0
+rotation: 0.0
+revolution: 0.0
+star: 0.0
+!
 Sun: 0
 radius: 1.5
 rotation: 0.0
