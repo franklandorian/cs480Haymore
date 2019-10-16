@@ -45,10 +45,11 @@ class meshEntry {
         return model;
     }
 
-    void Update(unsigned int dt, int offset){
+    void Update(unsigned int dt, int offset, float radius, float rotation, float revolution){
         angle += dt * M_PI/1000;
-        model = glm::translate(glm::mat4(1.0f), glm::vec3(offset * glm::sin(0.5 * angle), 0, offset * glm::cos(0.5 * angle)));
-        model = glm::rotate(model, (angle), glm::vec3(0.0, 1.0, 0.0));
+        model = glm::translate(glm::mat4(1.0f), glm::vec3(revolution * glm::sin(angle), 0, revolution * glm::cos(angle)));
+        model = glm::rotate(model, (rotation * angle), glm::vec3(0.0, 1.0, 0.0));
+				model = glm::scale(model, glm::vec3(radius, radius, radius));
     }
 };
 

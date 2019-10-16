@@ -129,5 +129,5 @@ glm::mat4 model::GetModel(){
 }
 
 void model::Update(unsigned int dt, int offset){
-  meshes[0].Update(dt, offset);
+  meshes[0].Update(dt, offset, m_setting.radius, m_setting.rotation, m_setting.revolution);
 }

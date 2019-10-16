@@ -1,60 +1,60 @@
 Sun: 0
-radius: 109.047
+radius: 1.5
 rotation: 0.0
 revolution: 0.0
 star: 1.0
 !
 Mercury: 1
-radius: 0.383
-rotation: 0.0
+radius: 0.0383
+rotation: 1.0
 revolution: 1.0
 star: 0.0
 !
 Venus: 2
-radius: 0.949
-rotation: 0.0
+radius: 0.0949
+rotation: 1.0
 revolution: 3.0
 star: 0.0
 !
 Earth: 3
-radius: 1.0
-rotation: 0.0
+radius: 0.1
+rotation: 1.0
 revolution: 4.0
 star: 0.0
 !
 Mars: 4
-radius: 0.533
-rotation: 0.0
+radius: 0.0533
+rotation: 1.0
 revolution: 5.0
 star: 0.0
 !
 Jupiter: 5
-radius: 11.209
-rotation: 0.0
+radius: 1.209
+rotation: 1.0
 revolution: 10.0
 star: 0.0
 !
 Saturn: 6
-radius: 9.449
-rotation: 0.0
+radius: 0.9449
+rotation: 1.0
 revolution: 15.0
 star: 0.0
 !
 Uranus: 7
-radius: 4.001
-rotation: 0.0
+radius: .4001
+rotation: 1.0
 revolution: 20.0
 star: 0.0
 !
 Neptune: 8
-radius: 3.3883
-rotation: 0.0
+radius: 0.3883
+rotation: 1.0
 revolution: 25.0
 star: 0.0
 !
 Pluto: 9
-radius: 0.186
-rotation: 0.0
+radius: 0.0186
+rotation: 1.0
 revolution: 30.0
 star: 1.0
 !
