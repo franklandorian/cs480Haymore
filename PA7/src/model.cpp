@@ -41,11 +41,14 @@ model::model(std::string filename, setting set)
 	// fill settings
 	m_setting.name = set.name ;
 	m_setting.index = set.index;
-	m_setting.radius = set.radius/2;
+	m_setting.radius = set.radius/2; // Since this is radius, we half the current value
 	m_setting.rotation = set.rotation;
-	m_setting.revolution = set.revolution;	
+	m_setting.revolution = set.revolution;
+  m_setting.start = set.start;
 
-	srand(time(NULL));
+  meshes[0].SetStart(m_setting.start);
+
+	// srand(time(NULL));
 }
 
 void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
