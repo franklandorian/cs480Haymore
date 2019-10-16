@@ -10,7 +10,7 @@ class meshEntry {
     // meshEntry();
     // ~meshEntry();
     glm::mat4 model;
-    float angle;
+    float angleRev, angleRotate;
 
   public:
 
@@ -36,7 +36,7 @@ class meshEntry {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
         
-        angle = 0;
+        angleRev = angleRotate = 0;
 
         return true;
     }
@@ -46,9 +46,11 @@ class meshEntry {
     }
 
     void Update(unsigned int dt, int offset, float radius, float rotation, float revolution){
-        angle += dt * M_PI/1000;
-        model = glm::translate(glm::mat4(1.0f), glm::vec3(revolution * glm::sin(angle), 0, revolution * glm::cos(angle)));
-        model = glm::rotate(model, (rotation * angle), glm::vec3(0.0, 1.0, 0.0));
+        angleRev += (dt) * M_PI/1000;
+        model = glm::translate(glm::mat4(1.0f), glm::vec3( revolution * (glm::sin(angleRev)), 0, revolution * (glm::cos(angleRev)) ));
+				angleRotate += dt * M_PI/1000;
+        model = glm::rotate(model, (rotation * angleRotate), glm::vec3(0.0, 1.0, 0.0));
+
 				model = glm::scale(model, glm::vec3(radius, radius, radius));
     }
 };
