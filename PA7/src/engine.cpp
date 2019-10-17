@@ -88,7 +88,7 @@ void Engine::Keyboard()
     if (m_event.key.keysym.sym == SDLK_ESCAPE)
     {
       m_running = false;
-    }else if(m_event.key.keysym.sym >= SDLK_0 && m_event.key.keysym.sym <= SDLK_9){
+    }else if(m_event.key.keysym.sym >= SDLK_0 && m_event.key.keysym.sym <= SDLK_9 || m_event.key.keysym.sym == SDLK_r){
       m_graphics->updateCamera(m_event.key.keysym.sym);
     }
   }
