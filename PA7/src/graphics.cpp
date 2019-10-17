@@ -36,13 +36,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  // Init Camera
-  m_camera = new Camera();
-  if(!m_camera->Initialize(width, height))
-  {
-    printf("Camera Failed to Initialize\n");
-    return false;
-  }
+  
 
 	// Set the setting?
 	initSetting(settingFilename);
@@ -53,6 +47,14 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 		m_objs.push_back(new model(allFiles[i], m_settings[i]));
 	}
 	
+  // Init Camera
+  m_camera = new Camera();
+  if(!m_camera->Initialize(width, height))
+  {
+    printf("Camera Failed to Initialize\n");
+    return false;
+  }
+
   // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
@@ -119,6 +121,50 @@ void Graphics::Update(unsigned int dt)
   for (int i = 0; i < m_objs.size(); ++i)
 		m_objs[i]->Update(dt);
 
+}
+
+void Graphics::updateCamera(){
+  m_camera->update();
+}
+
+void Graphics::updateCamera(SDL_Keycode keycode){
+  glm::vec3 followDistance = glm::vec3(0.0,-8.0,-16.0);
+  if(keycode == SDLK_0){
+    m_camera->setFocus(m_objs[0], followDistance);
+  }else if(keycode >= 48 && keycode <= 58){
+    switch (keycode-48){
+      case 1:
+        followDistance = glm::vec3(0.0,-0.2,0.1);
+      break;
+      case 2:
+        followDistance = glm::vec3(0.0,-0.3,0.5);
+      break;
+      case 3:
+        followDistance = glm::vec3(0.0,-0.2,0.4);
+      break;
+      case 4:
+        followDistance = glm::vec3(0.0,-0.1,0.3);
+      break;
+      case 5:
+        followDistance = glm::vec3(0.0,-1.3,3);
+      break;
+      case 6:
+        followDistance = glm::vec3(0.0,-1.4,2.3);
+      break;
+      case 7:
+        followDistance = glm::vec3(0.0,-1,0.7);
+      break;
+      case 8:
+        followDistance = glm::vec3(0.0,-0.5,1.5);
+      break;
+      case 9:
+        followDistance = glm::vec3(0.0,-0.1,0.1);
+      break;
+    }
+    m_camera->setFocus(m_objs[keycode-47], followDistance);
+  }else if(keycode == SDLK_r){
+    m_camera->setFocus(glm::vec3(0.0,0.0,0.0), followDistance);
+  }
 }
 
 void Graphics::Render()

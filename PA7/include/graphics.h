@@ -21,6 +21,8 @@ class Graphics
     ~Graphics();
     bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* settingFilename, std::vector<std::string> allFiles);
     void Update(unsigned int dt);
+    void updateCamera();
+    void updateCamera(SDL_Keycode keycode);
     void Render();
 
   private:
@@ -33,11 +35,11 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-		vector<model*> m_objs;
-		vector<setting> m_settings; 
+	vector<model*> m_objs;
+	vector<setting> m_settings; 
 
-		// util functions
-		void initSetting(char* settingFilename);
+	// util functions
+	void initSetting(char* settingFilename);
 };
 
 #endif /* GRAPHICS_H */

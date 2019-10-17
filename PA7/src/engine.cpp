@@ -67,7 +67,9 @@ void Engine::Run()
 
     // Update and render the graphics
     m_graphics->Update(m_DT);
+    m_graphics->updateCamera();
     m_graphics->Render();
+
 
     // Swap to the Window
     m_window->Swap();
@@ -86,12 +88,10 @@ void Engine::Keyboard()
     if (m_event.key.keysym.sym == SDLK_ESCAPE)
     {
       m_running = false;
-    }else if(m_event.key.keysym.mod == KMOD_NONE + 4096){
-      // m_graphics->getObject()->buttonHandler(m_event.key.keysym.sym);
+    }else if(m_event.key.keysym.sym >= SDLK_0 && m_event.key.keysym.sym <= SDLK_9 || m_event.key.keysym.sym == SDLK_r){
+      m_graphics->updateCamera(m_event.key.keysym.sym);
     }
-  }else if(m_event.type == SDL_MOUSEBUTTONDOWN){
-    // m_graphics->getObject()->mouseClick(m_event.button);
-    }
+  }
 }
 
 unsigned int Engine::getDT()

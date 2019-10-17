@@ -45,9 +45,9 @@ model::model(std::string filename, setting set)
 	m_setting.rotationSpeed = set.rotationSpeed;
 	m_setting.orbitSpeed = set.orbitSpeed;
 	m_setting.revolution = set.revolution;
-  m_setting.start = set.start;
+ 	m_setting.start = set.start;
 
-  meshes[0].SetStart(m_setting.start, m_setting.index);
+ 	meshes[0].SetStart(m_setting.start, m_setting.index);
 
 	// srand(time(NULL));
 }
@@ -70,7 +70,7 @@ void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
       glm::vec3 temp_color(glm::vec3(0.0,0.0,0.0));
       glm::vec2 temp_tCoords(0,0);
       if(paiMesh->HasTextureCoords(0)){
-        temp_tCoords.x = paiMesh->mTextureCoords[0][iVert].x;
+        temp_tCoords.x = 1-paiMesh->mTextureCoords[0][iVert].x;
         temp_tCoords.y = paiMesh->mTextureCoords[0][iVert].y;
       }
       Vertex verts(temp_vertex, temp_color, temp_tCoords);
