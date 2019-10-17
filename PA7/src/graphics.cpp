@@ -36,13 +36,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  // Init Camera
-  m_camera = new Camera();
-  if(!m_camera->Initialize(width, height))
-  {
-    printf("Camera Failed to Initialize\n");
-    return false;
-  }
+  
 
 	// Set the setting?
 	initSetting(settingFilename);
@@ -53,6 +47,14 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 		m_objs.push_back(new model(allFiles[i], m_settings[i]));
 	}
 	
+  // Init Camera
+  m_camera = new Camera();
+  if(!m_camera->Initialize(width, height))
+  {
+    printf("Camera Failed to Initialize\n");
+    return false;
+  }
+
   // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
@@ -119,6 +121,18 @@ void Graphics::Update(unsigned int dt)
   for (int i = 0; i < m_objs.size(); ++i)
 		m_objs[i]->Update(dt);
 
+}
+
+void Graphics::updateCamera(){
+  m_camera->update();
+}
+
+void Graphics::updateCamera(SDL_Keycode keycode){
+  if(keycode == SDLK_0){
+    m_camera->setFocus(m_objs[0]);
+  }else{
+    m_camera->setFocus(m_objs[keycode-47]);
+  }
 }
 
 void Graphics::Render()

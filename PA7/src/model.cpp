@@ -45,9 +45,9 @@ model::model(std::string filename, setting set)
 	m_setting.rotationSpeed = set.rotationSpeed;
 	m_setting.orbitSpeed = set.orbitSpeed;
 	m_setting.revolution = set.revolution;
-  m_setting.start = set.start;
+ 	m_setting.start = set.start;
 
-  meshes[0].SetStart(m_setting.start, m_setting.index);
+ 	meshes[0].SetStart(m_setting.start, m_setting.index);
 
 	// srand(time(NULL));
 }
