@@ -27,6 +27,8 @@ void meshEntry::Update(unsigned int dt, float radius, float revolution, float ro
     dt *= 20;
 
     if(!isSun){
+        // 32/5190 is the scaling factor I used to scale the distances, yeah it's hard coded. I'm sorry
+        // Also the orbit speed is relative to the revolution
         angleRev += (dt) * M_PI/100000 * (orbitSpeed / revolution * 32 / 5910);
         model = glm::translate(glm::mat4(1.0f), glm::vec3( (3.0f + revolution) * (glm::sin(angleRev)), 0, (3.0f + revolution) * (glm::cos(angleRev)) ));
     } else {
