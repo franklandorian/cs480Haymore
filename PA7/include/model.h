@@ -20,7 +20,8 @@ struct setting
 	std::string name;
 	int index;
 	float radius;
-	float rotation;
+	float rotationSpeed;
+  float orbitSpeed;
 	float revolution;
   float start;
 };

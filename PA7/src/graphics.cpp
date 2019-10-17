@@ -214,11 +214,13 @@ void Graphics::initSetting(char* settingFilename)
 			name = setMatch[1];
 			val = stof(setMatch[2]);
 			if (name.compare("radius") == 0)
-					passIn.radius = val;
-			else if (name.compare("rotation") == 0)
-					passIn.rotation = val;
+				passIn.radius = val;
+			else if (name.compare("rotationSpeed") == 0)
+				passIn.rotationSpeed = val;
+      else if (name.compare("orbitSpeed") == 0)
+				passIn.orbitSpeed = val;
 			else if (name.compare("revolution") == 0)
-					passIn.revolution = val;
+				passIn.revolution = val;
       else if (name.compare("start") == 0)
         passIn.start = val;
 		}
