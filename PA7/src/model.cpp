@@ -42,11 +42,12 @@ model::model(std::string filename, setting set)
 	m_setting.name = set.name ;
 	m_setting.index = set.index;
 	m_setting.radius = set.radius/2; // Since this is radius, we half the current value
-	m_setting.rotation = set.rotation;
+	m_setting.rotationSpeed = set.rotationSpeed;
+	m_setting.orbitSpeed = set.orbitSpeed;
 	m_setting.revolution = set.revolution;
   m_setting.start = set.start;
 
-  meshes[0].SetStart(m_setting.start);
+  meshes[0].SetStart(m_setting.start, m_setting.index);
 
 	// srand(time(NULL));
 }
@@ -131,6 +132,6 @@ glm::mat4 model::GetModel(){
   return meshes[0].GetModel();
 }
 
-void model::Update(unsigned int dt, int offset){
-  meshes[0].Update(dt, offset, m_setting.radius, m_setting.rotation, m_setting.revolution);
+void model::Update(unsigned int dt){
+  meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed);
 }

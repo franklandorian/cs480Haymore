@@ -12,8 +12,7 @@ bool meshEntry::Init(const std::vector<Vertex> incomingVertices, const std::vect
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
     
     srand(time(NULL));
-    // angleRev = ((float) rand() / (RAND_MAX)) * 360;
-    // std::cout << angleRev << std::endl;
+
     angleRotate = 0;
     return true;
 }
@@ -22,17 +21,30 @@ glm::mat4 meshEntry::GetModel(){
     return model;
 }
 
-void meshEntry::Update(unsigned int dt, int offset, float radius, float rotation, float revolution){
-    angleRev += (dt) * M_PI/10000;
-    if(rotation)
+void meshEntry::Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed){
+
+    // First where it should translate to
+    dt *= 20;
+
+    if(!isSun){
+        // 32/5190 is the scaling factor I used to scale the distances, yeah it's hard coded. I'm sorry
+        // Also the orbit speed is relative to the revolution
+        angleRev += (dt) * M_PI/100000 * (orbitSpeed / revolution * 32 / 5910);
         model = glm::translate(glm::mat4(1.0f), glm::vec3( (3.0f + revolution) * (glm::sin(angleRev)), 0, (3.0f + revolution) * (glm::cos(angleRev)) ));
-    else
+    } else {
+        angleRev += (dt) * M_PI/100000 * (orbitSpeed);
         model = glm::translate(glm::mat4(1.0f), glm::vec3( revolution * (glm::sin(angleRev)), 0, revolution * (glm::cos(angleRev)) ));
-    angleRotate += dt * M_PI/1000;
-    model = glm::rotate(model, (rotation * angleRotate), glm::vec3(0.0, 1.0, 0.0));
+    }
+
+    // Next rotate the actual object
+    angleRotate += (dt) * M_PI/100000 * rotationSpeed;
+    model = glm::rotate(model, (angleRotate), glm::vec3(0.0, 1.0, 0.0));
+
+    // Now scale it to the appropiate size
 	model = glm::scale(model, glm::vec3(radius, radius, radius));
 }
 
-void meshEntry::SetStart(float angle){
+void meshEntry::SetStart(float angle, int planetIndex){
     angleRev = angle;
+    isSun = (planetIndex == 0 || planetIndex >= 10); // Checks if this is not space or the sun
 }

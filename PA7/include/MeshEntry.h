@@ -13,6 +13,7 @@ class meshEntry {
     // ~meshEntry();
     glm::mat4 model;
     float angleRev, angleRotate;
+    bool isSun;
 
   public:
 
@@ -25,9 +26,9 @@ class meshEntry {
     unsigned int MaterialIndex;
 
     bool Init(const std::vector<Vertex> incomingVertices, const std::vector<unsigned int> incomingIndices);
-    void SetStart(float angle);
+    void SetStart(float angle, int planetIndex);
     glm::mat4 GetModel();
-    void Update(unsigned int dt, int offset, float radius, float rotation, float revolution);
+    void Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed);
 };
 
 

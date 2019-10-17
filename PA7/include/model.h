@@ -20,7 +20,8 @@ struct setting
 	std::string name;
 	int index;
 	float radius;
-	float rotation;
+	float rotationSpeed;
+  float orbitSpeed;
 	float revolution;
   float start;
 };
@@ -44,7 +45,7 @@ class model
     void Render();
     
     glm::mat4 GetModel();
-  	void Update(unsigned int dt, int offset);
+  	void Update(unsigned int dt);
 };
 
 #endif /* MODEL_H*/
