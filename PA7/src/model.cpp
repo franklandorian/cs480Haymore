@@ -171,3 +171,10 @@ std::string model::getName() const
 	return m_setting.name;
 }
 
+void model::speedUp(){
+  meshes[0].speedUp();
+}
+
+void model::speedDown(){
+  meshes[0].speedDown();
+}

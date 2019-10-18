@@ -311,3 +311,11 @@ void Graphics::initSetting(char* settingFilename)
 		}
 	}
 }
+
+void Graphics::increaseSpeed(){
+  m_objs[0]->speedUp();
+}
+
+void Graphics::decreaseSpeed(){
+  m_objs[0]->speedDown();
+}

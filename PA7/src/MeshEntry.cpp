@@ -1,5 +1,6 @@
 #include "MeshEntry.h"
 
+float meshEntry::speed = 20.0f;
 bool meshEntry::Init(const std::vector<Vertex> incomingVertices, const std::vector<unsigned int> incomingIndices){
     Vertices = incomingVertices;
     Indices = incomingIndices;
@@ -24,7 +25,7 @@ glm::mat4 meshEntry::GetModel(){
 void meshEntry::Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed, float xPos, float yPos, float zPos ){
 
     // First where it should translate to
-    dt *= 20;
+    dt *= speed;
 
     if(!isSun){
         // 32/5190 is the scaling factor I used to scale the distances, yeah it's hard coded. I'm sorry
@@ -66,4 +67,12 @@ float meshEntry::getZ() const
 float meshEntry::getA() const
 {
 	return model[3][3];
+}
+
+void meshEntry::speedUp(){
+    speed *= 2;
+}
+
+void meshEntry::speedDown(){
+    speed /= 2;
 }
