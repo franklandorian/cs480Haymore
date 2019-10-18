@@ -46,7 +46,9 @@ model::model(std::string filename, setting set)
 	m_setting.orbitSpeed = set.orbitSpeed;
 	m_setting.revolution = set.revolution;
  	m_setting.start = set.start;
+	m_setting.numMoons = set.numMoons;
 	m_setting.moon = set.moon;
+
 
  	meshes[0].SetStart(m_setting.start, m_setting.index, m_setting.moon);
 
@@ -80,6 +82,8 @@ void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
 
     // Store into mesh
     meshes[Index].Init(temp_vertices, temp_indices);
+
+		srand( time(0) );
 }
 
 model::~model()
@@ -139,12 +143,34 @@ void model::Update(unsigned int dt, float revOffset, float x, float y, float z, 
 		//std::cout << x << " " << y << " " << z << "\n";
 		meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset, x, y, z);		// space tether overload
 	}
-	else if (m_setting.moon)
+	else if (name.compare("moon") == 0)
 	{
-		meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset, x, y, z);		// moon overload
+		meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, 3 , x, y, z);		// moon overload
 	}
 	else
   	meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset);
+}
+
+void model::setMoon(model* moon)
+{
+	m_moonObj = moon;
+	m_moons.push_back(m_moonObj);
+}
+
+void model::moonUpdates(unsigned int dt, int i)
+{
+	
+	m_moons[i]->Update(dt, m_setting.radius/15.0, getX(), getY(), getZ(), "moon"); 
+}
+
+glm::mat4 model::GetMoonModel(int i)
+{
+	return m_moons[i]->GetModel();
+}
+
+model* model::getMoon(int i)
+{
+	return m_moons[i];
 }
 
 // getters for position of object
@@ -189,4 +215,9 @@ void model::speedDown(){
 float model::getRadius() const
 {
 	return m_setting.radius;
+}
+
+float model::getNumMoons() const
+{
+	return m_setting.numMoons;
 }

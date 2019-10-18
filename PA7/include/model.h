@@ -24,6 +24,7 @@ struct setting
   float orbitSpeed;
 	float revolution;
   float start;
+	float numMoons;
 	int moon;
 };
 
@@ -39,6 +40,9 @@ class model
     void InitMesh(unsigned int Index, const aiMesh* paiMesh);
 	setting m_setting;
 
+		model* m_moonObj;
+		std::vector<model*> m_moons;
+
 	public:
     model(std::string objectFilename, setting set);
     ~model();
@@ -51,6 +55,10 @@ class model
 		void speedUp();
 		void speedDown();
 
+		void setMoon(model *moon);
+		void moonUpdates(unsigned int dt, int i);
+		glm::mat4 GetMoonModel(int i);
+		model* getMoon(int i);
 
 		// getters for position of object
 		float getX() const;
@@ -61,6 +69,7 @@ class model
 		int getIndex() const;
 		std::string getName() const;
 		float getRadius() const;
+		float getNumMoons() const;
 };
 
 #endif /* MODEL_H*/

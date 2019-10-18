@@ -46,6 +46,26 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 	{
 		m_objs.push_back(new model(allFiles[i], m_settings[i]));
 	}
+
+	setting randSetting;
+	// give moon pointer to planets who need moonds
+	for (int i = 0; i < m_objs.size(); ++i)
+	{
+		for (int j = 0; j < m_objs[i]->getNumMoons(); ++j)
+		{
+			randSetting.name = "moon";
+			randSetting.index = m_objs[i]->getIndex();
+			randSetting.radius = m_objs[i]->getRadius() / 2;
+			randSetting.rotationSpeed = 0.15f;
+			randSetting.orbitSpeed = 10.2f;
+			randSetting.revolution =  m_objs[i]->getRadius();
+			randSetting.start = j;
+			randSetting.numMoons = 0.0;
+			randSetting.moon = 1;
+			m_objs[i]->setMoon(new model(allFiles[11], randSetting));		// i => 11 for the moon
+			randSetting = {};
+		}
+	}
 	
   // Init Camera
   m_camera = new Camera();
@@ -118,7 +138,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 void Graphics::Update(unsigned int dt)
 {
   // Update the objects
-  for (int i = 0; i < m_objs.size(); ++i)
+  for (int i = 0; i < m_objs.size() - 1; ++i)		// -1 to not worry about individual moon object, i => 11
 	{
 		if( m_objs[i]->getName().compare("Space") == 0)
 		{
@@ -126,13 +146,14 @@ void Graphics::Update(unsigned int dt)
 			float x = camPos[0], y = camPos[1], z = camPos[2];
 			m_objs[i]->Update(dt, 0, x, y, z, m_objs[i]->getName());
 		}
-		else if (m_objs[i]->isMoon())
-		{
-			int parent = m_objs[i]->getIndex() + 1;
-			m_objs[i]->Update(dt, m_objs[parent]->getRadius(), m_objs[parent]->getX(), m_objs[parent]->getY(), m_objs[parent]->getZ());
-		}
-		else
+		else {
 			m_objs[i]->Update(dt, m_objs[1]->getRadius());
+			// update each moon of each planet
+			for (int j = 0; j < m_objs[i]->getNumMoons(); ++j)
+			{
+				m_objs[i]->moonUpdates(dt, j);
+			}
+		}
 	}
 }
 
@@ -207,10 +228,16 @@ void Graphics::Render()
 
   // Render the object
 	// NEED TO RENDER EACH OBJECT
-	for (int i = 0; i < m_objs.size(); ++i)
+	for (int i = 0; i < m_objs.size() - 1; ++i)
 	{  
 		glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetModel()));
 		m_objs[i]->Render();
+		// nested for loop for moon rendering
+		for (int j = 0; j < m_objs[i]->getNumMoons(); j++)
+		{
+			glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetMoonModel(j)));
+			m_objs[i]->getMoon(j)->Render();
+		}
 	}
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -294,6 +321,8 @@ void Graphics::initSetting(char* settingFilename)
 				passIn.revolution = val;
       else if (name.compare("start") == 0)
         passIn.start = val;
+			else if (name.compare("moons") == 0)
+        passIn.numMoons = val;
 		}
 		else if (regex_search(lines[i], setMatch, objNamePull))
 		{
