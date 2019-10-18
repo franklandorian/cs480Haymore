@@ -153,6 +153,7 @@ void model::Update(unsigned int dt, float revOffset, float x, float y, float z, 
 	}
 	else
   	meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset);
+
 }
 
 void model::setMoon(model* moon)
