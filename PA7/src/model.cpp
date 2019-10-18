@@ -172,11 +172,15 @@ std::string model::getName() const
 }
 
 void model::speedUp(){
+  // Doesn't matter what mesh, we just need to change speed of ALL
   meshes[0].speedUp();
 }
 
 void model::speedDown(){
+  // Doesn't matter what mesh, we just need to change speed of ALL
   meshes[0].speedDown();
+}
+
 float model::getRadius() const
 {
 	return m_setting.radius;
