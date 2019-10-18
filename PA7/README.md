@@ -1,4 +1,4 @@
-# Project 7 - Solar System
+# Project 7 - Solar System :milky_way: :stars:
 ## Team Members - Kyle Respicio, Franklin Haymore, Ilya Kuznetsov
 
 
