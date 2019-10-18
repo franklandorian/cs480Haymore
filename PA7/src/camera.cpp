@@ -76,6 +76,12 @@ void Camera::update(unsigned int DT){
 	if(keystate[SDL_SCANCODE_D] == 1){
 		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 	}
+	if(keystate[SDL_SCANCODE_Q] == 1){
+		cameraPos += cameraSpeed * cameraUp;
+	}
+	if(keystate[SDL_SCANCODE_E] == 1){
+		cameraPos -= cameraSpeed * cameraUp;
+	}
 }
 
 void Camera::update(){
