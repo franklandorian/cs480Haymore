@@ -120,7 +120,13 @@ void Graphics::Update(unsigned int dt)
   // Update the objects
   for (int i = 0; i < m_objs.size(); ++i)
 	{
-		if (m_objs[i]->isMoon())
+		if( m_objs[i]->getName().compare("Space") == 0)
+		{
+			glm::vec3 camPos = m_camera->getCameraPos();
+			float x = camPos[0], y = camPos[1], z = camPos[2];
+			m_objs[i]->Update(dt, 0, x, y, z, m_objs[i]->getName());
+		}
+		else if (m_objs[i]->isMoon())
 		{
 			int parent = m_objs[i]->getIndex() + 1;
 			m_objs[i]->Update(dt, m_objs[parent]->getRadius(), m_objs[parent]->getX(), m_objs[parent]->getY(), m_objs[parent]->getZ());

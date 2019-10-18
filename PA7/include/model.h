@@ -46,7 +46,7 @@ class model
     void Render();
     
     glm::mat4 GetModel();
-  	void Update(unsigned int dt, float revOffset, float x = 0.0f, float y = 0.0f, float z = 0.0f);
+  	void Update(unsigned int dt, float revOffset, float x = 0.0f, float y = 0.0f, float z = 0.0f, std::string objName = "");
 
 		// getters for position of object
 		float getX() const;
