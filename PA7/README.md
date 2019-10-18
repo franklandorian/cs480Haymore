@@ -11,6 +11,8 @@ Interaction Keys | Description
 <kbd>1-9</kbd> | Zoom onto the Specific Planet
 <kbd>r</kbd> | Reset the view to the default
 <kbd>f</kbd> | Change from focus view to free camera
+<kbd>&uarr;</kbd> | Speed Up
+<kbd>&darr;</kbd> | Speed Down
 
 
 ### Free camera view
