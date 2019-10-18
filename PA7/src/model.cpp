@@ -48,7 +48,7 @@ model::model(std::string filename, setting set)
  	m_setting.start = set.start;
 	m_setting.moon = set.moon;
 
- 	meshes[0].SetStart(m_setting.start, m_setting.index);
+ 	meshes[0].SetStart(m_setting.start, m_setting.index, m_setting.moon);
 
 	// srand(time(NULL));
 }

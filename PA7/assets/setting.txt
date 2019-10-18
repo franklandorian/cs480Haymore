@@ -22,7 +22,7 @@ Mercury: 1
 radius: 0.083
 rotationSpeed: 0.66643
 orbitSpeed: 47.4
-revolution: 1.0
+revolution: 0.309
 star: 0.0
 start: 15.0
 moons: 0.0
@@ -110,8 +110,8 @@ isMoon: 0
 !
 Moon: 3
 radius: 0.15
-rotationSpeed: 2.0
-orbitSpeed: 1.7
+rotationSpeed: 0.13
+orbitSpeed: 110.7
 revolution: 0.1
 star: 0.0
 start: 0.0
