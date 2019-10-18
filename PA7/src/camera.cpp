@@ -21,6 +21,8 @@ bool Camera::Initialize(int w, int h)
   cameraPos = glm::vec3(0.0f,0.0f,3.0f);
   cameraFront = glm::vec3(0.0,0.0,-1.0);
   cameraUp = glm::vec3(0.0,-1.0,0.0);
+  yaw = 0.0f;
+  pitch = 0.0f;
   setFocus(glm::vec3(0.0,0.0,0.0), glm::vec3(0.0,-8.0,-16.0));
   update();
     // view = glm::lookAt( glm::vec3(0.0, 8.0, -16.0), //Eye Position
