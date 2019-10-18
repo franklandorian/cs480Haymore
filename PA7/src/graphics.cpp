@@ -119,8 +119,15 @@ void Graphics::Update(unsigned int dt)
 {
   // Update the objects
   for (int i = 0; i < m_objs.size(); ++i)
-		m_objs[i]->Update(dt);
-
+	{
+		if (m_objs[i]->isMoon())
+		{
+			int parent = m_objs[i]->getIndex() + 1;
+			m_objs[i]->Update(dt, m_objs[parent]->getX(), m_objs[parent]->getY(), m_objs[parent]->getZ());
+		}
+		else
+			m_objs[i]->Update(dt);
+	}
 }
 
 void Graphics::updateCamera(){
@@ -274,8 +281,15 @@ void Graphics::initSetting(char* settingFilename)
 		{
 			name = setMatch[1];
 			index = stoi(setMatch[2]);
-			passIn.name = name;
-			passIn.index = index;
+			if (name.compare("isMoon") == 0)
+			{
+				passIn.moon = index;
+			}
+			else
+			{
+				passIn.name = name;
+				passIn.index = index;
+			}
 		}
 		else if (regex_search(lines[i], setMatch, objEndPull))
 		{

@@ -28,7 +28,13 @@ class meshEntry {
     bool Init(const std::vector<Vertex> incomingVertices, const std::vector<unsigned int> incomingIndices);
     void SetStart(float angle, int planetIndex);
     glm::mat4 GetModel();
-    void Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed);
+    void Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed, float xPos = 0.0f, float yPos = 0.0f, float zPos = 0.0f );
+
+		// getters for position of object
+		float getX() const;
+		float getY() const;
+		float getZ() const;
+		float getA() const;
 };
 
 
