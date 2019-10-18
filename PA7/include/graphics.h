@@ -13,6 +13,7 @@ using namespace std;
 #include "shader.h"
 #include "object.h"
 #include "model.h"
+#include "moon.h"
 
 class Graphics
 {
@@ -36,6 +37,7 @@ class Graphics
     GLint m_modelMatrix;
 
 	vector<model*> m_objs;
+  // vector<vector<moon>> m_moons;
 	vector<setting> m_settings; 
 
 	// util functions

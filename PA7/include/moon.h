@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef MOON_H
+#define MOON_H
 
 #include <vector>
 #include <iostream>
@@ -13,37 +13,20 @@
 
 #include "graphics_headers.h"
 #include "MeshEntry.h"
+#include "model.h"
 
-
-struct setting
-{
-	std::string name;
-	int index;
-	float radius;
-	float rotationSpeed;
-  float orbitSpeed;
-	float revolution;
-  float start;
-  int moons;
-};
-
-class model
+class Moon
 {
   private:
     std::vector<meshEntry> meshes;
     std::vector<GLuint> textures;
-
-    unsigned int meshNumber;
-    unsigned int moonNumber;
+    unsigned int planetIndex;
 
     // Helper Method to initialize and bind each mesh
     void InitMesh(unsigned int Index, const aiMesh* paiMesh);
-    void CreateMoons();
-
-	  setting m_setting;
 
 	public:
-    model(std::string objectFilename, setting set);
+    model(std::string objectFilename);
     ~model();
     void Render();
     
@@ -51,4 +34,4 @@ class model
   	void Update(unsigned int dt);
 };
 
-#endif /* MODEL_H*/
+#endif /* MOON_H*/

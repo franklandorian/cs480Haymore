@@ -1,17 +1,14 @@
-#include "model.h"
-#include <stdlib.h>
-#include <time.h>
+#include "moon.h"
 
-model::model(std::string filename, setting set)
+moon::moon()
 {  
   Assimp::Importer importer;
-  const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
+  const aiScene *scene = importer.ReadFile("../assets/Moon.obj", aiProcess_Triangulate);
   
   // Count and allocate proper memory for the meshes
-	meshNumber = scene->mNumMeshes;
-  moonNumber = set.moons;
-  meshes.resize(meshNumber + moonNumber);
-  textures.resize(scene->mNumMaterials + moonNumber);
+  meshNumber = scene->mNumMeshes;
+  meshes.resize(meshNumber);
+  textures.resize(scene->mNumMaterials);
 
   // Loop throw through the number of meshes
   for(unsigned int iMesh = 0; iMesh < meshNumber; iMesh++){
@@ -38,19 +35,6 @@ model::model(std::string filename, setting set)
       delete image;
     }
   }
-
-	// fill settings
-	m_setting.name = set.name;
-	m_setting.index = set.index;
-	m_setting.radius = set.radius/2; // Since this is radius, we half the current value
-	m_setting.rotationSpeed = set.rotationSpeed;
-	m_setting.orbitSpeed = set.orbitSpeed;
-	m_setting.revolution = set.revolution;
- 	m_setting.start = set.start;
-
- 	meshes[0].SetStart(m_setting.start, m_setting.index);
-
-	// srand(time(NULL));
 }
 
 void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
@@ -117,35 +101,4 @@ void model::Render()
 
 void model::Update(unsigned int dt){
   meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed);
-}
-
-void model::CreateMoons(){
-  Assimp::Importer importer;
-  const aiScene *scene = importer.ReadFile("../assets/Moon.obj", aiProcess_Triangulate);
-
-  // Loop throw through the number of meshes
-  for(unsigned int iMesh = meshNumber; iMesh < moonNumber; iMesh++){
-
-    const aiMesh* paiMesh = scene->mMeshes[0];
-    InitMesh(iMesh, paiMesh);
-
-    // Grab the texture names and run them
-    aiString tName;
-    aiMaterial* mat = scene->mMaterials[1];
-    char textureFile[256]; 
-    if(scene->mNumMaterials > 1 && mat->GetTextureCount(aiTextureType_DIFFUSE) > 0 && mat->GetTexture(aiTextureType_DIFFUSE, 0, &tName) == AI_SUCCESS){
-      strcpy(textureFile,"../assets/");
-      strcat(textureFile, tName.C_Str());
-      Magick::Image *image = new Magick::Image(textureFile);
-      Magick::Blob blob;
-      image->write(&blob, "RGBA");
-
-      glGenTextures(1, &textures[iMesh]);
-      glBindTexture(GL_TEXTURE_2D, textures[iMesh]);
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->columns(), image->rows(), 0, GL_RGBA, GL_UNSIGNED_BYTE, blob.data());
-      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      delete image;
-    }
-  }
 }

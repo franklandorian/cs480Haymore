@@ -36,8 +36,6 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  
-
 	// Set the setting?
 	initSetting(settingFilename);
 	
@@ -269,6 +267,8 @@ void Graphics::initSetting(char* settingFilename)
 				passIn.revolution = val;
       else if (name.compare("start") == 0)
         passIn.start = val;
+      else if (name.compare("moons") == 0)
+        passIn.moons = int (val);
 		}
 		else if (regex_search(lines[i], setMatch, objNamePull))
 		{
