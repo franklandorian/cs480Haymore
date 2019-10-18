@@ -145,7 +145,11 @@ void model::Update(unsigned int dt, float revOffset, float x, float y, float z, 
 	}
 	else if (name.compare("moon") == 0)
 	{
-		meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, 3 , x, y, z);		// moon overload
+			//std::cout << m_setting.radius << std::endl;
+			if (m_setting.radius > 0.08f)
+				meshes[0].Update(dt, m_setting.radius/6.0f,	m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset , x, y, z);		// moon overload
+			else
+				meshes[0].Update(dt, m_setting.radius/0.5f,	m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset , x, y, z);		// moon overload
 	}
 	else
   	meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset);
@@ -157,10 +161,11 @@ void model::setMoon(model* moon)
 	m_moons.push_back(m_moonObj);
 }
 
-void model::moonUpdates(unsigned int dt, int i)
+void model::moonUpdates(unsigned int dt, float planetOffset, int i)
 {
-	
-	m_moons[i]->Update(dt, m_setting.radius/15.0, getX(), getY(), getZ(), "moon"); 
+	// assign some y offset for moons to stagger around planets and look better
+	float y = i%2==0 ?  getY()+m_setting.radius / (i+1):  getY()-m_setting.radius / (i+1);
+	m_moons[i]->Update(dt, planetOffset, getX(), y, getZ(), "moon"); 
 }
 
 glm::mat4 model::GetMoonModel(int i)

@@ -65,7 +65,7 @@ orbitSpeed: 13.1
 revolution: 4.218
 star: 0.0
 start: 93.5
-moons: 15.0
+moons: 40.0
 isMoon: 0
 !
 Saturn: 6
@@ -75,7 +75,7 @@ orbitSpeed: 9.7
 revolution: 7.742
 star: 0.0
 start: 258.5
-moons: 10.0
+moons: 25.0
 isMoon: 0
 !
 Uranus: 7
@@ -105,7 +105,7 @@ orbitSpeed: 4.7
 revolution: 27.0
 star: 1.0
 start: 12.0
-moons: 0.0
+moons: 5.0
 isMoon: 0
 !
 Moon: 3

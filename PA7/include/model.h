@@ -56,7 +56,7 @@ class model
 		void speedDown();
 
 		void setMoon(model *moon);
-		void moonUpdates(unsigned int dt, int i);
+		void moonUpdates(unsigned int dt, float planetOffset, int i);
 		glm::mat4 GetMoonModel(int i);
 		model* getMoon(int i);
 

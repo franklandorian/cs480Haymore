@@ -55,7 +55,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 		{
 			randSetting.name = "moon";
 			randSetting.index = m_objs[i]->getIndex();
-			randSetting.radius = m_objs[i]->getRadius() / 2;
+			randSetting.radius = m_objs[i]->getRadius() / 2.5f;
 			randSetting.rotationSpeed = 0.15f;
 			randSetting.orbitSpeed = 10.2f;
 			randSetting.revolution =  m_objs[i]->getRadius();
@@ -151,7 +151,7 @@ void Graphics::Update(unsigned int dt)
 			// update each moon of each planet
 			for (int j = 0; j < m_objs[i]->getNumMoons(); ++j)
 			{
-				m_objs[i]->moonUpdates(dt, j);
+				m_objs[i]->moonUpdates(dt, m_objs[i]->getRadius() , j);
 			}
 		}
 	}
