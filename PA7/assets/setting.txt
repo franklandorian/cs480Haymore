@@ -20,7 +20,7 @@ isMoon: 0
 !
 Mercury: 1
 radius: 0.083
-rotationSpeed: 0.003
+rotationSpeed: 0.66643
 orbitSpeed: 47.4
 revolution: 1.0
 star: 0.0

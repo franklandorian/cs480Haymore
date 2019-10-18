@@ -130,8 +130,20 @@ void Graphics::Update(unsigned int dt)
 	}
 }
 
+void Graphics::processInput(unsigned int DT){
+	m_camera->update(DT);
+}
+
 void Graphics::updateCamera(){
   m_camera->update();
+}
+
+void Graphics::mouseMovement(float deltaX, float deltaY, unsigned int DT){
+	m_camera->mouseMovement(deltaX, deltaY, DT);
+}
+
+void Graphics::toggleFreeFly(){
+	m_camera->toggleFreeFly();
 }
 
 void Graphics::updateCamera(SDL_Keycode keycode){
@@ -141,7 +153,7 @@ void Graphics::updateCamera(SDL_Keycode keycode){
   }else if(keycode >= 48 && keycode <= 58){
     switch (keycode-48){
       case 1:
-        followDistance = glm::vec3(0.0,-0.2,0.1);
+        followDistance = glm::vec3(0.0,-0.1,0.1);
       break;
       case 2:
         followDistance = glm::vec3(0.0,-0.3,0.5);
