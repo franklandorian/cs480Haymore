@@ -26,6 +26,8 @@ class Graphics
     void mouseMovement(float deltaX, float deltaY, unsigned int DT);
     void toggleFreeFly();
     void updateCamera(SDL_Keycode keycode);
+    void increaseSpeed();
+    void decreaseSpeed();
     void Render();
 
   private:

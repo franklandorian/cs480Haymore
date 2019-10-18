@@ -37,8 +37,7 @@ class model
 
     // Helper Method to initialize and bind each mesh
     void InitMesh(unsigned int Index, const aiMesh* paiMesh);
-
-	  setting m_setting;
+	setting m_setting;
 
 	public:
     model(std::string objectFilename, setting set);
@@ -46,6 +45,8 @@ class model
     void Render();
     
     glm::mat4 GetModel();
+	void speedUp();
+	void speedDown();
   	void Update(unsigned int dt, float revOffset, float x = 0.0f, float y = 0.0f, float z = 0.0f);
 
 		// getters for position of object

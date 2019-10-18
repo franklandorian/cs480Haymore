@@ -95,6 +95,10 @@ void Engine::Keyboard()
       m_graphics->updateCamera(m_event.key.keysym.sym);
     }else if(m_event.key.keysym.sym == SDLK_f){
       m_graphics->toggleFreeFly();
+    }else if(m_event.key.keysym.sym == SDLK_UP){
+      m_graphics->increaseSpeed();
+    }else if(m_event.key.keysym.sym == SDLK_DOWN){
+      m_graphics->decreaseSpeed();
     }
   }else if(m_event.type == SDL_MOUSEMOTION){
   	m_graphics->mouseMovement(m_event.motion.xrel, m_event.motion.yrel, m_DT);
