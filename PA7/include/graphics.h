@@ -21,7 +21,10 @@ class Graphics
     ~Graphics();
     bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* settingFilename, std::vector<std::string> allFiles);
     void Update(unsigned int dt);
+    void processInput(unsigned int DT);
     void updateCamera();
+    void mouseMovement(float deltaX, float deltaY, unsigned int DT);
+    void toggleFreeFly();
     void updateCamera(SDL_Keycode keycode);
     void Render();
 

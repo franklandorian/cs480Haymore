@@ -1,5 +1,5 @@
 Space: -1
-radius: 60.0
+radius: 80.0
 rotationSpeed: 0.0
 orbitSpeed: 0.0
 revolution: 0.0
@@ -18,7 +18,7 @@ moons: 0.0
 !
 Mercury: 1
 radius: 0.083
-rotationSpeed: 0.003
+rotationSpeed: 0.66643
 orbitSpeed: 47.4
 revolution: 0.309
 star: 0.0
