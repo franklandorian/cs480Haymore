@@ -14,6 +14,7 @@ class meshEntry {
     glm::mat4 model;
     float angleRev, angleRotate;
     bool isSun;
+    static float speed;
 		bool isMoon;
 
   public:
@@ -26,6 +27,8 @@ class meshEntry {
     unsigned int NumIndices;
     unsigned int MaterialIndex;
 
+    void speedUp();
+    void speedDown();
     bool Init(const std::vector<Vertex> incomingVertices, const std::vector<unsigned int> incomingIndices);
     void SetStart(float angle, int planetIndex, int moon);
     glm::mat4 GetModel();

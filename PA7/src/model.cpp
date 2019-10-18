@@ -136,7 +136,7 @@ glm::mat4 model::GetModel(){
 void model::Update(unsigned int dt, float revOffset, float x, float y, float z, std::string name){
 	if (name.compare("Space") == 0)
 	{
-		std::cout << x << " " << y << " " << z << "\n";
+		//std::cout << x << " " << y << " " << z << "\n";
 		meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset, x, y, z);		// space tether overload
 	}
 	else if (m_setting.moon)
@@ -174,6 +174,16 @@ int model::getIndex() const
 std::string model::getName() const
 {
 	return m_setting.name;
+}
+
+void model::speedUp(){
+  // Doesn't matter what mesh, we just need to change speed of ALL
+  meshes[0].speedUp();
+}
+
+void model::speedDown(){
+  // Doesn't matter what mesh, we just need to change speed of ALL
+  meshes[0].speedDown();
 }
 
 float model::getRadius() const
