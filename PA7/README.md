@@ -46,3 +46,4 @@ Mouse | Change camera view
 * Config file
 * Neptune and Uranus have rings
 * Free roam camera
+* Space is tethered to the Camera
