@@ -22,16 +22,22 @@ glm::mat4 meshEntry::GetModel(){
     return model;
 }
 
-void meshEntry::Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed, float xPos, float yPos, float zPos ){
+void meshEntry::Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed, float orbitOffset, float xPos, float yPos, float zPos ){
 
     // First where it should translate to
     dt *= speed;
 
-    if(!isSun){
+		if (isMoon){
         // 32/5190 is the scaling factor I used to scale the distances, yeah it's hard coded. I'm sorry
         // Also the orbit speed is relative to the revolution
         angleRev += (dt) * M_PI/100000 * (orbitSpeed / revolution * 32 / 5910);
-        model = glm::translate(glm::mat4(1.0f), glm::vec3( xPos + ((3.0f + revolution) * (glm::sin(angleRev))), yPos + 0, zPos + ((3.0f + revolution) * (glm::cos(angleRev))) ));
+        model = glm::translate(glm::mat4(1.0f), glm::vec3( xPos + ((orbitOffset + revolution) * (glm::sin(angleRev))), yPos + 0, zPos + ((orbitOffset + revolution) * (glm::cos(angleRev))) ));
+		}
+    else if(!isSun){
+        // 32/5190 is the scaling factor I used to scale the distances, yeah it's hard coded. I'm sorry
+        // Also the orbit speed is relative to the revolution
+        angleRev += (dt) * M_PI/100000 * (orbitSpeed / revolution * 32 / 5910);
+        model = glm::translate(glm::mat4(1.0f), glm::vec3( xPos + ((orbitOffset + revolution) * (glm::sin(angleRev))), yPos + 0, zPos + ((orbitOffset + revolution) * (glm::cos(angleRev))) ));
     } else {
         angleRev += (dt) * M_PI/100000 * (orbitSpeed);
         model = glm::translate(glm::mat4(1.0f), glm::vec3( revolution * (glm::sin(angleRev)), 0, revolution * (glm::cos(angleRev)) ));
@@ -46,9 +52,10 @@ void meshEntry::Update(unsigned int dt, float radius, float revolution, float ro
 
 }
 
-void meshEntry::SetStart(float angle, int planetIndex){
+void meshEntry::SetStart(float angle, int planetIndex, int moon){
     angleRev = angle;
     isSun = (planetIndex == 0 || planetIndex >= 10); // Checks if this is not space or the sun
+		isMoon = moon;
 }
 
 // getters for position of object

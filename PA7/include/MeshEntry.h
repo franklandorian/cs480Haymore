@@ -15,6 +15,7 @@ class meshEntry {
     float angleRev, angleRotate;
     bool isSun;
     static float speed;
+		bool isMoon;
 
   public:
 
@@ -29,9 +30,9 @@ class meshEntry {
     void speedUp();
     void speedDown();
     bool Init(const std::vector<Vertex> incomingVertices, const std::vector<unsigned int> incomingIndices);
-    void SetStart(float angle, int planetIndex);
+    void SetStart(float angle, int planetIndex, int moon);
     glm::mat4 GetModel();
-    void Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed, float xPos = 0.0f, float yPos = 0.0f, float zPos = 0.0f );
+    void Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed, float orbitOffset, float xPos = 0.0f, float yPos = 0.0f, float zPos = 0.0f );
 
 		// getters for position of object
 		float getX() const;

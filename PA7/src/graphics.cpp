@@ -123,10 +123,10 @@ void Graphics::Update(unsigned int dt)
 		if (m_objs[i]->isMoon())
 		{
 			int parent = m_objs[i]->getIndex() + 1;
-			m_objs[i]->Update(dt, m_objs[parent]->getX(), m_objs[parent]->getY(), m_objs[parent]->getZ());
+			m_objs[i]->Update(dt, m_objs[parent]->getRadius(), m_objs[parent]->getX(), m_objs[parent]->getY(), m_objs[parent]->getZ());
 		}
 		else
-			m_objs[i]->Update(dt);
+			m_objs[i]->Update(dt, m_objs[1]->getRadius());
 	}
 }
 
