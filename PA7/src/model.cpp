@@ -133,13 +133,13 @@ glm::mat4 model::GetModel(){
   return meshes[0].GetModel();
 }
 
-void model::Update(unsigned int dt, float x, float y, float z){
+void model::Update(unsigned int dt, float revOffset, float x, float y, float z){
 	if (m_setting.moon)
 	{
-		meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, x, y, z);		// moon overload
+		meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset, x, y, z);		// moon overload
 	}
 	else
-  	meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed);
+  	meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset);
 }
 
 // getters for position of object
@@ -171,3 +171,7 @@ std::string model::getName() const
 	return m_setting.name;
 }
 
+float model::getRadius() const
+{
+	return m_setting.radius;
+}

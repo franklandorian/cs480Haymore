@@ -42,7 +42,7 @@ Earth: 3
 radius: 0.223
 rotationSpeed: 0.465
 orbitSpeed: 29.8
-revolution: 0.812
+revolution: 0.95
 star: 0.0
 start: 199.78
 moons: 1.0
@@ -52,7 +52,7 @@ Mars: 4
 radius: 0.119
 rotationSpeed: 0.241
 orbitSpeed: 24.1
-revolution: 1.235
+revolution: 1.35
 star: 0.0
 start: 301.98
 moons: 0.0
@@ -109,7 +109,7 @@ moons: 0.0
 isMoon: 0
 !
 Moon: 3
-radius: 0.15
+radius: 0.1
 rotationSpeed: 0.13
 orbitSpeed: 110.7
 revolution: 0.1

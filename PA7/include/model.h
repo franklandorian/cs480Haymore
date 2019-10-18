@@ -46,7 +46,7 @@ class model
     void Render();
     
     glm::mat4 GetModel();
-  	void Update(unsigned int dt, float x = 0.0f, float y = 0.0f, float z = 0.0f);
+  	void Update(unsigned int dt, float revOffset, float x = 0.0f, float y = 0.0f, float z = 0.0f);
 
 		// getters for position of object
 		float getX() const;
@@ -56,6 +56,7 @@ class model
 		int isMoon() const;
 		int getIndex() const;
 		std::string getName() const;
+		float getRadius() const;
 };
 
 #endif /* MODEL_H*/
