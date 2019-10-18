@@ -20,10 +20,15 @@ Interaction Keys | Description
 ------------ | -------------
 Mouse | Change camera view
 <kbd>w</kbd> | Fly forward
-<kbd>a</kbd> | Fly backwards
-<kbd>s</kbd> | Fly to the reft
+<kbd>a</kbd> | Fly to the left
+<kbd>s</kbd> | Fly backwards
 <kbd>d</kbd> | Fly to the right
 <kbd>e</kbd> | Fly down
 <kbd>q</kbd> | Fly up
 <kbd>f</kbd> | Change from free camera to focus view
 
+### Extra Credit
+* Ability to slow down/speed up time
+* Config file
+* Neptune and Uranus have rings
+* Free roam camera
