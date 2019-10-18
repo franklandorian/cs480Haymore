@@ -1,6 +1,20 @@
 # Project 7 - Solar System :milky_way: :stars:
 ## Team Members - Kyle Respicio, Franklin Haymore, Ilya Kuznetsov
 
+## Instructions
+
+Firstly, you must be in the PA7 folder. Then run the following
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+./PA7 config.txt
+```
+
+To render different objects or use different shaders, change the flagged files in the config file.
+To adjust speed, distance, size, etc. change the setting.txt in the assets folder.
 
 ## Controls
 
