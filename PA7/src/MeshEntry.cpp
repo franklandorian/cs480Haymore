@@ -21,7 +21,7 @@ glm::mat4 meshEntry::GetModel(){
     return model;
 }
 
-void meshEntry::Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed){
+void meshEntry::Update(unsigned int dt, float radius, float revolution, float rotationSpeed, float orbitSpeed, float xPos, float yPos, float zPos ){
 
     // First where it should translate to
     dt *= 20;
@@ -30,7 +30,7 @@ void meshEntry::Update(unsigned int dt, float radius, float revolution, float ro
         // 32/5190 is the scaling factor I used to scale the distances, yeah it's hard coded. I'm sorry
         // Also the orbit speed is relative to the revolution
         angleRev += (dt) * M_PI/100000 * (orbitSpeed / revolution * 32 / 5910);
-        model = glm::translate(glm::mat4(1.0f), glm::vec3( (3.0f + revolution) * (glm::sin(angleRev)), 0, (3.0f + revolution) * (glm::cos(angleRev)) ));
+        model = glm::translate(glm::mat4(1.0f), glm::vec3( xPos + ((3.0f + revolution) * (glm::sin(angleRev))), yPos + 0, zPos + ((3.0f + revolution) * (glm::cos(angleRev))) ));
     } else {
         angleRev += (dt) * M_PI/100000 * (orbitSpeed);
         model = glm::translate(glm::mat4(1.0f), glm::vec3( revolution * (glm::sin(angleRev)), 0, revolution * (glm::cos(angleRev)) ));
@@ -42,9 +42,28 @@ void meshEntry::Update(unsigned int dt, float radius, float revolution, float ro
 
     // Now scale it to the appropiate size
 	model = glm::scale(model, glm::vec3(radius, radius, radius));
+
 }
 
 void meshEntry::SetStart(float angle, int planetIndex){
     angleRev = angle;
     isSun = (planetIndex == 0 || planetIndex >= 10); // Checks if this is not space or the sun
+}
+
+// getters for position of object
+float meshEntry::getX() const
+{
+	return model[3][0];
+}
+float meshEntry::getY() const
+{
+	return model[3][1];
+}
+float meshEntry::getZ() const
+{
+	return model[3][2];
+}
+float meshEntry::getA() const
+{
+	return model[3][3];
 }

@@ -46,6 +46,7 @@ model::model(std::string filename, setting set)
 	m_setting.orbitSpeed = set.orbitSpeed;
 	m_setting.revolution = set.revolution;
  	m_setting.start = set.start;
+	m_setting.moon = set.moon;
 
  	meshes[0].SetStart(m_setting.start, m_setting.index);
 
@@ -132,6 +133,41 @@ glm::mat4 model::GetModel(){
   return meshes[0].GetModel();
 }
 
-void model::Update(unsigned int dt){
-  meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed);
+void model::Update(unsigned int dt, float x, float y, float z){
+	if (m_setting.moon)
+	{
+		meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, x, y, z);		// moon overload
+	}
+	else
+  	meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed);
 }
+
+// getters for position of object
+float model::getX() const
+{
+	return meshes[0].getX();
+}
+float model::getY() const
+{
+	return meshes[0].getY();
+}
+float model::getZ() const
+{
+	return meshes[0].getZ();
+}
+
+int model::isMoon() const
+{
+	return m_setting.moon;
+}
+
+int model::getIndex() const
+{
+	return m_setting.index;
+}
+
+std::string model::getName() const
+{
+	return m_setting.name;
+}
+

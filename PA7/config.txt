@@ -11,4 +11,5 @@ obj ../assets/Saturn.obj
 obj ../assets/Uranus.obj
 obj ../assets/Neptune.obj
 obj ../assets/Pluto.obj
+obj ../assets/Moon.obj
 set ../assets/setting.txt

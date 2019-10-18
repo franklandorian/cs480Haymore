@@ -24,6 +24,7 @@ struct setting
   float orbitSpeed;
 	float revolution;
   float start;
+	int moon;
 };
 
 class model
@@ -45,7 +46,16 @@ class model
     void Render();
     
     glm::mat4 GetModel();
-  	void Update(unsigned int dt);
+  	void Update(unsigned int dt, float x = 0.0f, float y = 0.0f, float z = 0.0f);
+
+		// getters for position of object
+		float getX() const;
+		float getY() const;
+		float getZ() const;
+
+		int isMoon() const;
+		int getIndex() const;
+		std::string getName() const;
 };
 
 #endif /* MODEL_H*/
