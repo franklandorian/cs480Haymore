@@ -108,3 +108,7 @@ void Camera::mouseMovement(float deltaX, float deltaY, unsigned int DT){
 	pitch += deltaY;
 }
 
+glm::vec3 Camera::getCameraPos(){
+	return cameraPos;
+}
+
