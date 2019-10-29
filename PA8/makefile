@@ -4,11 +4,11 @@ UNAME_S := $(shell uname -s)
 # Linux
 ifeq ($(UNAME_S), Linux)
 	CC=g++
-	LIBS=-lSDL2 -lGLEW -lGL -lassimp `Magick++-config --ldflags --libs`
+	LIBS=-lSDL2 -lGLEW -lGL -lassimp `Magick++-config --ldflags --libs` -I/usr/include/bullet -lBulletDynamics -lBulletSoftBody -lBulletCollision –lLinearMath
 # Mac
 else
 	CC=clang++
-	LIBS=-lSDL2 -framework OpenGL -framework Cocoa -lGLEW -stdlib=libc++
+	LIBS=-lSDL2 -framework OpenGL -framework Cocoa -lGLEW -stdlib=libc++ -I/usr/include/bullet -lBulletDynamics -lBulletSoftBody -lBulletCollision –lLinearMath
 endif
 
 # Paths, use this to set Include directories, or library directories; uncomment in all: if used
