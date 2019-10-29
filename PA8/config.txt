@@ -1,0 +1,15 @@
+vs ../shaders/vertexShader.txt
+fs ../shaders/fragmentShader.txt
+obj ../assets/Space.obj
+obj ../assets/Sun.obj
+obj ../assets/Mercury.obj
+obj ../assets/Venus.obj
+obj ../assets/Earth.obj
+obj ../assets/Mars.obj
+obj ../assets/Jupiter.obj
+obj ../assets/kyleSaturn.obj
+obj ../assets/kyleUranus.obj
+obj ../assets/kyleNeptune.obj
+obj ../assets/Pluto.obj
+obj ../assets/Moon.obj 	
+set ../assets/setting.txt
