@@ -41,6 +41,7 @@ model::model(std::string filename, objProp props)
 	// set object properties
 	m_Prop.name = props.name;
 	m_Prop.type = props.type;
+	m_Prop.shape = props.shape;
 	m_Prop.startPos[0] = props.startPos[0];
 	m_Prop.startPos[1] = props.startPos[1];
 	m_Prop.startPos[2] = props.startPos[2];
@@ -55,11 +56,17 @@ void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
   std::vector<Vertex> temp_vertices;
   std::vector<unsigned int> temp_indices;
 
+		//btVector3 triArray[3];
+		//btTriangleMesh *objTriMesh = new btTriangleMesh();
+		
     // Store the faces
     for(unsigned int iFaces = 0; iFaces < paiMesh->mNumFaces; iFaces++){
       for(unsigned int index = 0; index < 3; index++){
         temp_indices.emplace_back(paiMesh->mFaces[iFaces].mIndices[index]);
+				//aiVector3D position = paiMesh->[iFaces];
+				//triArray[index] = btVector3(position.x, position.y, position.z);
       }
+			//objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
     }
 
     // Store the Vertices
@@ -138,7 +145,9 @@ void model::Update(unsigned int dt, int objType, float x, float y, float z){
   	meshes[0].Update(dt, 1, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
 	}
 	else if (objType == 2)
+	{
 		meshes[0].Update(dt);
+	}
 }
 
 void model::buttonHandler(SDL_Keycode& sym){
@@ -172,6 +181,11 @@ int model::getObjType() const
 	return m_Prop.type;
 }
 
+int model::getObjShape() const
+{
+	return m_Prop.shape;
+}
+
 
 // getters for position of object
 float model::getX() const
@@ -185,4 +199,8 @@ float model::getY() const
 float model::getZ() const
 {
 	return meshes[0].getZ();
+}
+float model::getW() const
+{
+	return meshes[0].getA();
 }

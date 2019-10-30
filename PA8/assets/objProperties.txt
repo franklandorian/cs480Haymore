@@ -1,19 +1,23 @@
 Board: 2
+shape: 1
 x: 0.0
 y: 0.0
 z: 0.0
 !
 Cube: 1
+shape: 1
 x: 5.0
 y: 5.0
 z: 5.0
 !
 Sphere: 1
+shape: 2
 x: -5.0
 y: -5.0
 z: -5.0
 !
 Cylinder: 1
+shape: 3
 x: 5.0
 y: -5.0
 z: -5.0

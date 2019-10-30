@@ -7,7 +7,13 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-	
+	delete dynamicsWorld;
+	delete solver;
+	delete dispatcher;
+	delete collisionConfiguration;
+	delete broadphase;
+	m_bltObjs.clear();
+	m_bltStates.clear();
 }
 
 bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* propertiesFilename, std::vector<std::string> allFiles)
@@ -47,13 +53,41 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 	}
 
 	// Bullet systems initialization
-	/*broadphase = new btDbvtBroadphase();
+	broadphase = new btDbvtBroadphase();
 	collisionConfiguration = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collisionConfiguration);
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));*/
-	
+	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
+
+	// have to give rigid body to each object
+	for (int i = 0; i < m_objs.size(); ++i)
+	{
+		// build shape 0.5 b/c of scale?
+		if (m_objs[i]->getObjShape() == 1)
+			m_bltObjs.push_back(new btBoxShape (btVector3 (0.5f, 0.5, 0.5f)));
+		else if (m_objs[i]->getObjShape() == 2)
+			m_bltObjs.push_back(new btSphereShape(0.5f));
+		else if (m_objs[i]->getObjShape() == 3)
+			m_bltObjs.push_back(new btCylinderShape (btVector3 (0.5f, 0.5, 0.5f)));
+		m_bltStates.push_back(new btDefaultMotionState(btTransform(btQuaternion(m_objs[i]->getX(), m_objs[i]->getY(), m_objs[i]->getZ(), m_objs[i]->getW()), btVector3(1, 1, 1)))); 	// init as NULL for all before transform
+	}
+
+	//shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(int, int, int, int), btVector3(int, int, int)));
+	for (int i = 0; i < m_bltStates.size(); ++i)
+	{
+		int m = 0;
+		if (m_objs[i]->getObjShape() < 2)
+			m = 1;
+		btScalar mass(m);
+		btVector3 inertia(0,0,0);
+		m_bltObjs[i]->calculateLocalInertia(mass, inertia); 
+		btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, m_bltStates[i], m_bltObjs[i], inertia);
+		m_bltRigids.push_back(new btRigidBody(shapeRigidBodyCI));
+		dynamicsWorld->addRigidBody(m_bltRigids[i]);
+	}
+
+
   // Init Camera
   m_camera = new Camera();
   if(!m_camera->Initialize(width, height))
@@ -283,8 +317,15 @@ void Graphics::initProperties(char* file)
 		{
 			name = setMatch[1];
 			num = stoi(setMatch[2]);
-			passIn.name = name;
-			passIn.type = num;
+			if(name.compare("shape") == 0)
+			{
+				passIn.shape = num;
+			}
+			else
+			{
+				passIn.name = name;
+				passIn.type = num;
+			}
 		}
 		else if (regex_search(lines[i], setMatch, objEndPull))
 		{

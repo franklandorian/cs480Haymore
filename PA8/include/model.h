@@ -19,6 +19,7 @@ struct objProp
 {
 	std::string name;
 	int type = 0;		// 1 = Dynamic, 2 = Static, 3 = Kinematic
+	int shape = -1;	// 0 = rectangle, 1 = spherical, 2 = cylindrical
 	float startPos[3] = {0.0f};	// {x, y, z}
 };
 
@@ -57,11 +58,13 @@ class model
 
 		std::string getObjName() const;
 		int getObjType() const;
+		int getObjShape() const;
 
 		// getters for position of object
 		float getX() const;
 		float getY() const;
 		float getZ() const;
+		float getW() const;
 };
 
 #endif /* MODEL_H*/

@@ -42,6 +42,9 @@ class Graphics
 
 		vector<model*> m_objs;
 		vector<objProp> m_properties; 
+		vector<btCollisionShape *> m_bltObjs;
+		vector<btDefaultMotionState *> m_bltStates;
+		vector<btRigidBody *> m_bltRigids;
 
 		unsigned int m_dt;
 
