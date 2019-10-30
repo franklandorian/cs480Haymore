@@ -27,7 +27,6 @@ Mouse | Change camera view
 ### Object movement
 Interaction Keys | Description
 ------------ | -------------
-
 <kbd>i</kbd> | Move object forward
 <kbd>j</kbd> | Move object left
 <kbd>k</kbd> | Move object backwards
