@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <string>
 #include <vector>
+#include <btBulletDynamicsCommon.h>
 
 #include "window.h"
 #include "graphics.h"

@@ -38,20 +38,25 @@ class model
 		// keeping this in case we have to add some bullshit
 		//std::vector<model*> m_children;
 
+
 	public:
     model(std::string objectFilename, objProp props);	// setting set
     ~model();
     void Render();
     
     glm::mat4 GetModel();
-		float test();
 
-  	void Update(unsigned int dt, float x = 0.0f, float y = 0.0f, float z = 0.0f, std::string objName = "");
+  	void Update(unsigned int dt, int objType = 0, float x = 0.0f, float y = 0.0f, float z = 0.0f);
+	
+		void buttonHandler(SDL_Keycode&);
 
 		/*
 		void setChild(model *child);
 		glm::mat4 GetChildModel(int i);
 		model* getChild(int i);*/
+
+		std::string getObjName() const;
+		int getObjType() const;
 
 		// getters for position of object
 		float getX() const;

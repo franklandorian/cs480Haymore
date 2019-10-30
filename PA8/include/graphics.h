@@ -6,6 +6,7 @@
 #include <string>
 #include <regex>
 #include <sstream>
+#include <btBulletDynamicsCommon.h>
 using namespace std;
 
 #include "graphics_headers.h"
@@ -27,6 +28,7 @@ class Graphics
     void toggleFreeFly();
 		void updateCamera();
    	void updateCamera(SDL_Keycode keycode);
+		model* getModel(int objIndex);
 
   private:
     std::string ErrorString(GLenum error);
@@ -42,6 +44,13 @@ class Graphics
 		vector<objProp> m_properties; 
 
 		unsigned int m_dt;
+
+		// all our bullet stuff
+		btBroadphaseInterface *broadphase;
+		btDefaultCollisionConfiguration *collisionConfiguration;
+		btCollisionDispatcher *dispatcher;
+		btSequentialImpulseConstraintSolver *solver;
+		btDiscreteDynamicsWorld *dynamicsWorld;
 
 		// util functions
 		void initProperties(char*);

@@ -7,7 +7,7 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-
+	
 }
 
 bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* propertiesFilename, std::vector<std::string> allFiles)
@@ -46,6 +46,13 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 		m_objs.push_back(new model(allFiles[i], m_properties[i]));
 	}
 
+	// Bullet systems initialization
+	/*broadphase = new btDbvtBroadphase();
+	collisionConfiguration = new btDefaultCollisionConfiguration();
+	dispatcher = new btCollisionDispatcher(collisionConfiguration);
+	solver = new btSequentialImpulseConstraintSolver;
+	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));*/
 	
   // Init Camera
   m_camera = new Camera();
@@ -121,9 +128,14 @@ void Graphics::Update(unsigned int dt)
   // Update the objects
   for (int i = 0; i < m_objs.size(); ++i)		
 	{
-		m_objs[i]->Update(dt);
+		m_objs[i]->Update(dt, m_objs[i]->getObjType());
 	}
 	//m_camera->printCameraPos();
+}
+
+model* Graphics::getModel(int objIndex)
+{
+	return m_objs[objIndex];
 }
 
 void Graphics::processInput(unsigned int DT){
@@ -147,7 +159,6 @@ void Graphics::updateCamera(SDL_Keycode keycode){
   if(keycode == SDLK_0){
     m_camera->setFocus(m_objs[0], followDistance);
   }else if(keycode >= 48 && keycode <= 58){
-		std::cout << "KEY: " << keycode-48 << "\n";
     switch (keycode-48){
       case 1:
         followDistance = glm::vec3(0.0,-0.1,0.1);

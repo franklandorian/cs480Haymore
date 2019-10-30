@@ -132,13 +132,17 @@ glm::mat4 model::GetModel(){
   return meshes[0].GetModel();
 }
 
-void model::Update(unsigned int dt, float x, float y, float z, std::string name){
-  meshes[0].Update(dt, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
+void model::Update(unsigned int dt, int objType, float x, float y, float z){
+	if (objType == 1)
+	{
+  	meshes[0].Update(dt, 1, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
+	}
+	else if (objType == 2)
+		meshes[0].Update(dt);
 }
 
-float model::test()
-{
-	return meshes[0].getX();
+void model::buttonHandler(SDL_Keycode& sym){
+	meshes[0].buttonHandler(sym);  
 }
 
 /*
@@ -157,6 +161,17 @@ model* model::getChild(int i)
 	return m_children[i];
 }
 */
+
+std::string model::getObjName() const
+{
+	return m_Prop.name;
+}
+
+int model::getObjType() const
+{
+	return m_Prop.type;
+}
+
 
 // getters for position of object
 float model::getX() const

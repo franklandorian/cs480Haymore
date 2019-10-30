@@ -21,7 +21,7 @@ glm::mat4 meshEntry::GetModel(){
     return model;
 }
 
-void meshEntry::Update(unsigned int dt, float xPos, float yPos, float zPos ){
+void meshEntry::Update(unsigned int dt, int rotation, float xPos, float yPos, float zPos ){
 
     // Controlling speed of the sim
     dt *= 1;
@@ -29,10 +29,11 @@ void meshEntry::Update(unsigned int dt, float xPos, float yPos, float zPos ){
 		// I'm pretty sure we'll have to do all the physics accounting here
 		// So I'm gonna save these functions for now
 
+		//std::cout << "in ya thot\n";
 		
     angleRev += (dt) * M_PI/1000;;
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos,yPos, zPos));
-		model = glm::rotate(model, (angleRev), glm::vec3(0.0, 1.0, 0.0));
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos + x,yPos + y, zPos + z));
+		model = glm::rotate(model, (angleRev * rotation), glm::vec3(0.0, 1.0, 0.0));
 		model = glm::scale(model, glm::vec3(0.5,0.5,0.5));
 	/*
     // Next rotate the actual object
@@ -42,6 +43,62 @@ void meshEntry::Update(unsigned int dt, float xPos, float yPos, float zPos ){
     // Now scale it to the appropiate size
 		model = glm::scale(model, glm::vec3(radius, radius, radius)); */
 
+}
+
+void meshEntry::buttonHandler(SDL_Keycode& sym){
+	switch (sym)
+	{
+		  case SDLK_i:
+		    moveForward();
+		    break;
+		  case SDLK_j:
+		    moveLeft();
+		    break;
+		  case SDLK_k:
+		    moveBack();
+		    break;
+		  case SDLK_l:
+		    moveRight();
+		    break;
+			case SDLK_u:
+		    moveUp();
+		    break;
+			case SDLK_o:
+		    moveDown();
+		    break;
+		  default:
+				break;
+		}
+}
+
+void meshEntry::moveForward()
+{	
+	z += 0.18f;
+}
+
+void meshEntry::moveLeft()
+{
+	x -= 0.18f;
+}
+
+void meshEntry::moveBack()
+{
+	z -= 0.18f;
+}
+
+void meshEntry::moveRight()
+{
+	x += 0.18f;
+}
+
+void meshEntry::moveUp()
+{
+	y -= 0.18f;
+}
+
+void meshEntry::moveDown()
+{
+	y += 0.18f;
 }
 
 // getters for position of object
