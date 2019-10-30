@@ -24,7 +24,6 @@ model::model(std::string filename, objProp props)
     char textureFile[256]; 
     if(scene->mNumMaterials > 1 && mat->GetTextureCount(aiTextureType_DIFFUSE) > 0 && mat->GetTexture(aiTextureType_DIFFUSE, 0, &tName) == AI_SUCCESS){
       strcpy(textureFile,"../assets/");
-			std::cout << "name: " << tName.C_Str() << std::endl;
       strcat(textureFile, tName.C_Str());
       Magick::Image *image = new Magick::Image(textureFile);
       Magick::Blob blob;
@@ -135,6 +134,11 @@ glm::mat4 model::GetModel(){
 
 void model::Update(unsigned int dt, float x, float y, float z, std::string name){
   meshes[0].Update(dt, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
+}
+
+float model::test()
+{
+	return meshes[0].getX();
 }
 
 /*

@@ -20,12 +20,13 @@ class Graphics
     ~Graphics();
     bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* propertiesFilename, std::vector<std::string> allFiles);
     void Update(unsigned int dt);
+		void Render();
+
     void processInput(unsigned int DT);
-    void updateCamera();
     void mouseMovement(float deltaX, float deltaY, unsigned int DT);
     void toggleFreeFly();
-    void updateCamera(SDL_Keycode keycode);
-    void Render();
+		void updateCamera();
+   	void updateCamera(SDL_Keycode keycode);
 
   private:
     std::string ErrorString(GLenum error);

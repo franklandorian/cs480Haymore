@@ -91,13 +91,19 @@ void Engine::Keyboard()
     if (m_event.key.keysym.sym == SDLK_ESCAPE)
     {
       m_running = false;
-    }else if(m_event.key.keysym.sym >= SDLK_0 && m_event.key.keysym.sym <= SDLK_9 || m_event.key.keysym.sym == SDLK_r){
+    }
+		else if(m_event.key.keysym.sym >= SDLK_0 && m_event.key.keysym.sym <= SDLK_3 || m_event.key.keysym.sym == SDLK_r)
+		{
       m_graphics->updateCamera(m_event.key.keysym.sym);
-    }else if(m_event.key.keysym.sym == SDLK_f){
+    }
+		else if(m_event.key.keysym.sym == SDLK_f)
+		{
       m_graphics->toggleFreeFly();
-  }else if(m_event.type == SDL_MOUSEMOTION){
+  	}
+	}
+	else if(m_event.type == SDL_MOUSEMOTION)
+	{
   	m_graphics->mouseMovement(m_event.motion.xrel, m_event.motion.yrel, m_DT);
-  }
 	}
 }
 

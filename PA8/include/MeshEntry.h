@@ -13,7 +13,6 @@ class meshEntry {
     // ~meshEntry();
     glm::mat4 model;
     float angleRev, angleRotate;
-    static float speed;
 
   public:
 

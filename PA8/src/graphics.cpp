@@ -123,6 +123,7 @@ void Graphics::Update(unsigned int dt)
 	{
 		m_objs[i]->Update(dt);
 	}
+	//m_camera->printCameraPos();
 }
 
 void Graphics::processInput(unsigned int DT){
@@ -146,6 +147,7 @@ void Graphics::updateCamera(SDL_Keycode keycode){
   if(keycode == SDLK_0){
     m_camera->setFocus(m_objs[0], followDistance);
   }else if(keycode >= 48 && keycode <= 58){
+		std::cout << "KEY: " << keycode-48 << "\n";
     switch (keycode-48){
       case 1:
         followDistance = glm::vec3(0.0,-0.1,0.1);
@@ -154,10 +156,12 @@ void Graphics::updateCamera(SDL_Keycode keycode){
         followDistance = glm::vec3(0.0,-0.3,0.5);
       break;
       case 3:
-        followDistance = glm::vec3(0.0,-0.2,0.4);
-      break;
+        followDistance = glm::vec3(0.0,-0.3,0.5);
+      	break;
+			default:
+				break;
     }
-    m_camera->setFocus(m_objs[keycode-47], followDistance);
+    m_camera->setFocus(m_objs[keycode-48], followDistance);
   }else if(keycode == SDLK_r){
     m_camera->setFocus(glm::vec3(0.0,0.0,0.0), followDistance);
   }
@@ -179,15 +183,9 @@ void Graphics::Render()
   // Render the object
 	// NEED TO RENDER EACH OBJECT
 	for (int i = 0; i < m_objs.size(); ++i)
-	{  
+	{ 
 		glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetModel()));
 		m_objs[i]->Render();
-		/* nested for loop for moon rendering
-		for (int j = 0; j < m_objs[i]->getNumMoons(); j++)
-		{
-			glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetMoonModel(j)));
-			m_objs[i]->getMoon(j)->Render();
-		} */
 	}
   // Get any errors from OpenGL
   auto error = glGetError();

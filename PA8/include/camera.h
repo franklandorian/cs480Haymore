@@ -20,6 +20,7 @@ class Camera
     void update(unsigned int DT);
     void mouseMovement(float deltaX, float deltaY, unsigned int DT);
     glm::vec3 getCameraPos();
+		void printCameraPos();
       
   private:
     float yaw;

@@ -120,5 +120,11 @@ glm::vec3 Camera::getCameraPos(){
 	return cameraPos;
 }
 
+void Camera::printCameraPos()
+{
+	glm::vec3 pos = getCameraPos();
+	std::cout << "Camera POS: " << pos[0] << " " << pos[1] << " " << pos[2] << "\n"; 
+}
+
 
 

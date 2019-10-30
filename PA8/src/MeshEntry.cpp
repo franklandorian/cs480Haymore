@@ -1,6 +1,5 @@
 #include "MeshEntry.h"
 
-float meshEntry::speed = 20.0f;
 bool meshEntry::Init(const std::vector<Vertex> incomingVertices, const std::vector<unsigned int> incomingIndices){
     Vertices = incomingVertices;
     Indices = incomingIndices;
@@ -14,7 +13,7 @@ bool meshEntry::Init(const std::vector<Vertex> incomingVertices, const std::vect
     
     srand(time(NULL));
 
-    angleRotate = 0;
+    angleRotate = angleRev =  0;
     return true;
 }
 
@@ -33,7 +32,8 @@ void meshEntry::Update(unsigned int dt, float xPos, float yPos, float zPos ){
 		
     angleRev += (dt) * M_PI/1000;;
     model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos,yPos, zPos));
-
+		model = glm::rotate(model, (angleRev), glm::vec3(0.0, 1.0, 0.0));
+		model = glm::scale(model, glm::vec3(0.5,0.5,0.5));
 	/*
     // Next rotate the actual object
     angleRotate += (dt) * M_PI/100000 * rotationSpeed;

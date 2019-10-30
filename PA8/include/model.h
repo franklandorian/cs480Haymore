@@ -18,8 +18,8 @@
 struct objProp
 {
 	std::string name;
-	int type;		// 1 = Dynamic, 2 = Static, 3 = Kinematic
-	float startPos[3];	// {x, y, z}
+	int type = 0;		// 1 = Dynamic, 2 = Static, 3 = Kinematic
+	float startPos[3] = {0.0f};	// {x, y, z}
 };
 
 class model
@@ -44,6 +44,7 @@ class model
     void Render();
     
     glm::mat4 GetModel();
+		float test();
 
   	void Update(unsigned int dt, float x = 0.0f, float y = 0.0f, float z = 0.0f, std::string objName = "");
 
