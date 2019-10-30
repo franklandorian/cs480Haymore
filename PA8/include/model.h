@@ -15,6 +15,12 @@
 #include "graphics_headers.h"
 #include "MeshEntry.h"
 
+struct objProp
+{
+	std::string name;
+	int type;		// 1 = Dynamic, 2 = Static, 3 = Kinematic
+	float startPos[3];	// {x, y, z}
+};
 
 class model
 {
@@ -27,12 +33,13 @@ class model
     // Helper Method to initialize and bind each mesh
     void InitMesh(unsigned int Index, const aiMesh* paiMesh);
 
+		objProp m_Prop;
 
 		// keeping this in case we have to add some bullshit
-		std::vector<model*> m_children;
+		//std::vector<model*> m_children;
 
 	public:
-    model(std::string objectFilename, setting set);
+    model(std::string objectFilename, objProp props);	// setting set
     ~model();
     void Render();
     
@@ -40,10 +47,10 @@ class model
 
   	void Update(unsigned int dt, float x = 0.0f, float y = 0.0f, float z = 0.0f, std::string objName = "");
 
-
+		/*
 		void setChild(model *child);
 		glm::mat4 GetChildModel(int i);
-		model* getChild(int i);
+		model* getChild(int i);*/
 
 		// getters for position of object
 		float getX() const;

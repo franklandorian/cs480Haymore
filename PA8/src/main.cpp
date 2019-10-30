@@ -24,7 +24,7 @@ int main(int argc, char **argv)
   char vertexFilename[128];
   char fragmentFilename[128];
   char objectFilename[128];
-	char settingFilename[128];
+	char propertiesFilename[128];
   std::vector<std::string> objectFilenames;
 
   // Parse through the file
@@ -46,14 +46,14 @@ int main(int argc, char **argv)
       std::string temp(objectFilename);
       objectFilenames.emplace_back(temp);
     }
-		else if ( strcmp( lineHeader, "set" ) == 0 ){
-      fscanf(configFile, "%s", settingFilename);
+		else if ( strcmp( lineHeader, "prop" ) == 0 ){
+      fscanf(configFile, "%s", propertiesFilename);
     }
   }
   
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("PA8", 1366, 768);
-  if(!engine->Initialize(vertexFilename, fragmentFilename, settingFilename, objectFilenames))
+  if(!engine->Initialize(vertexFilename, fragmentFilename, propertiesFilename, objectFilenames))
   {
     printf("The engine failed to start.\n");
     delete engine;

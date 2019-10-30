@@ -15,7 +15,7 @@ class Engine
     Engine(string name, int width, int height);
     Engine(string name);
     ~Engine();
-    bool Initialize(char* vertexFilename, char* fragmentFilename, char* settingFilename, std::vector<std::string> allFiles);
+    bool Initialize(char* vertexFilename, char* fragmentFilename, char* propertiesFilename, std::vector<std::string> allFiles);
     void Run();
     void Keyboard();
     unsigned int getDT();

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-model::model(std::string filename, setting set)
+model::model(std::string filename, objProp props)
 {  
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
@@ -24,6 +24,7 @@ model::model(std::string filename, setting set)
     char textureFile[256]; 
     if(scene->mNumMaterials > 1 && mat->GetTextureCount(aiTextureType_DIFFUSE) > 0 && mat->GetTexture(aiTextureType_DIFFUSE, 0, &tName) == AI_SUCCESS){
       strcpy(textureFile,"../assets/");
+			std::cout << "name: " << tName.C_Str() << std::endl;
       strcat(textureFile, tName.C_Str());
       Magick::Image *image = new Magick::Image(textureFile);
       Magick::Blob blob;
@@ -38,19 +39,14 @@ model::model(std::string filename, setting set)
     }
   }
 
-	// fill settings
-	m_setting.name = set.name ;
-	m_setting.index = set.index;
-	m_setting.radius = set.radius/2; // Since this is radius, we half the current value
-	m_setting.rotationSpeed = set.rotationSpeed;
-	m_setting.orbitSpeed = set.orbitSpeed;
-	m_setting.revolution = set.revolution;
- 	m_setting.start = set.start;
-	m_setting.numMoons = set.numMoons;
-	m_setting.moon = set.moon;
+	// set object properties
+	m_Prop.name = props.name;
+	m_Prop.type = props.type;
+	m_Prop.startPos[0] = props.startPos[0];
+	m_Prop.startPos[1] = props.startPos[1];
+	m_Prop.startPos[2] = props.startPos[2];
 
-
- 	meshes[0].SetStart(m_setting.start, m_setting.index, m_setting.moon);
+ 	//meshes[0].SetStart(m_setting.start, m_setting.index, m_setting.moon);
 
 	// srand(time(NULL));
 }
@@ -138,9 +134,10 @@ glm::mat4 model::GetModel(){
 }
 
 void model::Update(unsigned int dt, float x, float y, float z, std::string name){
-  meshes[0].Update(dt, ...);
+  meshes[0].Update(dt, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
 }
 
+/*
 void model::setChild(model* child)
 {
 	m_children.push_back(child);
@@ -155,6 +152,7 @@ model* model::getChild(int i)
 {
 	return m_children[i];
 }
+*/
 
 // getters for position of object
 float model::getX() const

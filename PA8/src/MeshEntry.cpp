@@ -30,11 +30,11 @@ void meshEntry::Update(unsigned int dt, float xPos, float yPos, float zPos ){
 		// I'm pretty sure we'll have to do all the physics accounting here
 		// So I'm gonna save these functions for now
 
-		/*		
-    angleRev += (dt) * M_PI/100000 * (orbitSpeed / revolution * 32 / 5910);
-    model = glm::translate(glm::mat4(1.0f), glm::vec3( xPos + ((orbitOffset + revolution) * (glm::sin(angleRev))), yPos + 0, zPos + ((orbitOffset + revolution) * (glm::cos(angleRev))) ));
+		
+    angleRev += (dt) * M_PI/1000;;
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos,yPos, zPos));
 
-
+	/*
     // Next rotate the actual object
     angleRotate += (dt) * M_PI/100000 * rotationSpeed;
     model = glm::rotate(model, (angleRotate), glm::vec3(0.0, 1.0, 0.0));

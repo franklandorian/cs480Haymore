@@ -10,7 +10,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* settingFilename, std::vector<std::string> allFiles)
+bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* propertiesFilename, std::vector<std::string> allFiles)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -38,34 +38,14 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 
   
 
-	// Set the setting?
-	initSetting(settingFilename);
-	
+	// Set the object properties before creating them
+	initProperties(propertiesFilename);
   // Create the objects
 	for (int i = 0; i < allFiles.size(); ++i)
 	{
-		m_objs.push_back(new model(allFiles[i], m_settings[i]));
+		m_objs.push_back(new model(allFiles[i], m_properties[i]));
 	}
 
-	setting randSetting;
-	// give moon pointer to planets who need moonds
-	for (int i = 0; i < m_objs.size(); ++i)
-	{
-		for (int j = 0; j < m_objs[i]->getNumMoons(); ++j)
-		{
-			randSetting.name = "moon";
-			randSetting.index = m_objs[i]->getIndex();
-			randSetting.radius = m_objs[i]->getRadius() / 2.5f;
-			randSetting.rotationSpeed = 0.15f;
-			randSetting.orbitSpeed = 10.2f;
-			randSetting.revolution =  m_objs[i]->getRadius();
-			randSetting.start = j;
-			randSetting.numMoons = 0.0;
-			randSetting.moon = 1;
-			m_objs[i]->setMoon(new model(allFiles[11], randSetting));		// i => 11 for the moon
-			randSetting = {};
-		}
-	}
 	
   // Init Camera
   m_camera = new Camera();
@@ -139,22 +119,9 @@ void Graphics::Update(unsigned int dt)
 {
 	m_dt = dt;
   // Update the objects
-  for (int i = 0; i < m_objs.size() - 1; ++i)		// -1 to not worry about individual moon object, i => 11
+  for (int i = 0; i < m_objs.size(); ++i)		
 	{
-		if( m_objs[i]->getName().compare("Space") == 0)
-		{
-			glm::vec3 camPos = m_camera->getCameraPos();
-			float x = camPos[0], y = camPos[1], z = camPos[2];
-			m_objs[i]->Update(dt, 0, x, y, z, m_objs[i]->getName());
-		}
-		else {
-			m_objs[i]->Update(dt, m_objs[1]->getRadius());
-			// update each moon of each planet
-			for (int j = 0; j < m_objs[i]->getNumMoons(); ++j)
-			{
-				m_objs[i]->moonUpdates(dt, m_objs[i]->getRadius() , j);
-			}
-		}
+		m_objs[i]->Update(dt);
 	}
 }
 
@@ -189,29 +156,10 @@ void Graphics::updateCamera(SDL_Keycode keycode){
       case 3:
         followDistance = glm::vec3(0.0,-0.2,0.4);
       break;
-      case 4:
-        followDistance = glm::vec3(0.0,-0.1,0.3);
-      break;
-      case 5:
-        followDistance = glm::vec3(0.0,-1.3,3);
-      break;
-      case 6:
-        followDistance = glm::vec3(0.0,-1.4,2.3);
-      break;
-      case 7:
-        followDistance = glm::vec3(0.0,-1,0.7);
-      break;
-      case 8:
-        followDistance = glm::vec3(0.0,-0.5,1.5);
-      break;
-      case 9:
-        followDistance = glm::vec3(0.0,-0.1,0.1);
-      break;
     }
     m_camera->setFocus(m_objs[keycode-47], followDistance);
   }else if(keycode == SDLK_r){
     m_camera->setFocus(glm::vec3(0.0,0.0,0.0), followDistance);
-		m_objs[0]->Update(m_dt, 0, 0.0f, 0.0f, 0.0f, "Space");
   }
 }
 
@@ -230,16 +178,16 @@ void Graphics::Render()
 
   // Render the object
 	// NEED TO RENDER EACH OBJECT
-	for (int i = 0; i < m_objs.size() - 1; ++i)
+	for (int i = 0; i < m_objs.size(); ++i)
 	{  
 		glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetModel()));
 		m_objs[i]->Render();
-		// nested for loop for moon rendering
+		/* nested for loop for moon rendering
 		for (int j = 0; j < m_objs[i]->getNumMoons(); j++)
 		{
 			glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetMoonModel(j)));
 			m_objs[i]->getMoon(j)->Render();
-		}
+		} */
 	}
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -283,67 +231,55 @@ std::string Graphics::ErrorString(GLenum error)
 }
 
 // initializes our setting for the objects
-void Graphics::initSetting(char* settingFilename)
+void Graphics::initProperties(char* file)
 {
 	vector<string> lines;
 	string line;
-	ifstream setFile;
-	setFile.open(settingFilename);
+	ifstream propFile;
+	propFile.open(file);
 
-	if (setFile.fail())
-		cout << "Failed to open setting file\n";
+	if (propFile.fail())
+		cout << "Failed to open properties file\n";
 	else
 	{
-		while (getline(setFile, line))
+		while (getline(propFile, line))
 			lines.push_back(line);
 	} // end file io
-	setFile.close();
+	propFile.close();
 
+	// create our regex so we can pull obj properties from properties file
 	smatch setMatch;
 	regex objNamePull("([A-Za-z]+)\\: ([0-9]+)");
 	regex objPropPull("([a-zA-Z]+)\\: ([-+]?[0-9]+\\.[0-9]+)");
-	regex objEndPull("(\\!)");
-	float val;
+	regex objEndPull("(\\!)");\
 	string name;
-	int index;
-	setting passIn;
+	float dec;
+	int num;
+	objProp passIn;
+
 	for (int i = 0; i < lines.size(); ++i)
 	{
 		if (regex_search(lines[i], setMatch, objPropPull))
 		{
 			name = setMatch[1];
-			val = stof(setMatch[2]);
-			if (name.compare("radius") == 0)
-				passIn.radius = val;
-			else if (name.compare("rotationSpeed") == 0)
-				passIn.rotationSpeed = val;
-      else if (name.compare("orbitSpeed") == 0)
-				passIn.orbitSpeed = val;
-			else if (name.compare("revolution") == 0)
-				passIn.revolution = val;
-      else if (name.compare("start") == 0)
-        passIn.start = val;
-			else if (name.compare("moons") == 0)
-        passIn.numMoons = val;
+			dec = stof(setMatch[2]);
+			if (name.compare("x") == 0)
+				passIn.startPos[0] = dec;
+			else if (name.compare("y") == 0)
+				passIn.startPos[1] = dec;
+      else if (name.compare("z") == 0)
+				passIn.startPos[2] = dec;
 		}
 		else if (regex_search(lines[i], setMatch, objNamePull))
 		{
 			name = setMatch[1];
-			index = stoi(setMatch[2]);
-			if (name.compare("isMoon") == 0)
-			{
-				passIn.moon = index;
-			}
-			else
-			{
-				passIn.name = name;
-				passIn.index = index;
-			}
+			num = stoi(setMatch[2]);
+			passIn.name = name;
+			passIn.type = num;
 		}
 		else if (regex_search(lines[i], setMatch, objEndPull))
 		{
-			// push here?
-			m_settings.push_back(passIn);
+			m_properties.push_back(passIn);
 			passIn = {};		// clears the struct
 		}
 	}
