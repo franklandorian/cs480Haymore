@@ -7,7 +7,7 @@ int main(int argc, char **argv)
 {
   // Check for config file, if not there, then throw an error
   if(argc == 1){
-  	printf("No shaders submitted, ex: ./PA8 config.txt");
+  	printf("No shaders submitted, ex: ./PA8 config.txt pls ");
   	return 1;
   }
 

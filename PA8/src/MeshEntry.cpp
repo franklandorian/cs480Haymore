@@ -21,28 +21,32 @@ glm::mat4 meshEntry::GetModel(){
     return model;
 }
 
-void meshEntry::Update(unsigned int dt, int rotation, float xPos, float yPos, float zPos ){
+void meshEntry::SetModel(glm::mat4 newModel){
+    model = newModel;
+}
+
+void meshEntry::Update(unsigned int dt, int rotation, float xPos, float yPos, float zPos, float scaleFactor ){
 
     // Controlling speed of the sim
     dt *= 1;
 
-		// I'm pretty sure we'll have to do all the physics accounting here
-		// So I'm gonna save these functions for now
-
-		//std::cout << "in ya thot\n";
+	// I'm pretty sure we'll have to do all the physics accounting here
+	// So I'm gonna save these functions for now
 		
-    angleRev += (dt) * M_PI/1000;;
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos + x,yPos + y, zPos + z));
-		model = glm::rotate(model, (angleRev * rotation), glm::vec3(0.0, 1.0, 0.0));
-		model = glm::scale(model, glm::vec3(0.5,0.5,0.5));
+    // angleRev += (dt) * M_PI/1000;;
+    // model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos + x,yPos + y, zPos + z));
+	// model = glm::rotate(model, (angleRev * rotation), glm::vec3(0.0, 1.0, 0.0));
+	model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+
+	// std::cout << scaleFactor << std::endl;
+
 	/*
     // Next rotate the actual object
     angleRotate += (dt) * M_PI/100000 * rotationSpeed;
     model = glm::rotate(model, (angleRotate), glm::vec3(0.0, 1.0, 0.0));
 
     // Now scale it to the appropiate size
-		model = glm::scale(model, glm::vec3(radius, radius, radius)); */
-
+	model = glm::scale(model, glm::vec3(radius, radius, radius)); */
 }
 
 void meshEntry::buttonHandler(SDL_Keycode& sym){

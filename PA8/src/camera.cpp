@@ -19,8 +19,8 @@ bool Camera::Initialize(int w, int h)
   isFreeFly = false;
   focusIsOnModel = false;
   cameraPos = glm::vec3(0.0f,0.0f,3.0f);
-  cameraFront = glm::vec3(0.0,0.0,-1.0);
-  cameraUp = glm::vec3(0.0,-1.0,0.0);
+  cameraFront = glm::vec3(0.0,0.0,1.0);
+  cameraUp = glm::vec3(0.0,1.0,0.0);
   yaw = 0.0f;
   pitch = 0.0f;
   setFocus(glm::vec3(0.0,0.0,0.0), glm::vec3(0.0,-8.0,-16.0));
@@ -102,7 +102,10 @@ void Camera::update(){
 	                   glm::vec3(transformMatrix[3].x, transformMatrix[3].y, transformMatrix[3].z),
 	                   cameraUp);  
 	}else{
-	  view = glm::lookAt(followDistance, vec3Focus, cameraUp);
+	//   view = glm::lookAt(followDistance, vec3Focus, cameraUp);
+	  view = glm::lookAt(glm::vec3(0.0, 15.0, -16.0), //Eye Position
+                      glm::vec3(0.0, 0.0, 0.0), //Focus point
+                      glm::vec3(0.0, 1.0, 0.0));
 	}
   }
 }

@@ -35,8 +35,12 @@ bool Engine::Initialize(char* vertexFilename, char* fragmentFilename, char* prop
     return false;
   }
 
+  // Start physics engine
+  m_physics = new Physics();
+  // Should probably have a throw if somehting doesn't go right, but whatever
+
   // Start the graphics
-  m_graphics = new Graphics();
+  m_graphics = new Graphics(m_physics);
   if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vertexFilename, fragmentFilename, propertiesFilename, allFiles))
   {
     printf("The graphics failed to initialize.\n");
@@ -59,7 +63,6 @@ void Engine::Run()
     // Update the DT
     m_DT = getDT();
 
-
     // free camera stuff
     m_graphics->processInput(m_DT);
     // Check the keyboard input
@@ -68,11 +71,12 @@ void Engine::Run()
       Keyboard();
     }
 
-    // Update and render the graphics
+    // Update and render the graphics and physics
     m_graphics->Update(m_DT);
+    // std::cout << "heuy" << std::endl;
+    // m_physics->Update(m_DT);
     m_graphics->updateCamera();
     m_graphics->Render();
-
 
     // Swap to the Window
     m_window->Swap();
@@ -103,7 +107,19 @@ void Engine::Keyboard()
 		else if (m_event.key.keysym.sym == SDLK_i || m_event.key.keysym.sym == SDLK_j || m_event.key.keysym.sym == SDLK_k || m_event.key.keysym.sym == SDLK_l || m_event.key.keysym.sym == SDLK_u || m_event.key.keysym.sym == SDLK_o)				// i,j,k,l == w,a,s,d   (wasd used for Camera)
 		{
 			m_graphics->getModel(1)->buttonHandler(m_event.key.keysym.sym);
-		}
+		} else if (m_event.key.keysym.sym == SDLK_LEFT)
+    {
+      m_graphics->MoveCube("left");
+    } else if (m_event.key.keysym.sym == SDLK_RIGHT)
+    {
+      m_graphics->MoveCube("right");
+    } else if (m_event.key.keysym.sym == SDLK_UP)
+    {
+      m_graphics->MoveCube("up");
+    } else if (m_event.key.keysym.sym == SDLK_DOWN)
+    {
+      m_graphics->MoveCube("down");
+    }
 	}
 	else if(m_event.type == SDL_MOUSEMOTION)
 	{

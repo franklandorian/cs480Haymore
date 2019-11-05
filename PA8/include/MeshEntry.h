@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
+#include <string>
 #include <btBulletDynamicsCommon.h>
 #include "graphics_headers.h"
 
@@ -36,8 +37,9 @@ class meshEntry {
 
     bool Init(const std::vector<Vertex> incomingVertices, const std::vector<unsigned int> incomingIndices);
     glm::mat4 GetModel();
+    void SetModel(glm::mat4 newModel);
 
-    void Update(unsigned int dt, int rotation = 0, float xPos = 0.0f, float yPos = 0.0f, float zPos = 0.0f );
+    void Update(unsigned int dt, int rotation = 0, float xPos = 0.0f, float yPos = 0.0f, float zPos = 0.0f, float scaleFactor = 1.0f );
 		void buttonHandler(SDL_Keycode&);
 
 		// getters for position of object

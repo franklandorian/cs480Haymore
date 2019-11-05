@@ -13,22 +13,26 @@ using namespace std;
 #include "camera.h"
 #include "shader.h"
 #include "model.h"
+#include "physics.h"
 
 class Graphics
 {
   public:
     Graphics();
+	Graphics(Physics * physicsWorld);
     ~Graphics();
     bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* propertiesFilename, std::vector<std::string> allFiles);
     void Update(unsigned int dt);
-		void Render();
+	void Render();
 
     void processInput(unsigned int DT);
     void mouseMovement(float deltaX, float deltaY, unsigned int DT);
     void toggleFreeFly();
-		void updateCamera();
+	void updateCamera();
    	void updateCamera(SDL_Keycode keycode);
-		model* getModel(int objIndex);
+
+	void MoveCube(std::string command);
+	model* getModel(int objIndex);
 
   private:
     std::string ErrorString(GLenum error);
@@ -40,23 +44,15 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-		vector<model*> m_objs;
-		vector<objProp> m_properties; 
-		vector<btCollisionShape *> m_bltObjs;
-		vector<btDefaultMotionState *> m_bltStates;
-		vector<btRigidBody *> m_bltRigids;
+	vector<model*> m_objs;
+	vector<objProp> m_properties; 
 
-		unsigned int m_dt;
+	unsigned int m_dt;
 
-		// all our bullet stuff
-		btBroadphaseInterface *broadphase;
-		btDefaultCollisionConfiguration *collisionConfiguration;
-		btCollisionDispatcher *dispatcher;
-		btSequentialImpulseConstraintSolver *solver;
-		btDiscreteDynamicsWorld *dynamicsWorld;
+	Physics *physicsWorld;
 
-		// util functions
-		void initProperties(char*);
+	// util functions
+	void initProperties(char*);
 };
 
 #endif /* GRAPHICS_H */

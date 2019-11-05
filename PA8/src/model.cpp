@@ -45,10 +45,10 @@ model::model(std::string filename, objProp props)
 	m_Prop.startPos[0] = props.startPos[0];
 	m_Prop.startPos[1] = props.startPos[1];
 	m_Prop.startPos[2] = props.startPos[2];
+  m_Prop.size = props.size;
+  // std::cout << 	m_Prop.startPos[0] << props.startPos[1] << props.startPos[1];
 
  	//meshes[0].SetStart(m_setting.start, m_setting.index, m_setting.moon);
-
-	// srand(time(NULL));
 }
 
 void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
@@ -96,20 +96,6 @@ model::~model()
 
 void model::Render()
 {
-  /*glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
-
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
-
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-
-  glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
-
-  glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);*/
-
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
@@ -142,7 +128,7 @@ glm::mat4 model::GetModel(){
 void model::Update(unsigned int dt, int objType, float x, float y, float z){
 	if (objType == 1)
 	{
-  	meshes[0].Update(dt, 1, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
+  	meshes[0].Update(dt, 1, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2], m_Prop.size);
 	}
 	else if (objType == 2)
 	{
@@ -203,4 +189,9 @@ float model::getZ() const
 float model::getW() const
 {
 	return meshes[0].getA();
+}
+
+void model::SetModel(glm::mat4 newModel)
+{
+  meshes[0].SetModel(newModel);
 }
