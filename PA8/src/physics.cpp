@@ -70,9 +70,13 @@ int Physics::createObject(objProp info)
     // Change the collision shape based on whats being loaded
     if(info.name.compare("Board") == 0){
         shape = new btStaticPlaneShape (btVector3(0,1,0), 0);
-    } else {
+    } else if(info.shape == 3 ){
+        shape = new btBoxShape (btVector3(3.75*info.size,3.75*info.size,3.75*info.size));
+    } else{
         shape = new btBoxShape (btVector3(info.size,info.size,info.size));
     }
+
+    std::cout << info.shape << std::endl;
 
     btDefaultMotionState *shapeMotionState = NULL;
     // Start at the given positions
