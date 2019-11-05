@@ -20,6 +20,7 @@ Physics::Physics()
 
     // We need a floor lmao
     createFloor();
+    createWalls();
 }
 
 Physics::~Physics()
@@ -103,11 +104,11 @@ int Physics::addBody(btRigidBody * newBody)
 void Physics::createFloor()
 {
     // This basically just creates the floor
-    btTransform transform[1];
-    transform[0].setIdentity();
-    transform[0].setOrigin(btVector3(0,-1,0));
+    btTransform transform;
+    transform.setIdentity();
+    transform.setOrigin(btVector3(0,-1,0));
     btStaticPlaneShape *floor = new btStaticPlaneShape(btVector3(0.0,1,0.0), 0);
-    btMotionState *motionFloor = new btDefaultMotionState(transform[0]);
+    btMotionState *motionFloor = new btDefaultMotionState(transform);
     btRigidBody::btRigidBodyConstructionInfo floorInfo(0, motionFloor, floor);
     btRigidBody * floorPlane = new btRigidBody(floorInfo);
 
@@ -117,6 +118,77 @@ void Physics::createFloor()
 
     // Don't add to loadedBodies but make sure that there is floor collision
     dynamicsWorld->addRigidBody(floorPlane);
+}
+
+void Physics::createWalls()
+{
+    // This basically just creates the walls (very similar to how floor is made)
+    int numberOfWalls = 4;
+    btTransform transform[numberOfWalls];
+
+    // Set indenity
+    for(int i = 0; i < numberOfWalls; i++)
+    {
+        transform[i].setIdentity();
+    }
+
+    //backwall
+    transform[0].setOrigin(btVector3(0,0,7.0));
+    //frontwall
+    transform[1].setOrigin(btVector3(0,0,-7.0));
+    //leftside
+    transform[2].setOrigin(btVector3(4.25,0,0));
+    //rightside
+    transform[3].setOrigin(btVector3(-4.25,0,0));
+
+    std::vector<btStaticPlaneShape *> walls;
+
+    for(int i = 0; i < numberOfWalls; i++)
+    {
+        btVector3 temp;
+
+        switch(i){
+            case 0:
+                temp = btVector3(0.0,0.0,-1.0);
+                break;
+            case 1:
+                temp = btVector3(0.0,0.0,1.0);
+                break;
+            case 2:
+                temp = btVector3(-1.0,0.0,0.0);
+                break;
+            case 3:
+                temp = btVector3(1.0,0.0,0.0);
+                break;
+        }
+
+        btStaticPlaneShape *tempWall = new btStaticPlaneShape(temp, 1);
+        walls.emplace_back(tempWall);
+    }
+
+    std::vector<btMotionState *> wallMotions;
+    std::vector<btRigidBody::btRigidBodyConstructionInfo> wallInfo;
+    std::vector<btRigidBody *> planes;
+
+    for(int i = 0; i < numberOfWalls; i++)
+    {
+        btMotionState *tempMotion = new btDefaultMotionState(transform[i]);
+        wallMotions.emplace_back(tempMotion);
+
+        btRigidBody::btRigidBodyConstructionInfo temp3(0, wallMotions[i], walls[i]);
+        btRigidBody * tempPlane = new btRigidBody(temp3);
+        planes.emplace_back(tempPlane);
+    }
+
+    int flags = planes[0]->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
+
+    for(int i = 0; i < numberOfWalls; i++)
+    {
+        planes[i]->setCollisionFlags(flags);
+        planes[i]->setActivationState(DISABLE_DEACTIVATION);
+
+        dynamicsWorld->addRigidBody(planes[i]);
+    }
 }
 
 void Physics::Move(std::string command)
