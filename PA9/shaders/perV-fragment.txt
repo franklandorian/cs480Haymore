@@ -1,4 +1,5 @@
 // PER-Vertex fragment shader
+#version 330
 
 in vec4 color;
 

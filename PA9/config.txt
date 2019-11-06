@@ -1,0 +1,7 @@
+vs ../shaders/perV-vertex.txt
+fs ../shaders/perV-fragment.txt
+obj ../assets/Board.obj
+obj ../assets/Cube.obj
+obj ../assets/Sphere.obj
+obj ../assets/Cylinder.obj
+prop ../assets/objProperties.txt
