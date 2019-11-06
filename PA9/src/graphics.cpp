@@ -111,15 +111,6 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
     return false;
   }
 
-  // Some lighting things
-
-  glUniform4f(m_shader->GetUniformLocation("AmbientProduct"), 0.5, 0.5, 0.5,1);
-  glUniform4f(m_shader->GetUniformLocation("DiffuseProduct"), 1,1,1,1);
-  glUniform4f(m_shader->GetUniformLocation("SpecularProduct"), 1,1,1,1);
-
-  glUniform4f(m_shader->GetUniformLocation("LightPosition"), 0,2,0,0);
-  glUniform1f(m_shader->GetUniformLocation("Shininess"), 10);
-
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
@@ -198,6 +189,14 @@ void Graphics::Render()
   glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
+  // Some lighting things
+  glUniform4f(m_shader->GetUniformLocation("AmbientProduct"), 0.5, 0.5, 0.5,1);
+  glUniform4f(m_shader->GetUniformLocation("DiffuseProduct"), 1,1,1,1);
+  glUniform4f(m_shader->GetUniformLocation("SpecularProduct"), 1,1,1,1);
+
+  glUniform4f(m_shader->GetUniformLocation("LightPosition"), 0,2,0,0);
+  glUniform1f(m_shader->GetUniformLocation("Shininess"), 10);
+
   // Render the object
 	// NEED TO RENDER EACH OBJECT
 	for (int i = 0; i < m_objs.size(); ++i)
@@ -205,6 +204,7 @@ void Graphics::Render()
 		glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetModel()));
 		m_objs[i]->Render();
 	}
+
   // Get any errors from OpenGL
   auto error = glGetError();
   if ( error != GL_NO_ERROR )
