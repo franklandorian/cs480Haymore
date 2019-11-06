@@ -111,6 +111,15 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
     return false;
   }
 
+  // Some lighting things
+
+  glUniform4f(m_shader->GetUniformLocation("AmbientProduct"), 0.5, 0.5, 0.5,1);
+  glUniform4f(m_shader->GetUniformLocation("DiffuseProduct"), 1,1,1,1);
+  glUniform4f(m_shader->GetUniformLocation("SpecularProduct"), 1,1,1,1);
+
+  glUniform4f(m_shader->GetUniformLocation("LightPosition"), 0,2,0,0);
+  glUniform1f(m_shader->GetUniformLocation("Shininess"), 10);
+
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);

@@ -55,18 +55,12 @@ void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
   // Temporary Storage
   std::vector<Vertex> temp_vertices;
   std::vector<unsigned int> temp_indices;
-
-		//btVector3 triArray[3];
-		//btTriangleMesh *objTriMesh = new btTriangleMesh();
 		
     // Store the faces
     for(unsigned int iFaces = 0; iFaces < paiMesh->mNumFaces; iFaces++){
       for(unsigned int index = 0; index < 3; index++){
         temp_indices.emplace_back(paiMesh->mFaces[iFaces].mIndices[index]);
-				//aiVector3D position = paiMesh->[iFaces];
-				//triArray[index] = btVector3(position.x, position.y, position.z);
       }
-			//objTriMesh->addTriangle(triArray[0], triArray[1], triArray[2]);
     }
 
     // Store the Vertices
@@ -74,11 +68,12 @@ void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
       glm::vec3 temp_vertex(paiMesh->mVertices[iVert].x, paiMesh->mVertices[iVert].y,paiMesh->mVertices[iVert].z);
       glm::vec3 temp_color(glm::vec3(0.0,0.0,0.0));
       glm::vec2 temp_tCoords(0,0);
+      glm::vec3 temp_normals(paiMesh->mNormals[iVert].x, paiMesh->mNormals[iVert].y, paiMesh->mNormals[iVert].z);
       if(paiMesh->HasTextureCoords(0)){
         temp_tCoords.x = 1-paiMesh->mTextureCoords[0][iVert].x;
         temp_tCoords.y = paiMesh->mTextureCoords[0][iVert].y;
       }
-      Vertex verts(temp_vertex, temp_color, temp_tCoords);
+      Vertex verts(temp_vertex, temp_color, temp_tCoords, temp_normals);
       temp_vertices.emplace_back(verts);
     }
 
@@ -99,12 +94,14 @@ void model::Render()
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
 
     for (unsigned int i = 0 ; i < meshes.size() ; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, meshes[i].VB);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture));
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshes[i].IB);
 
@@ -118,6 +115,7 @@ void model::Render()
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
+    glDisableVertexAttribArray(3);
 
 }
 
