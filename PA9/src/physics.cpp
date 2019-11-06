@@ -205,9 +205,6 @@ void Physics::Move(std::string command)
     } else if (command.compare("up") == 0){
         loadedBodies[1]->applyCentralImpulse(btVector3(0.0,0.0,magnitude));
     } else {
-        std::cout << "hi";
         loadedBodies[1]->applyCentralImpulse(btVector3(0.0,0.0,-magnitude));
     }
-
-    
 }

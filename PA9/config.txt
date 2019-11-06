@@ -1,5 +1,5 @@
-vs ../shaders/perV-vertex.txt
-fs ../shaders/perV-fragment.txt
+vs ../shaders/vertexShader.txt
+fs ../shaders/fragmentShader.txt
 obj ../assets/Board.obj
 obj ../assets/Cube.obj
 obj ../assets/Sphere.obj

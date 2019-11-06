@@ -2,7 +2,7 @@
 
 Graphics::Graphics()
 {
-
+  shaderFlag = false;
 }
 
 Graphics::Graphics(Physics *physicsWorld) : physicsWorld(physicsWorld)
@@ -190,9 +190,9 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Some lighting things
-  glUniform4f(m_shader->GetUniformLocation("AmbientProduct"), 0.5, 0.5, 0.5,1);
-  glUniform4f(m_shader->GetUniformLocation("DiffuseProduct"), 1,1,1,1);
-  glUniform4f(m_shader->GetUniformLocation("SpecularProduct"), 1,1,1,1);
+  glUniform4f(m_shader->GetUniformLocation("AmbientProduct"), 10.5, 10.5, 10.5,1);
+  glUniform4f(m_shader->GetUniformLocation("DiffuseProduct"), 10,10,10,10);
+  glUniform4f(m_shader->GetUniformLocation("SpecularProduct"), 10,10,10,10);
 
   glUniform4f(m_shader->GetUniformLocation("LightPosition"), 0,2,0,0);
   glUniform1f(m_shader->GetUniformLocation("Shininess"), 10);
@@ -318,4 +318,81 @@ void Graphics::MoveCube(std::string command)
 {
   // The cube is the first index, I know it's hard coded but idc
   physicsWorld->Move(command);
+}
+
+bool Graphics::SwapShaders()
+{
+  delete m_shader;
+  m_shader = nullptr;
+
+  std::string vertexFilename;
+  std::string fragmentFilename;
+
+  if(!shaderFlag){
+    vertexFilename = "../shaders/perV-vertex.glsl";
+    fragmentFilename = "../shaders/perV-fragment.glsl";
+  } else {
+    vertexFilename = "../shaders/vertexShader.txt";
+    fragmentFilename = "../shaders/fragmentShader.txt";
+  }
+
+  m_shader = new Shader();
+  if(!m_shader->Initialize())
+  {
+    printf("Shader Failed to Initialize\n");
+    return false;
+  }
+
+  // Add the vertex shader
+  if(!m_shader->AddShader(GL_VERTEX_SHADER, const_cast<char*>(vertexFilename.c_str())))
+  {
+    printf("Vertex Shader failed to Initialize\n");
+    return false;
+  }
+
+  // Add the fragment shader
+  if(!m_shader->AddShader(GL_FRAGMENT_SHADER, const_cast<char*>(fragmentFilename.c_str())))
+  {
+    printf("Fragment Shader failed to Initialize\n");
+    return false;
+  }
+
+  // Connect the program
+  if(!m_shader->Finalize())
+  {
+    printf("Program to Finalize\n");
+    return false;
+  }
+
+  // Locate the projection matrix in the shader
+  m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
+  if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_projectionMatrix not found\n");
+    return false;
+  }
+
+  // Locate the view matrix in the shader
+  m_viewMatrix = m_shader->GetUniformLocation("viewMatrix");
+  if (m_viewMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_viewMatrix not found\n");
+    return false;
+  }
+
+  // Locate the model matrix in the shader
+  m_modelMatrix = m_shader->GetUniformLocation("modelMatrix");
+  if (m_modelMatrix == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_modelMatrix not found\n");
+    return false;
+  }
+
+  //enable depth testing
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+
+  shaderFlag = !shaderFlag;
+
+  return true;
 }

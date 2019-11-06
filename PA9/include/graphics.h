@@ -19,20 +19,22 @@ class Graphics
 {
   public:
     Graphics();
-	Graphics(Physics * physicsWorld);
+	  Graphics(Physics * physicsWorld);
     ~Graphics();
     bool Initialize(int width, int height, char* vertexFilename, char* fragmentFilename, char* propertiesFilename, std::vector<std::string> allFiles);
     void Update(unsigned int dt);
-	void Render();
+	  void Render();
 
     void processInput(unsigned int DT);
     void mouseMovement(float deltaX, float deltaY, unsigned int DT);
     void toggleFreeFly();
-	void updateCamera();
-   	void updateCamera(SDL_Keycode keycode);
+	  void updateCamera();
+    void updateCamera(SDL_Keycode keycode);
 
-	void MoveCube(std::string command);
-	model* getModel(int objIndex);
+	  void MoveCube(std::string command);
+	  model* getModel(int objIndex);
+
+    bool SwapShaders();
 
   private:
     std::string ErrorString(GLenum error);
@@ -45,7 +47,9 @@ class Graphics
     GLint m_modelMatrix;
 
 	vector<model*> m_objs;
-	vector<objProp> m_properties; 
+	vector<objProp> m_properties;
+
+  bool shaderFlag;
 
 	unsigned int m_dt;
 

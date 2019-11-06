@@ -73,8 +73,6 @@ void Engine::Run()
 
     // Update and render the graphics and physics
     m_graphics->Update(m_DT);
-    // std::cout << "heuy" << std::endl;
-    // m_physics->Update(m_DT);
     m_graphics->updateCamera();
     m_graphics->Render();
 
@@ -119,6 +117,12 @@ void Engine::Keyboard()
     } else if (m_event.key.keysym.sym == SDLK_DOWN)
     {
       m_graphics->MoveCube("down");
+    }  else if (m_event.key.keysym.sym == SDLK_z)
+    {
+      m_graphics->SwapShaders();
+    }  else if (m_event.key.keysym.sym == SDLK_x)
+    {
+      m_graphics->SwapShaders();
     }
 	}
 	else if(m_event.type == SDL_MOUSEMOTION)
