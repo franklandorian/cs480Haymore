@@ -76,8 +76,6 @@ int Physics::createObject(objProp info)
         shape = new btBoxShape (btVector3(info.size,info.size,info.size));
     }
 
-    std::cout << info.shape << std::endl;
-
     btDefaultMotionState *shapeMotionState = NULL;
     // Start at the given positions
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 1, 0), btVector3(info.startPos[0], info.startPos[1], info.startPos[2])));
@@ -207,7 +205,8 @@ void Physics::Move(std::string command)
     } else if (command.compare("up") == 0){
         loadedBodies[1]->applyCentralImpulse(btVector3(0.0,0.0,magnitude));
     } else {
-        loadedBodies[1]->applyCentralImpulse(btVector3(magnitude,0.0,-magnitude));
+        std::cout << "hi";
+        loadedBodies[1]->applyCentralImpulse(btVector3(0.0,0.0,-magnitude));
     }
 
     
