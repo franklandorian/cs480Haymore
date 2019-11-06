@@ -1,8 +1,11 @@
 // PER-Vertex Vertex Shader
 #version 330
 layout (location = 0) in vec3 v_position2;
-layout (location = 1) in vec3 v_normal;
-out vec4 color;
+layout (location = 2) in vec2 v_texture;
+layout (location = 3) in vec3 v_normal;
+
+smooth out vec2 texture;
+smooth out vec4 color;
 
 uniform vec4 AmbientProduct, DiffuseProduct, SpecularProduct;
 // uniform mat4 ModelView;
@@ -41,6 +44,8 @@ void main()
 
 	color = ambient + diffuse + specular;
 	color.a = 1.0;
+
+	texture = v_texture;
 }
 
 
