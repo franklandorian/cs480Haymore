@@ -36,6 +36,11 @@ class Graphics
 
     bool SwapShaders();
 
+    void IncreaseAmbience();
+    void DecreaseAmbience();
+    void IncreaseSpecular();
+    void DecreaseSpecular();
+
   private:
     std::string ErrorString(GLenum error);
 
@@ -52,17 +57,20 @@ class Graphics
     GLint m_LightPosition;
     GLint m_Shininess;
 
-	vector<model*> m_objs;
-	vector<objProp> m_properties;
+    glm::vec4 ambient;
+    glm::vec4 specular;
+    
+	  vector<model*> m_objs;
+	  vector<objProp> m_properties;
 
-  bool shaderFlag;
+    bool shaderFlag;
 
-	unsigned int m_dt;
+	  unsigned int m_dt;
 
-	Physics *physicsWorld;
+	  Physics *physicsWorld;
 
-	// util functions
-	void initProperties(char*);
+    // util functions
+    void initProperties(char*);
 };
 
 #endif /* GRAPHICS_H */

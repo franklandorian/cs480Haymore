@@ -87,11 +87,11 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
     return false;
   }
 
-    m_AmbientProduct = m_shader->GetUniformLocation("AmbientProduct");
-    m_DiffuseProduct = m_shader->GetUniformLocation("DiffuseProduct");
-    m_SpecularProduct = m_shader->GetUniformLocation("SpecularProduct");
-    m_LightPosition = m_shader->GetUniformLocation("LightPosition");
-    m_Shininess = m_shader->GetUniformLocation("Shininess");
+  m_AmbientProduct = m_shader->GetUniformLocation("AmbientProduct");
+  m_DiffuseProduct = m_shader->GetUniformLocation("DiffuseProduct");
+  m_SpecularProduct = m_shader->GetUniformLocation("SpecularProduct");
+  m_LightPosition = m_shader->GetUniformLocation("LightPosition");
+  m_Shininess = m_shader->GetUniformLocation("Shininess");
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
@@ -120,6 +120,11 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
+
+  // Intialize lighting
+  ambient = glm::vec4(0.5,0.5,0.5,1);
+  specular = glm::vec4(0.5,0.5,0.5,1);
+
 
   return true;
 }
@@ -196,22 +201,14 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Some lighting things
-  // glUniform4f(m_shader->GetUniformLocation("AmbientProduct"), 10.5, 10.5, 10.5,1);
-  // glUniform4f(m_shader->GetUniformLocation("DiffuseProduct"), 10,10,10,10);
-  // glUniform4f(m_shader->GetUniformLocation("SpecularProduct"), 10,10,10,10);
-
-  // glUniform4f(m_shader->GetUniformLocation("LightPosition"), 0,2,0,0);
-  // glUniform1f(m_shader->GetUniformLocation("Shininess"), 10);
-
-  // Some lighting things
   glm::vec4 l(0.5, 0.5, 0.5, 1.0);
-  // glUniform4f(m_AmbientProduct, 10.5, 10.5, 10.5,1);
-  // glUniform4f(m_DiffuseProduct, 10,10,10,10);
-  // glUniform4f(m_SpecularProduct, 10,10,10,10);
+  // glUniform4f(m_AmbientProduct, 0.5, 0.5, 0.5,1);
+  // glUniform4f(m_SpecularProduct, 1,1,1,1);
+  glUniform4f(m_DiffuseProduct, 0.5, 0.5, 0.5,1);
 
-  glUniform4fv(m_AmbientProduct, 1, glm::value_ptr(l));
-  glUniform4fv(m_DiffuseProduct, 1, glm::value_ptr(l));
-  glUniform4fv(m_SpecularProduct, 1, glm::value_ptr(l));
+  glUniform4fv(m_AmbientProduct, 1, glm::value_ptr(ambient));
+  glUniform4fv(m_SpecularProduct, 1, glm::value_ptr(specular));
+  // glUniform4fv(m_DiffuseProduct, 1, glm::value_ptr(specular));
   glUniform4fv(m_LightPosition, 1, glm::value_ptr(l));
   glUniform1f(m_Shininess, 1.0f);
 
@@ -347,13 +344,14 @@ bool Graphics::SwapShaders()
   std::string fragmentFilename;
 
   if(!shaderFlag){
+    vertexFilename = "../shaders/perF-vertex.glsl";
+    fragmentFilename = "../shaders/perF-fragment.glsl";
+  } else {
     vertexFilename = "../shaders/perV-vertex.glsl";
     fragmentFilename = "../shaders/perV-fragment.glsl";
-  } else {
-    vertexFilename = "../shaders/vertexShader.txt";
-    fragmentFilename = "../shaders/fragmentShader.txt";
   }
 
+  // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
   {
@@ -362,14 +360,14 @@ bool Graphics::SwapShaders()
   }
 
   // Add the vertex shader
-  if(!m_shader->AddShader(GL_VERTEX_SHADER, const_cast<char*>(vertexFilename.c_str())))
+  if(!m_shader->AddShader(GL_VERTEX_SHADER, const_cast<char *>  (vertexFilename.c_str())))
   {
     printf("Vertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!m_shader->AddShader(GL_FRAGMENT_SHADER, const_cast<char*>(fragmentFilename.c_str())))
+  if(!m_shader->AddShader(GL_FRAGMENT_SHADER, const_cast<char *> (fragmentFilename.c_str())))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
@@ -419,4 +417,29 @@ bool Graphics::SwapShaders()
   shaderFlag = !shaderFlag;
 
   return true;
+}
+
+void Graphics::IncreaseAmbience()
+{
+  if(ambient.x < 5){
+      ambient += glm::vec4(0.5,0.5,0.5,1);
+  }
+}
+void Graphics::DecreaseAmbience()
+{
+  if(ambient.x > 0){
+      ambient -= glm::vec4(0.5,0.5,0.5,0);
+  }
+}
+void Graphics::IncreaseSpecular()
+{
+  if(specular.x < 5){
+      specular += glm::vec4(0.5,0.5,0.5,1);
+  }
+}
+void Graphics::DecreaseSpecular()
+{
+  if(specular.x > 0){
+      specular -= glm::vec4(0.5,0.5,0.5,0);
+  }
 }
