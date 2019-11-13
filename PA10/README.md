@@ -9,7 +9,7 @@ mkdir build
 cd build
 cmake ..
 make
-./PA7 config.txt
+./PA10 config.txt
 ```
 
 ## Controls
@@ -20,3 +20,4 @@ Interaction Keys | Description
 <kbd>&darr;</kbd> | Decrease Ambient Lighting
 <kbd>&larr;</kbd> | Increase Specular Lighing
 <kbd>&rarr;</kbd> | Decrease Specular Lighing
+<kbd>z</kbd> | Toggle between per-vertex and per-fragment lighting
