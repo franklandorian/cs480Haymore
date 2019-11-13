@@ -40,7 +40,7 @@ void main()
 	vec4 specular = Ks*SpecularProduct;
 	if ( dot(L, N) < 0.0) specular = vec4(0.0, 0.0, 0.0, 1.0);
 	// gl_Position = Projection * ModelView * v_position;
-	gl_Position = projectionMatrix * viewMatrix * modelMatrix * v_position;
+	gl_Position = modelMatrix * viewMatrix * projectionMatrix * v_position;
 
 	color = ambient + diffuse + specular;
 	color.a = 1.0;

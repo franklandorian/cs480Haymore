@@ -1,21 +1,22 @@
-# Project 9 - Lighting:
-## Team Members - Kyle Respicio, Ilya Kuznetsov, Franklin Haymore
+# Project 10 - Pinball:
+## Team Members - Kyle Respicio, Franklin Haymore, Ilya Kuznetsov
 
-## Build Directions
+## Instructions
+Firstly, you must be in the PA7 folder. Then run the following
+
 ```bash
 mkdir build
 cd build
 cmake ..
 make
-./PA8 config.txt
+./PA7 config.txt
 ```
 
 ## Controls
+### Lighting Controls
 Interaction Keys | Description
 ------------ | -------------
-<kbd>&uarr;</kbd> | Move backwards
-<kbd>&darr;</kbd> | Move forwards
-<kbd>&larr;</kbd> | Move to the left
-<kbd>&rarr;</kbd> | Move to the right
-<kbd>z</kbd> | Toggle per-vertex lighting (work in progress)
-<kbd>x</kbd> | Toggle per-fragment lighting (work in progress)
+<kbd>&uarr;</kbd> | Increase Ambient Lighting
+<kbd>&darr;</kbd> | Decrease Ambient Lighting
+<kbd>&larr;</kbd> | Increase Specular Lighing
+<kbd>&rarr;</kbd> | Decrease Specular Lighing
