@@ -9,7 +9,7 @@ mkdir build
 cd build
 cmake ..
 make
-./PA7 config.txt
+./PA10 config.txt
 ```
 
 ## Controls
