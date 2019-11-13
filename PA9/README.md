@@ -20,4 +20,3 @@ Interaction Keys | Description
 <kbd>&darr;</kbd> | Decrease Ambient Lighting
 <kbd>&larr;</kbd> | Increase Specular Lighing
 <kbd>&rarr;</kbd> | Decrease Specular Lighing
-
