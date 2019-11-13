@@ -46,6 +46,12 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
+    GLint m_AmbientProduct;
+    GLint m_DiffuseProduct;
+    GLint m_SpecularProduct;
+    GLint m_LightPosition;
+    GLint m_Shininess;
+
 	vector<model*> m_objs;
 	vector<objProp> m_properties;
 

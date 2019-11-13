@@ -87,6 +87,12 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
     return false;
   }
 
+    m_AmbientProduct = m_shader->GetUniformLocation("AmbientProduct");
+    m_DiffuseProduct = m_shader->GetUniformLocation("DiffuseProduct");
+    m_SpecularProduct = m_shader->GetUniformLocation("SpecularProduct");
+    m_LightPosition = m_shader->GetUniformLocation("LightPosition");
+    m_Shininess = m_shader->GetUniformLocation("Shininess");
+
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
   if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
@@ -190,12 +196,24 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Some lighting things
-  glUniform4f(m_shader->GetUniformLocation("AmbientProduct"), 10.5, 10.5, 10.5,1);
-  glUniform4f(m_shader->GetUniformLocation("DiffuseProduct"), 10,10,10,10);
-  glUniform4f(m_shader->GetUniformLocation("SpecularProduct"), 10,10,10,10);
+  // glUniform4f(m_shader->GetUniformLocation("AmbientProduct"), 10.5, 10.5, 10.5,1);
+  // glUniform4f(m_shader->GetUniformLocation("DiffuseProduct"), 10,10,10,10);
+  // glUniform4f(m_shader->GetUniformLocation("SpecularProduct"), 10,10,10,10);
 
-  glUniform4f(m_shader->GetUniformLocation("LightPosition"), 0,2,0,0);
-  glUniform1f(m_shader->GetUniformLocation("Shininess"), 10);
+  // glUniform4f(m_shader->GetUniformLocation("LightPosition"), 0,2,0,0);
+  // glUniform1f(m_shader->GetUniformLocation("Shininess"), 10);
+
+  // Some lighting things
+  glm::vec4 l(0.5, 0.5, 0.5, 1.0);
+  // glUniform4f(m_AmbientProduct, 10.5, 10.5, 10.5,1);
+  // glUniform4f(m_DiffuseProduct, 10,10,10,10);
+  // glUniform4f(m_SpecularProduct, 10,10,10,10);
+
+  glUniform4fv(m_AmbientProduct, 1, glm::value_ptr(l));
+  glUniform4fv(m_DiffuseProduct, 1, glm::value_ptr(l));
+  glUniform4fv(m_SpecularProduct, 1, glm::value_ptr(l));
+  glUniform4fv(m_LightPosition, 1, glm::value_ptr(l));
+  glUniform1f(m_Shininess, 1.0f);
 
   // Render the object
 	// NEED TO RENDER EACH OBJECT
@@ -363,6 +381,12 @@ bool Graphics::SwapShaders()
     printf("Program to Finalize\n");
     return false;
   }
+
+  m_AmbientProduct = m_shader->GetUniformLocation("AmbientProduct");
+  m_DiffuseProduct = m_shader->GetUniformLocation("DiffuseProduct");
+  m_SpecularProduct = m_shader->GetUniformLocation("SpecularProduct");
+  m_LightPosition = m_shader->GetUniformLocation("LightPosition");
+  m_Shininess = m_shader->GetUniformLocation("Shininess");
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
