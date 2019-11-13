@@ -105,16 +105,16 @@ void Engine::Keyboard()
 		else if (m_event.key.keysym.sym == SDLK_i || m_event.key.keysym.sym == SDLK_j || m_event.key.keysym.sym == SDLK_k || m_event.key.keysym.sym == SDLK_l || m_event.key.keysym.sym == SDLK_u || m_event.key.keysym.sym == SDLK_o)				// i,j,k,l == w,a,s,d   (wasd used for Camera)
 		{
 			m_graphics->getModel(1)->buttonHandler(m_event.key.keysym.sym);
-		} else if (m_event.key.keysym.sym == SDLK_LEFT)
+		} else if (m_event.key.keysym.sym == SDLK_a)
     {
       m_graphics->MoveCube("left");
-    } else if (m_event.key.keysym.sym == SDLK_RIGHT)
+    } else if (m_event.key.keysym.sym == SDLK_d)
     {
       m_graphics->MoveCube("right");
-    } else if (m_event.key.keysym.sym == SDLK_UP)
+    } else if (m_event.key.keysym.sym == SDLK_w)
     {
       m_graphics->MoveCube("up");
-    } else if (m_event.key.keysym.sym == SDLK_DOWN)
+    } else if (m_event.key.keysym.sym == SDLK_s)
     {
       m_graphics->MoveCube("down");
     }  else if (m_event.key.keysym.sym == SDLK_z)
@@ -123,7 +123,23 @@ void Engine::Keyboard()
     }  else if (m_event.key.keysym.sym == SDLK_x)
     {
       m_graphics->SwapShaders();
+    }   else if (m_event.key.keysym.sym == SDLK_UP)
+    {
+      m_graphics->IncreaseAmbience();
+    }   else if (m_event.key.keysym.sym == SDLK_DOWN)
+    {
+      m_graphics->DecreaseAmbience();
+    }   else if (m_event.key.keysym.sym == SDLK_LEFT)
+    {
+      m_graphics->IncreaseSpecular();
+    }   else if (m_event.key.keysym.sym == SDLK_RIGHT)
+    {
+      m_graphics->DecreaseSpecular();
+    }   else if (m_event.key.keysym.sym == SDLK_SPACE)
+    {
+      m_graphics->LaunchPlunger();
     }
+    
 	}
 	else if(m_event.type == SDL_MOUSEMOTION)
 	{

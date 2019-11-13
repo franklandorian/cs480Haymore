@@ -7,6 +7,23 @@ model::model(std::string filename, objProp props)
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
   
+  // This tells us if we need the triangle mesh for bullet
+  triangleFlag = (props.type == 2);
+  // triangleFlag = false;
+  if(!triangleFlag){
+    triangleMesh = nullptr;
+  }
+
+  // set object properties
+	m_Prop.name = props.name;
+	m_Prop.type = props.type;
+	m_Prop.shape = props.shape;
+	m_Prop.startPos[0] = props.startPos[0];
+	m_Prop.startPos[1] = props.startPos[1];
+	m_Prop.startPos[2] = props.startPos[2];
+  m_Prop.size = props.size;
+  // std::cout << 	m_Prop.startPos[0] << props.startPos[1] << props.startPos[1];
+
   // Count and allocate proper memory for the meshes
 	meshNumber = scene->mNumMeshes;
   meshes.resize(meshNumber);
@@ -37,18 +54,6 @@ model::model(std::string filename, objProp props)
       delete image;
     }
   }
-
-	// set object properties
-	m_Prop.name = props.name;
-	m_Prop.type = props.type;
-	m_Prop.shape = props.shape;
-	m_Prop.startPos[0] = props.startPos[0];
-	m_Prop.startPos[1] = props.startPos[1];
-	m_Prop.startPos[2] = props.startPos[2];
-  m_Prop.size = props.size;
-  // std::cout << 	m_Prop.startPos[0] << props.startPos[1] << props.startPos[1];
-
- 	//meshes[0].SetStart(m_setting.start, m_setting.index, m_setting.moon);
 }
 
 void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
@@ -75,6 +80,19 @@ void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
       }
       Vertex verts(temp_vertex, temp_color, temp_tCoords, temp_normals);
       temp_vertices.emplace_back(verts);
+    }
+
+    if(triangleFlag){
+        btVector3 triangle[3];
+        triangleMesh = new btTriangleMesh();
+        for(unsigned int k = 0; k < paiMesh->mNumFaces; k++){
+          aiFace * face = &paiMesh->mFaces[k];
+          for(unsigned int l = 0; l < 3; l++){
+            aiVector3D position = paiMesh->mVertices[face->mIndices[l]];
+            triangle[l] = btVector3(position.x * m_Prop.size, position.y * m_Prop.size, position.z * m_Prop.size);
+          }
+        }
+        triangleMesh->addTriangle(triangle[0], triangle[1], triangle[2]);
     }
 
     // Store into mesh
@@ -130,7 +148,7 @@ void model::Update(unsigned int dt, int objType, float x, float y, float z){
 	}
 	else if (objType == 2)
 	{
-		meshes[0].Update(dt);
+		meshes[0].Update(dt, 0, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2], m_Prop.size);
 	}
 }
 
@@ -192,4 +210,9 @@ float model::getW() const
 void model::SetModel(glm::mat4 newModel)
 {
   meshes[0].SetModel(newModel);
+}
+
+btTriangleMesh* model::getTriangles()
+{
+  return triangleMesh;
 }
