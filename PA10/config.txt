@@ -1,7 +1,8 @@
-vs ../shaders/vertexShader.txt
-fs ../shaders/fragmentShader.txt
-obj ../assets/Board.obj
+vs ../shaders/perV-vertex.glsl
+fs ../shaders/perV-fragment.glsl
+obj ../assets/pinballBoard.obj
 obj ../assets/Pinball.obj
 obj ../assets/Sphere.obj
 obj ../assets/Cylinder.obj
 prop ../assets/objProperties.txt
+

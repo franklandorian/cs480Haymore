@@ -20,22 +20,22 @@ Physics::Physics()
 
     // We need a floor lmao
     createFloor();
-    createWalls();
+    // createWalls();
 }
 
 Physics::~Physics()
 {
     // Cleanup Time
-    // for(int i=0; i<loadedBodies.size(); i++)
-    // {
-    //     dynamicsWorld->removeCollisionObject(loadedBodies[i]);
-    //     btMotionState * motionState = loadedBodies[i]->getMotionState();
-    //     btCollisionShape * collisionShape = loadedBodies[i]->getCollisionShape();
-    //     delete loadedBodies[i];
-    //     loadedBodies[i] = nullptr;
-    //     delete motionState;
-    //     delete collisionShape;
-    // }
+    for(int i=0; i<loadedBodies.size(); i++)
+    {
+        dynamicsWorld->removeCollisionObject(loadedBodies[i]);
+        btMotionState * motionState = loadedBodies[i]->getMotionState();
+        btCollisionShape * collisionShape = loadedBodies[i]->getCollisionShape();
+        delete loadedBodies[i];
+        loadedBodies[i] = nullptr;
+        delete motionState;
+        delete collisionShape;
+    }
 
     // Delete the world along with everything
     delete dynamicsWorld;
@@ -63,33 +63,52 @@ void Physics::Update(float dt, model *myModel,int index)
     myModel->SetModel(glm::make_mat4(m));
 }
 
-int Physics::createObject(objProp info)
+int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
 {
     btCollisionShape *shape;
 
     // Change the collision shape based on whats being loaded
     if(info.name.compare("Board") == 0){
-        shape = new btStaticPlaneShape (btVector3(0,1,0), 0);
+        // shape = new btStaticPlaneShape (btVector3(0,1,0), 0);
+        shape = new btBvhTriangleMeshShape(objectTriangles, true);
+        // std::cout  << shape->getName();
     } else if(info.shape == 3 ){
-        shape = new btBoxShape (btVector3(3.75*info.size,3.75*info.size,3.75*info.size));
+        shape = new btBoxShape (btVector3(info.size,2*info.size,info.size));
+        // shape = new btBvhTriangleMeshShape(objectTriangles, true);
     } else{
         shape = new btBoxShape (btVector3(info.size,info.size,info.size));
     }
 
-    btDefaultMotionState *shapeMotionState = NULL;
+    btDefaultMotionState *shapeMotionState;
     // Start at the given positions
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 1, 0), btVector3(info.startPos[0], info.startPos[1], info.startPos[2])));
     
-    btScalar mass;
-    // If the object is dynamic then mass is nonzero
-    (info.type != 1) ? mass = 0 : mass = 1;
 
-    // std::cout << "hey" << info.size << std::endl;
+    // if(info.name.compare("Board") == 0){
+    //     delete shapeMotionState;
+    //     shapeMotionState = nullptr;
+
+    //     btTransform transform;
+    //     // transform.setIdentity();
+    //     // transform.setOrigin(btVector3(0,1,0));
+
+    //     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0,-1,0)));
+    // }
+
+    // If the object is dynamic then mass is nonzero
+    btScalar mass;
+    (info.type != 1) ? mass = 0 : mass = 1;
     
     btVector3 inertia(0,0,0);
     shape->calculateLocalInertia(mass, inertia);
     btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, shape, inertia);
     btRigidBody *rigidBody = new btRigidBody(shapeRigidBodyCI);
+
+    if(info.name.compare("Board") == 0){
+        std::cout << "hewwo, this is the: " << info.name << "\n";
+        int flags = rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
+        rigidBody->setCollisionFlags(flags);
+    }
 
     rigidBody->setActivationState(DISABLE_DEACTIVATION);
     addBody(rigidBody);
@@ -108,7 +127,7 @@ void Physics::createFloor()
     // This basically just creates the floor
     btTransform transform;
     transform.setIdentity();
-    transform.setOrigin(btVector3(0,-1,0));
+    transform.setOrigin(btVector3(0,0.5,0));
     btStaticPlaneShape *floor = new btStaticPlaneShape(btVector3(0.0,1,0.0), 0);
     btMotionState *motionFloor = new btDefaultMotionState(transform);
     btRigidBody::btRigidBodyConstructionInfo floorInfo(0, motionFloor, floor);
@@ -207,4 +226,9 @@ void Physics::Move(std::string command)
     } else {
         loadedBodies[1]->applyCentralImpulse(btVector3(0.0,0.0,-magnitude));
     }
+}
+
+void Physics::LaunchPlunger(float magnitude)
+{
+    loadedBodies[1]->applyCentralImpulse(btVector3(0.0,0.0,magnitude));
 }

@@ -1,2 +1,22 @@
-# Created per-vertex and per-fragment shaders
+# Project 10 - Pinball:
+## Team Members - Kyle Respicio, Franklin Haymore, Ilya Kuznetsov
 
+## Instructions
+Firstly, you must be in the PA7 folder. Then run the following
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+./PA7 config.txt
+```
+
+## Controls
+### Lighting Controls
+Interaction Keys | Description
+------------ | -------------
+<kbd>&uarr;</kbd> | Increase Ambient Lighting
+<kbd>&darr;</kbd> | Decrease Ambient Lighting
+<kbd>&larr;</kbd> | Increase Specular Lighing
+<kbd>&rarr;</kbd> | Decrease Specular Lighing

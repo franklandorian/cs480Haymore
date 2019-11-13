@@ -27,9 +27,10 @@ class Physics
     void Update(float dt, model *myModel, int index);
     void renderPlane();
     int addBody(btRigidBody * newBody);
-    int createObject(objProp info);
+    int createObject(objProp info, btTriangleMesh* objectTriangles);
 
     void Move(std::string command);
+    void LaunchPlunger(float magnitude = 22.0f);
 };
 
 #endif /*PHYSICS_H*/
