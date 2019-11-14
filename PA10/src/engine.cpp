@@ -138,6 +138,9 @@ void Engine::Keyboard()
     }   else if (m_event.key.keysym.sym == SDLK_SPACE)
     {
       m_graphics->LaunchPlunger();
+    }   else if (m_event.key.keysym.sym == SDLK_p)
+    {
+      m_graphics->ChangeColorFilter();
     }
     
 	}

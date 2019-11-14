@@ -144,11 +144,11 @@ glm::mat4 model::GetModel(){
 void model::Update(unsigned int dt, int objType, float x, float y, float z){
 	if (objType == 1)
 	{
-  	meshes[0].Update(dt, 1, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2], m_Prop.size);
+  	meshes[0].Update(dt, m_Prop, 1, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
 	}
 	else if (objType == 2)
 	{
-		meshes[0].Update(dt, 0, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2], m_Prop.size);
+		meshes[0].Update(dt, m_Prop, 0, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
 	}
 }
 

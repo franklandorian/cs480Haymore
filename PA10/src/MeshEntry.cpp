@@ -25,11 +25,17 @@ void meshEntry::SetModel(glm::mat4 newModel){
     model = newModel;
 }
 
-void meshEntry::Update(unsigned int dt, int rotation, float xPos, float yPos, float zPos, float scaleFactor ){
+void meshEntry::Update(unsigned int dt, objProp props, int rotation, float xPos, float yPos, float zPos){
 
     // Controlling speed of the sim
     dt *= 1;
-	model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+	float scaleFactor = props.size;
+
+	if(props.name.compare("Backboard") == 0){
+		model = glm::scale(model, glm::vec3(scaleFactor*1.15, scaleFactor/3, scaleFactor));
+	} else {
+		model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+	}
 }
 
 void meshEntry::buttonHandler(SDL_Keycode& sym){

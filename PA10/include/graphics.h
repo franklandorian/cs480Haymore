@@ -40,6 +40,7 @@ class Graphics
     void DecreaseAmbience();
     void IncreaseSpecular();
     void DecreaseSpecular();
+    void ChangeColorFilter();
 
     void LaunchPlunger();
 
@@ -64,6 +65,9 @@ class Graphics
     
 	  vector<model*> m_objs;
 	  vector<objProp> m_properties;
+
+    vector<glm::vec4> rainbowColors;
+    int currentColor;
 
     bool shaderFlag;
 

@@ -102,10 +102,21 @@ void Camera::update(){
 	                   glm::vec3(transformMatrix[3].x, transformMatrix[3].y, transformMatrix[3].z),
 	                   cameraUp);  
 	}else{
+		glm::vec3 focusPoint(0.0,0.0,0.0);
+		glm::vec3 cameraPoint(0.0,1.0,0.0);
 	//   view = glm::lookAt(followDistance, vec3Focus, cameraUp);
 	  view = glm::lookAt(glm::vec3(0.0, 15.0, -16.0), //Eye Position
-                      glm::vec3(0.0, 0.0, 0.0), //Focus point
-                      glm::vec3(0.0, 1.0, 0.0));
+                      focusPoint, //Focus point
+                      cameraPoint);
+		// view = glm::lookAt(glm::vec3(10.0, 15.0, -16.0), //Eye Position
+		// 				glm::vec3(0.0, 0.0, 0.0), //Focus point
+		// 				glm::vec3(0.0, 1.0, 0.0));
+		// view = glm::lookAt(glm::vec3(-10.0, 15.0, -16.0), //Eye Position
+        //         glm::vec3(0.0, 0.0, 0.0), //Focus point
+        //         glm::vec3(0.0, 1.0, 0.0));
+		// view = glm::lookAt(glm::vec3(0.0, 30.0, -16.0), //Eye Position
+        //         glm::vec3(0.0, 0.0, 0.0), //Focus point
+        //         glm::vec3(0.0, 1.0, 0.0));
 	}
   }
 }
