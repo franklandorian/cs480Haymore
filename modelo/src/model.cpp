@@ -2,11 +2,28 @@
 #include <stdlib.h>
 #include <time.h>
 
-model::model(std::string filename, setting set)
+model::model(std::string filename, objProp props)
 {  
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
   
+  // This tells us if we need the triangle mesh for bullet
+  triangleFlag = (props.type == 2);
+  // triangleFlag = false;
+  if(!triangleFlag){
+    triangleMesh = nullptr;
+  }
+
+  // set object properties
+	m_Prop.name = props.name;
+	m_Prop.type = props.type;
+	m_Prop.shape = props.shape;
+	m_Prop.startPos[0] = props.startPos[0];
+	m_Prop.startPos[1] = props.startPos[1];
+	m_Prop.startPos[2] = props.startPos[2];
+  m_Prop.size = props.size;
+  // std::cout << 	m_Prop.startPos[0] << props.startPos[1] << props.startPos[1];
+
   // Count and allocate proper memory for the meshes
 	meshNumber = scene->mNumMeshes;
   meshes.resize(meshNumber);
@@ -37,29 +54,13 @@ model::model(std::string filename, setting set)
       delete image;
     }
   }
-
-	// fill settings
-	m_setting.name = set.name ;
-	m_setting.index = set.index;
-	m_setting.radius = set.radius/2; // Since this is radius, we half the current value
-	m_setting.rotationSpeed = set.rotationSpeed;
-	m_setting.orbitSpeed = set.orbitSpeed;
-	m_setting.revolution = set.revolution;
- 	m_setting.start = set.start;
-	m_setting.numMoons = set.numMoons;
-	m_setting.moon = set.moon;
-
-
- 	meshes[0].SetStart(m_setting.start, m_setting.index, m_setting.moon);
-
-	// srand(time(NULL));
 }
 
 void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
   // Temporary Storage
   std::vector<Vertex> temp_vertices;
   std::vector<unsigned int> temp_indices;
-
+		
     // Store the faces
     for(unsigned int iFaces = 0; iFaces < paiMesh->mNumFaces; iFaces++){
       for(unsigned int index = 0; index < 3; index++){
@@ -72,12 +73,26 @@ void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
       glm::vec3 temp_vertex(paiMesh->mVertices[iVert].x, paiMesh->mVertices[iVert].y,paiMesh->mVertices[iVert].z);
       glm::vec3 temp_color(glm::vec3(0.0,0.0,0.0));
       glm::vec2 temp_tCoords(0,0);
+      glm::vec3 temp_normals(paiMesh->mNormals[iVert].x, paiMesh->mNormals[iVert].y, paiMesh->mNormals[iVert].z);
       if(paiMesh->HasTextureCoords(0)){
         temp_tCoords.x = 1-paiMesh->mTextureCoords[0][iVert].x;
         temp_tCoords.y = paiMesh->mTextureCoords[0][iVert].y;
       }
-      Vertex verts(temp_vertex, temp_color, temp_tCoords);
+      Vertex verts(temp_vertex, temp_color, temp_tCoords, temp_normals);
       temp_vertices.emplace_back(verts);
+    }
+
+    if(triangleFlag){
+        btVector3 triangle[3];
+        triangleMesh = new btTriangleMesh();
+        for(unsigned int k = 0; k < paiMesh->mNumFaces; k++){
+          aiFace * face = &paiMesh->mFaces[k];
+          for(unsigned int l = 0; l < 3; l++){
+            aiVector3D position = paiMesh->mVertices[face->mIndices[l]];
+            triangle[l] = btVector3(position.x * m_Prop.size, position.y * m_Prop.size, position.z * m_Prop.size);
+          }
+        }
+        triangleMesh->addTriangle(triangle[0], triangle[1], triangle[2]);
     }
 
     // Store into mesh
@@ -94,29 +109,17 @@ model::~model()
 
 void model::Render()
 {
-  /*glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
-
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
-
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-
-  glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
-
-  glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);*/
-
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
 
     for (unsigned int i = 0 ; i < meshes.size() ; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, meshes[i].VB);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture));
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshes[i].IB);
 
@@ -130,6 +133,7 @@ void model::Render()
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
+    glDisableVertexAttribArray(3);
 
 }
 
@@ -137,47 +141,53 @@ glm::mat4 model::GetModel(){
   return meshes[0].GetModel();
 }
 
-void model::Update(unsigned int dt, float revOffset, float x, float y, float z, std::string name){
-	if (name.compare("Space") == 0)
+void model::Update(unsigned int dt, int objType, float x, float y, float z){
+	if (objType == 1)
 	{
-		//std::cout << x << " " << y << " " << z << "\n";
-		meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset, x, y, z);		// space tether overload
+  	meshes[0].Update(dt, m_Prop, 1, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
 	}
-	else if (name.compare("moon") == 0)
+	else if (objType == 2)
 	{
-			//std::cout << m_setting.radius << std::endl;
-			if (m_setting.radius > 0.08f)
-				meshes[0].Update(dt, m_setting.radius/6.0f,	m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset , x, y, z);		// moon overload
-			else
-				meshes[0].Update(dt, m_setting.radius/0.5f,	m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset , x, y, z);		// moon overload
+		meshes[0].Update(dt, m_Prop, 0, m_Prop.startPos[0], m_Prop.startPos[1], m_Prop.startPos[2]);
 	}
-	else
-  	meshes[0].Update(dt, m_setting.radius, m_setting.revolution, m_setting.rotationSpeed, m_setting.orbitSpeed, revOffset);
-
 }
 
-void model::setMoon(model* moon)
+void model::buttonHandler(SDL_Keycode& sym){
+	meshes[0].buttonHandler(sym);  
+}
+
+/*
+void model::setChild(model* child)
 {
-	m_moonObj = moon;
-	m_moons.push_back(m_moonObj);
+	m_children.push_back(child);
 }
 
-void model::moonUpdates(unsigned int dt, float planetOffset, int i)
+glm::mat4 model::GetChildModel(int i)
 {
-	// assign some y offset for moons to stagger around planets and look better
-	float y = i%2==0 ?  getY()+m_setting.radius / (i+1):  getY()-m_setting.radius / (i+1);
-	m_moons[i]->Update(dt, planetOffset, getX(), y, getZ(), "moon"); 
+	return m_children[i]->GetModel();
 }
 
-glm::mat4 model::GetMoonModel(int i)
+model* model::getChild(int i)
 {
-	return m_moons[i]->GetModel();
+	return m_children[i];
+}
+*/
+
+std::string model::getObjName() const
+{
+	return m_Prop.name;
 }
 
-model* model::getMoon(int i)
+int model::getObjType() const
 {
-	return m_moons[i];
+	return m_Prop.type;
 }
+
+int model::getObjShape() const
+{
+	return m_Prop.shape;
+}
+
 
 // getters for position of object
 float model::getX() const
@@ -192,43 +202,17 @@ float model::getZ() const
 {
 	return meshes[0].getZ();
 }
-
-int model::isMoon() const
+float model::getW() const
 {
-	return m_setting.moon;
+	return meshes[0].getA();
 }
 
-int model::getIndex() const
+void model::SetModel(glm::mat4 newModel)
 {
-	return m_setting.index;
+  meshes[0].SetModel(newModel);
 }
 
-std::string model::getName() const
+btTriangleMesh* model::getTriangles()
 {
-	return m_setting.name;
-}
-
-void model::speedUp(){
-  // Doesn't matter what mesh, we just need to change speed of ALL
-  meshes[0].speedUp();
-}
-
-void model::speedDown(){
-  // Doesn't matter what mesh, we just need to change speed of ALL
-  meshes[0].speedDown();
-}
-
-float model::getRadius() const
-{
-	return m_setting.radius;
-}
-
-float model::getNumMoons() const
-{
-	return m_setting.numMoons;
-}
-
-void model::reset()
-{
-	//meshes[0]->
+  return triangleMesh;
 }

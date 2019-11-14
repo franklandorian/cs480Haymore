@@ -137,6 +137,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 
 void Graphics::Update(unsigned int dt)
 {
+	m_dt = dt;
   // Update the objects
   for (int i = 0; i < m_objs.size() - 1; ++i)		// -1 to not worry about individual moon object, i => 11
 	{
@@ -210,6 +211,7 @@ void Graphics::updateCamera(SDL_Keycode keycode){
     m_camera->setFocus(m_objs[keycode-47], followDistance);
   }else if(keycode == SDLK_r){
     m_camera->setFocus(glm::vec3(0.0,0.0,0.0), followDistance);
+		m_objs[0]->Update(m_dt, 0, 0.0f, 0.0f, 0.0f, "Space");
   }
 }
 

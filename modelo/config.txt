@@ -1,7 +1,11 @@
 vs ../shaders/perV-vertex.glsl
 fs ../shaders/perV-fragment.glsl
-obj ../assets/Board.obj
-obj ../assets/Cube.obj
+obj ../assets/pinballBoard.obj
+obj ../assets/Pinball.obj
 obj ../assets/Sphere.obj
 obj ../assets/Cylinder.obj
+obj ../assets/Cylinder.obj
+obj ../assets/Cylinder.obj
+obj ../assets/pinballBackboard3.obj
 prop ../assets/objProperties.txt
+

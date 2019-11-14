@@ -47,7 +47,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 	for (int i = 0; i < allFiles.size(); ++i)
 	{
 		m_objs.push_back(new model(allFiles[i], m_properties[i]));
-    physicsWorld->createObject(m_properties[i]);
+    physicsWorld->createObject(m_properties[i], m_objs[i]->getTriangles());
 	}
 
   // Init Camera
@@ -124,7 +124,16 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   // Intialize lighting
   ambient = glm::vec4(0.5,0.5,0.5,1);
   specular = glm::vec4(0.5,0.5,0.5,1);
+  rainbowColors.emplace_back(glm::vec4(255,0,0,1)); // Red
+  rainbowColors.emplace_back(glm::vec4(255,127,0,1)); // Orange
+  rainbowColors.emplace_back(glm::vec4(255,255,0,1)); // Yellow
+  rainbowColors.emplace_back(glm::vec4(0,255,0,1)); // Green
+  rainbowColors.emplace_back(glm::vec4(0,0,255,1)); // Blue
+  rainbowColors.emplace_back(glm::vec4(75,0,130,1)); // Indigo
+  rainbowColors.emplace_back(glm::vec4(148,0,211,1)); // Violet
 
+  // Because this filter looks the best
+  currentColor = 5;
 
   return true;
 }
@@ -204,11 +213,11 @@ void Graphics::Render()
   glm::vec4 l(0.5, 0.5, 0.5, 1.0);
   // glUniform4f(m_AmbientProduct, 0.5, 0.5, 0.5,1);
   // glUniform4f(m_SpecularProduct, 1,1,1,1);
-  glUniform4f(m_DiffuseProduct, 0.5, 0.5, 0.5,1);
+  // glUniform4f(m_DiffuseProduct,0, 0, 255.0,1);
 
   glUniform4fv(m_AmbientProduct, 1, glm::value_ptr(ambient));
   glUniform4fv(m_SpecularProduct, 1, glm::value_ptr(specular));
-  // glUniform4fv(m_DiffuseProduct, 1, glm::value_ptr(specular));
+  glUniform4fv(m_DiffuseProduct, 1, glm::value_ptr(rainbowColors[currentColor]));
   glUniform4fv(m_LightPosition, 1, glm::value_ptr(l));
   glUniform1f(m_Shininess, 1.0f);
 
@@ -442,4 +451,13 @@ void Graphics::DecreaseSpecular()
   if(specular.x > 0){
       specular -= glm::vec4(0.5,0.5,0.5,0);
   }
+}
+
+void Graphics::ChangeColorFilter()
+{
+  currentColor = (currentColor + 1) % 7; // Seven Colors in the rainbow
+}
+
+void Graphics::LaunchPlunger(){
+  physicsWorld->LaunchPlunger();
 }
