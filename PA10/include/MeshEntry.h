@@ -9,6 +9,15 @@
 #include <btBulletDynamicsCommon.h>
 #include "graphics_headers.h"
 
+struct objProp
+{
+	std::string name;
+	int type = 0;		// 1 = Dynamic, 2 = Static, 3 = Kinematic
+	int shape = -1;	// 0 = rectangle, 1 = spherical, 2 = cylindrical
+	float startPos[3] = {0.0f};	// {x, y, z}
+	float size;
+};
+
 class meshEntry {
   private:
     // meshEntry();
@@ -39,7 +48,7 @@ class meshEntry {
     glm::mat4 GetModel();
     void SetModel(glm::mat4 newModel);
 
-    void Update(unsigned int dt, int rotation = 0, float xPos = 0.0f, float yPos = 0.0f, float zPos = 0.0f, float scaleFactor = 1.0f );
+    void Update(unsigned int dt, objProp props, int rotation = 0, float xPos = 0.0f, float yPos = 0.0f, float zPos = 0.0f);
 		void buttonHandler(SDL_Keycode&);
 
 		// getters for position of object

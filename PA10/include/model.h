@@ -15,15 +15,6 @@
 #include "graphics_headers.h"
 #include "MeshEntry.h"
 
-struct objProp
-{
-	std::string name;
-	int type = 0;		// 1 = Dynamic, 2 = Static, 3 = Kinematic
-	int shape = -1;	// 0 = rectangle, 1 = spherical, 2 = cylindrical
-	float startPos[3] = {0.0f};	// {x, y, z}
-	float size;
-};
-
 class model
 {
   private:

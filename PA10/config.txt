@@ -4,5 +4,8 @@ obj ../assets/pinballBoard.obj
 obj ../assets/Pinball.obj
 obj ../assets/Sphere.obj
 obj ../assets/Cylinder.obj
+obj ../assets/Cylinder.obj
+obj ../assets/Cylinder.obj
+obj ../assets/pinballBackboard3.obj
 prop ../assets/objProperties.txt
 
