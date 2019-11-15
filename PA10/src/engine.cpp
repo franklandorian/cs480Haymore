@@ -120,7 +120,7 @@ void Engine::Keyboard()
     }
 		else if(m_event.key.keysym.sym == SDLK_f)
 		{
-      m_graphics->toggleFreeFly();
+      //m_graphics->toggleFreeFly();
   	}
 		else if (m_event.key.keysym.sym == SDLK_i || m_event.key.keysym.sym == SDLK_j || m_event.key.keysym.sym == SDLK_k || m_event.key.keysym.sym == SDLK_l || m_event.key.keysym.sym == SDLK_u || m_event.key.keysym.sym == SDLK_o)				// i,j,k,l == w,a,s,d   (wasd used for Camera)
 		{
