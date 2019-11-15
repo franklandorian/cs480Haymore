@@ -26,10 +26,14 @@ Interaction Keys | Description
 ### Game Controls
 Interaction Keys | Description
 ------------ | -------------
-<kbd>w</kbd> | Hold to Launch the Ball
+<kbd>Space</kbd> | Hold to Launch the Ball
 <kbd>z</kbd> | Left Flipper
 <kbd>m</kbd> | Right Flipper
 <kbd>r</kbd> | Restart the Game
+<kbd>w</kbd> | Move the pinball up (For debugging)
+<kbd>a</kbd> | Move the pinball left (For debugging)
+<kbd>s</kbd> | Move the pinball down (For debugging)
+<kbd>d</kbd> | Move the pinball right (For debugging)
 
 ## Extra Credit:
 * KDB Plunger Intensity
