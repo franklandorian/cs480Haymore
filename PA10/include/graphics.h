@@ -74,6 +74,8 @@ class Graphics
     bool shaderFlag;
     int lifes;
     bool gameOver;
+    unsigned int score;
+    unsigned int totalScore;
 
 	  unsigned int m_dt;
 
