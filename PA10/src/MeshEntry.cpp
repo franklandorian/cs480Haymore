@@ -10,10 +10,11 @@ bool meshEntry::Init(const std::vector<Vertex> incomingVertices, const std::vect
     glGenBuffers(1, &IB);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
-    
+
     srand(time(NULL));
 
-    angleRotate = angleRev = 0;
+    leftAngle = leftCount = rightAngle = rightCount = 0;
+    leftFlag = leftDownFlag = rightFlag = rightDownFlag = false;
     return true;
 }
 
@@ -35,15 +36,61 @@ void meshEntry::Update(unsigned int dt, objProp props, int rotation, float xPos,
 
 	// (dt) * M_PI/100000
 
-	if(props.name.compare("Plunger") == 0){
-		// 70.6
-		model = glm::rotate(model, (glm::mediump_float) 80, glm::vec3(0.0, 1.0, 0.0));
-	}
-
 	if(props.name.compare("Backboard") == 0){
 		model = glm::scale(model, glm::vec3(scaleFactor*1.15, scaleFactor/3, scaleFactor));
 	} else if(props.name.compare("Plunger") == 0) {
+        model = glm::rotate(model, (glm::mediump_float) 80, glm::vec3(0.0, 1.0, 0.0));
 		model = glm::scale(model, glm::vec3(scaleFactor/4.4, scaleFactor, scaleFactor));
+	} else if(props.name.compare("LeftFlipper") == 0) {
+
+        // This creates the animation for moving the left bumper
+        if(leftFlag){
+            if(leftCount >= 20){
+                leftFlag = false;
+                leftDownFlag = true;
+            } else {
+                leftCount++;
+                leftAngle += 0.065;
+            }
+        }
+
+        // Comedown Animation
+        if(leftDownFlag && !leftFlag){
+            if(leftCount > 0){
+                leftCount--;
+                leftAngle -= 0.065;
+            } else {
+                leftDownFlag = false;
+            }
+        }
+
+        model = glm::rotate(model, (glm::mediump_float) -79.75 + leftAngle, glm::vec3(0.0, 1.0, 0.0));
+		model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+	}  else if(props.name.compare("RightFlipper") == 0) {
+
+        // This creates the animation for moving the right bumper
+        if(rightFlag){
+            if(rightCount >= 20){
+                rightFlag = false;
+                rightDownFlag = true;
+            } else {
+                rightCount++;
+                rightAngle += 0.065;
+            }
+        }
+
+        // Comedown Animation
+        if(rightDownFlag && !rightFlag){
+            if(rightCount > 0){
+                rightCount--;
+                rightAngle -= 0.065;
+            } else {
+                rightDownFlag = false;
+            }
+        }
+
+        model = glm::rotate(model, (glm::mediump_float) 79.75 - rightAngle, glm::vec3(0.0, 1.0, 0.0));
+		model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 	} else {
 		model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 	}
@@ -76,7 +123,7 @@ void meshEntry::buttonHandler(SDL_Keycode& sym){
 }
 
 void meshEntry::moveForward()
-{	
+{
 	z += 0.18f;
 }
 
@@ -123,3 +170,12 @@ float meshEntry::getA() const
 	return model[3][3];
 }
 
+void meshEntry::MoveLeftFlipper()
+{
+    leftFlag = true;
+}
+
+void meshEntry::MoveRightFlipper()
+{
+    rightFlag = true;
+}

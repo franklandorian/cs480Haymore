@@ -3,10 +3,10 @@
 #include <time.h>
 
 model::model(std::string filename, objProp props)
-{  
+{
   Assimp::Importer importer;
   const aiScene *scene = importer.ReadFile(filename, aiProcess_Triangulate);
-  
+
   // This tells us if we need the triangle mesh for bullet
   triangleFlag = (props.type == 2);
   // triangleFlag = false;
@@ -38,7 +38,7 @@ model::model(std::string filename, objProp props)
     // Grab the texture names and run them
     aiString tName;
     aiMaterial* mat = scene->mMaterials[iMesh+1];
-    char textureFile[256]; 
+    char textureFile[256];
     if(scene->mNumMaterials > 1 && mat->GetTextureCount(aiTextureType_DIFFUSE) > 0 && mat->GetTexture(aiTextureType_DIFFUSE, 0, &tName) == AI_SUCCESS){
       strcpy(textureFile,"../assets/");
       strcat(textureFile, tName.C_Str());
@@ -60,7 +60,7 @@ void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
   // Temporary Storage
   std::vector<Vertex> temp_vertices;
   std::vector<unsigned int> temp_indices;
-		
+
     // Store the faces
     for(unsigned int iFaces = 0; iFaces < paiMesh->mNumFaces; iFaces++){
       for(unsigned int index = 0; index < 3; index++){
@@ -153,7 +153,7 @@ void model::Update(unsigned int dt, int objType, float x, float y, float z){
 }
 
 void model::buttonHandler(SDL_Keycode& sym){
-	meshes[0].buttonHandler(sym);  
+	meshes[0].buttonHandler(sym);
 }
 
 /*
@@ -215,4 +215,14 @@ void model::SetModel(glm::mat4 newModel)
 btTriangleMesh* model::getTriangles()
 {
   return triangleMesh;
+}
+
+void model::MoveLeftFlipper()
+{
+    meshes[0].MoveLeftFlipper();
+}
+
+void model::MoveRightFlipper()
+{
+    meshes[0].MoveRightFlipper();
 }

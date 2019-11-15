@@ -76,22 +76,30 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
         triangleBoy = objectTriangles;
     }
 
+    btQuaternion math(0, 0, 1, 0);
+
     // Change the collision shape based on whats being loaded
     if(info.name.compare("Board") == 0){
         // shape = new btStaticPlaneShape (btVector3(0,1,0), 0);
         // shape = new btBvhTriangleMeshShape(objectTriangles, true);
+        // Load triangle mesh, but also god hates me
         shape = new btScaledBvhTriangleMeshShape(new btBvhTriangleMeshShape(triangleBoy, true), btVector3(info.size*100, info.size*100, info.size*100));
-    } else if(info.name.compare("Flipper") == 0){
-        shape = new btBoxShape (btVector3(info.size,2*info.size,2*info.size));
+    } else if(info.name.compare("LeftFlipper") == 0){
+        shape = new btBoxShape (btVector3(1.5*info.size,2*info.size,info.size));
+        math.setRotation(btVector3(0,1,0), 90);
+    }  else if(info.name.compare("RightFlipper") == 0){
+        shape = new btBoxShape (btVector3(1.5*info.size,2*info.size,info.size));
+        math.setRotation(btVector3(0,1,0), -90);
     } else if(info.shape == 3 ){
-        shape = new btBoxShape (btVector3(info.size,2*info.size,info.size));
+        // shape = new btBoxShape (btVector3(info.size,2*info.size,info.size));
+        shape = new btSphereShape(btScalar(info.size));
     } else{
         shape = new btBoxShape (btVector3(info.size,info.size,info.size));
     }
 
     btDefaultMotionState *shapeMotionState;
     // Start at the given positions
-    shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 1, 0), btVector3(info.startPos[0], info.startPos[1], info.startPos[2])));
+    shapeMotionState = new btDefaultMotionState(btTransform(math, btVector3(info.startPos[0], info.startPos[1], info.startPos[2])));
 
     // If the object is dynamic then mass is nonzero
     btScalar mass;
@@ -308,4 +316,32 @@ void Physics::RestartBall(model *myModel)
     transform.setOrigin(btVector3(-3.5, 3.0, -7.0));  // This is a hard coded for the start position
     loadedBodies[1]->getMotionState()->setWorldTransform(transform);
     loadedBodies[1]->setCenterOfMassTransform(transform);
+}
+
+void Physics::MoveLeftFlipper()
+{
+    // btTransform transform;
+    // loadedBodies[6]->getMotionState()->getWorldTransform(transform);
+    // // transform.setOrigin(btVector3(-3.5, 3.0, -7.0));  // This is a hard coded for the start position
+    //
+    // btQuaternion math(0, 0, 1, 0);
+    // math.setRotation(btVector3(0,1,0), -60);
+    //
+    // transform.setRotation(math);
+    // loadedBodies[6]->getMotionState()->setWorldTransform(transform);
+    // loadedBodies[6]->setCenterOfMassTransform(transform);
+}
+
+void Physics::MoveRightFlipper()
+{
+    // btTransform transform;
+    // loadedBodies[6]->getMotionState()->getWorldTransform(transform);
+    // // transform.setOrigin(btVector3(-3.5, 3.0, -7.0));  // This is a hard coded for the start position
+    //
+    // btQuaternion math(0, 0, 1, 0);
+    // // math.setRotation(btVector3(0,1,0), 45);
+    //
+    // transform.setRotation(math);
+    // loadedBodies[6]->getMotionState()->setWorldTransform(transform);
+    // loadedBodies[6]->setCenterOfMassTransform(transform);
 }

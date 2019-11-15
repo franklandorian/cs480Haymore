@@ -32,6 +32,9 @@ class Physics
     int addBody(btRigidBody * newBody);
     int createObject(objProp info, btTriangleMesh* objectTriangles);
 
+    void MoveLeftFlipper();
+    void MoveRightFlipper();
+
     btTriangleMesh* triangleBoy;
 
     void Move(std::string command);
