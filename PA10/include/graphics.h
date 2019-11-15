@@ -43,7 +43,7 @@ class Graphics
     void DecreaseSpecular();
     void ChangeColorFilter();
 
-    void LaunchPlunger();
+    void LaunchPlunger(float force);
 
   private:
     std::string ErrorString(GLenum error);

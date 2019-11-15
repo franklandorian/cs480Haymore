@@ -16,7 +16,7 @@ Physics::Physics()
 
     // Set the world
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-	dynamicsWorld->setGravity(btVector3(2, -9.81, 0));
+	dynamicsWorld->setGravity(btVector3(0, -9.81, -10.0));
 
     // We need a floor lmao
     createFloor();
@@ -156,9 +156,9 @@ void Physics::createWalls()
     //frontwall
     transform[1].setOrigin(btVector3(0,0,-8.5));
     //leftside
-    transform[2].setOrigin(btVector3(7,0,0));
+    transform[2].setOrigin(btVector3(6.1,0,0));
     //rightside
-    transform[3].setOrigin(btVector3(-7,0,0));
+    transform[3].setOrigin(btVector3(-5.2,0,0));
 
     std::vector<btStaticPlaneShape *> walls;
 

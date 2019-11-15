@@ -463,6 +463,6 @@ void Graphics::ChangeColorFilter()
   currentColor = (currentColor + 1) % 7; // Seven Colors in the rainbow
 }
 
-void Graphics::LaunchPlunger(){
-  physicsWorld->LaunchPlunger();
+void Graphics::LaunchPlunger(float force){
+  physicsWorld->LaunchPlunger(force);
 }

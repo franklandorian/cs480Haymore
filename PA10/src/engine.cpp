@@ -50,6 +50,12 @@ bool Engine::Initialize(char* vertexFilename, char* fragmentFilename, char* prop
   // Set the time
   m_currentTimeMillis = GetCurrentTimeMillis();
 
+  // Set plunger force to zero
+  m_force = 0;
+
+  // Score is zero at start
+  score = 0;
+
   // No errors
   return true;
 }
@@ -151,7 +157,8 @@ void Engine::Keyboard()
       m_graphics->DecreaseSpecular();
     }   else if (m_event.key.keysym.sym == SDLK_SPACE)
     {
-      m_graphics->LaunchPlunger();
+      m_force += 2;
+      // m_graphics->LaunchPlunger();
     }   else if (m_event.key.keysym.sym == SDLK_p)
     {
       m_graphics->ChangeColorFilter();
@@ -161,7 +168,11 @@ void Engine::Keyboard()
 	else if(m_event.type == SDL_MOUSEMOTION)
 	{
   	m_graphics->mouseMovement(m_event.motion.xrel, m_event.motion.yrel, m_DT);
-	}
+	} else if (m_event.type == SDL_KEYUP){
+    // Launch the ball
+    m_graphics->LaunchPlunger(m_force);
+    m_force = 0;
+  }
 }
 
 unsigned int Engine::getDT()
