@@ -56,6 +56,8 @@ class meshEntry {
 		float getY() const;
 		float getZ() const;
 		float getA() const;
+
+    void RestartBall();
 };
 
 

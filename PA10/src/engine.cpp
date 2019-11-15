@@ -100,7 +100,7 @@ void Engine::Keyboard()
     {
       m_running = false;
     }
-		else if(m_event.key.keysym.sym >= SDLK_0 && m_event.key.keysym.sym <= SDLK_3 || m_event.key.keysym.sym == SDLK_r)
+		else if(m_event.key.keysym.sym >= SDLK_0 && m_event.key.keysym.sym <= SDLK_3)
 		{
       // m_graphics->updateCamera(m_event.key.keysym.sym);
       switch(m_event.key.keysym.sym){
@@ -162,8 +162,11 @@ void Engine::Keyboard()
     }   else if (m_event.key.keysym.sym == SDLK_p)
     {
       m_graphics->ChangeColorFilter();
+  }   else if (m_event.key.keysym.sym == SDLK_r)
+    {
+      m_graphics->RestartGame();
     }
-    
+
 	}
 	else if(m_event.type == SDL_MOUSEMOTION)
 	{

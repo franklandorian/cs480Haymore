@@ -252,5 +252,16 @@ void Physics::LaunchPlunger(float magnitude)
     loadedBodies[1]->applyCentralImpulse(btVector3(0.0,0.0,magnitude));
 
     // Set game to on
+}
 
+void Physics::RestartBall(model *myModel)
+{
+    dynamicsWorld->stepSimulation(1/600.0f, 10);
+
+    // Transform that shit to the start
+    btTransform transform;
+    loadedBodies[1]->getMotionState()->getWorldTransform(transform);
+    transform.setOrigin(btVector3(-3.5, 3.0, -7.0));  // This is a hard coded for the start position
+    loadedBodies[1]->getMotionState()->setWorldTransform(transform);
+    loadedBodies[1]->setCenterOfMassTransform(transform);
 }

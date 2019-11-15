@@ -95,7 +95,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
-  if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
+  if (m_projectionMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("m_projectionMatrix not found\n");
     return false;
@@ -103,7 +103,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 
   // Locate the view matrix in the shader
   m_viewMatrix = m_shader->GetUniformLocation("viewMatrix");
-  if (m_viewMatrix == INVALID_UNIFORM_LOCATION) 
+  if (m_viewMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("m_viewMatrix not found\n");
     return false;
@@ -111,7 +111,7 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
 
   // Locate the model matrix in the shader
   m_modelMatrix = m_shader->GetUniformLocation("modelMatrix");
-  if (m_modelMatrix == INVALID_UNIFORM_LOCATION) 
+  if (m_modelMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("m_modelMatrix not found\n");
     return false;
@@ -135,20 +135,42 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   // Because this filter looks the best
   currentColor = 5;
 
+  // We start with three lifes
+  lifes = 3;
+  gameOver = false;
+
   return true;
 }
 
 void Graphics::Update(unsigned int dt)
 {
-	m_dt = dt;
-  // Update the objects
-  for (int i = 0; i < m_objs.size(); ++i)		
-	{
-    physicsWorld->Update(dt, m_objs[i], i);
-    m_objs[i]->Update(dt, m_objs[i]->getObjType());
-	}
-  
-	//m_camera->printCameraPos();
+    if(!gameOver){
+        m_dt = dt;
+      // Update the objects
+      for (int i = 0; i < m_objs.size(); ++i)
+        {
+        physicsWorld->Update(dt, m_objs[i], i);
+        m_objs[i]->Update(dt, m_objs[i]->getObjType());
+        }
+
+        // This is the ball
+        float x = m_objs[1]->getX();
+        float z = m_objs[1]->getZ();
+
+        // Detect if it is "lost"
+        if((x >= -1.3 && x <= 4.6) && (z <= -6.0)){
+            // lifes--;
+            std::cout << "Lost Ball! You now have: " << --lifes << " lifes" << std::endl;
+
+            // Restart the position
+            physicsWorld->RestartBall(m_objs[1]);
+
+            if(!lifes){
+                std::cout << "Game Over." << std::endl;
+                gameOver = true;
+            }
+        }
+    }
 }
 
 model* Graphics::getModel(int objIndex)
@@ -211,8 +233,8 @@ void Graphics::Render()
   m_shader->Enable();
 
   // Send in the projection and view to the shader
-  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
-  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
+  glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection()));
+  glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView()));
 
   // Some lighting things
   glm::vec4 l(0.5, 0.5, 0.5, 1.0);
@@ -229,7 +251,7 @@ void Graphics::Render()
   // Render the object
 	// NEED TO RENDER EACH OBJECT
 	for (int i = 0; i < m_objs.size(); ++i)
-	{ 
+	{
 		glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_objs[i]->GetModel()));
 		m_objs[i]->Render();
 	}
@@ -402,7 +424,7 @@ bool Graphics::SwapShaders()
 
   // Locate the projection matrix in the shader
   m_projectionMatrix = m_shader->GetUniformLocation("projectionMatrix");
-  if (m_projectionMatrix == INVALID_UNIFORM_LOCATION) 
+  if (m_projectionMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("m_projectionMatrix not found\n");
     return false;
@@ -410,7 +432,7 @@ bool Graphics::SwapShaders()
 
   // Locate the view matrix in the shader
   m_viewMatrix = m_shader->GetUniformLocation("viewMatrix");
-  if (m_viewMatrix == INVALID_UNIFORM_LOCATION) 
+  if (m_viewMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("m_viewMatrix not found\n");
     return false;
@@ -418,7 +440,7 @@ bool Graphics::SwapShaders()
 
   // Locate the model matrix in the shader
   m_modelMatrix = m_shader->GetUniformLocation("modelMatrix");
-  if (m_modelMatrix == INVALID_UNIFORM_LOCATION) 
+  if (m_modelMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("m_modelMatrix not found\n");
     return false;
@@ -450,6 +472,7 @@ void Graphics::IncreaseSpecular()
   if(specular.x < 5){
       specular += glm::vec4(0.5,0.5,0.5,1);
   }
+  // Testign out git
 }
 void Graphics::DecreaseSpecular()
 {
@@ -465,4 +488,12 @@ void Graphics::ChangeColorFilter()
 
 void Graphics::LaunchPlunger(float force){
   physicsWorld->LaunchPlunger(force);
+}
+
+void Graphics::RestartGame(){
+  if(gameOver){
+      std::cout << "Game has been restarted. You have 3 Lifes" << std::endl;
+      lifes = 3;
+      gameOver = false;
+  }
 }

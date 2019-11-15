@@ -44,6 +44,7 @@ class Graphics
     void ChangeColorFilter();
 
     void LaunchPlunger(float force);
+    void RestartGame();
 
   private:
     std::string ErrorString(GLenum error);
@@ -63,7 +64,7 @@ class Graphics
 
     glm::vec4 ambient;
     glm::vec4 specular;
-    
+
 	  vector<model*> m_objs;
 	  vector<objProp> m_properties;
 
@@ -71,6 +72,8 @@ class Graphics
     int currentColor;
 
     bool shaderFlag;
+    int lifes;
+    bool gameOver;
 
 	  unsigned int m_dt;
 
