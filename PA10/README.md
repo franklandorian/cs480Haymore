@@ -35,6 +35,14 @@ Interaction Keys | Description
 <kbd>s</kbd> | Move the pinball down (For debugging)
 <kbd>d</kbd> | Move the pinball right (For debugging)
 
+### Camera Controls
+Interaction Keys | Description
+------------ | -------------
+<kbd>1</kbd> | Left View
+<kbd>2</kbd> | Right View
+<kbd>3</kbd> | Above View
+<kbd>0</kbd> | Default View
+
 ## Extra Credit:
 * KDB Plunger Intensity
 * Replayability
