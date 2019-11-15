@@ -21,8 +21,17 @@ Interaction Keys | Description
 <kbd>&larr;</kbd> | Increase Specular Lighing
 <kbd>&rarr;</kbd> | Decrease Specular Lighing
 <kbd>z</kbd> | Toggle between per-vertex and per-fragment lighting
-<kbd>r</kbd> | Restart the Game
-<kbd>w</kbd> | Launch the Ball
+<kbd>p</kbd> | Change color of the board
+
+### Game Controls
+Interaction Keys | Description
+------------ | -------------
+<kbd>w</kbd> | Hold to Launch the Ball
 <kbd>z</kbd> | Left Flipper
 <kbd>m</kbd> | Right Flipper
-<kbd>p</kbd> | Change color of the board
+<kbd>r</kbd> | Restart the Game
+
+## Extra Credit:
+* KDB Plunger Intensity
+* Replayability
+* Rainbow color filters
