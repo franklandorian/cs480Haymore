@@ -21,3 +21,6 @@ Interaction Keys | Description
 <kbd>&larr;</kbd> | Increase Specular Lighing
 <kbd>&rarr;</kbd> | Decrease Specular Lighing
 <kbd>z</kbd> | Toggle between per-vertex and per-fragment lighting
+<kbd>r</kbd> | Restart the Game
+<kbd>w</kbd> | Launch the Ball
+<kbd>p</kbd> | Change color of the board
