@@ -13,7 +13,7 @@ bool meshEntry::Init(const std::vector<Vertex> incomingVertices, const std::vect
     
     srand(time(NULL));
 
-    angleRotate = angleRev =  0;
+    angleRotate = angleRev = 0;
     return true;
 }
 
@@ -31,8 +31,19 @@ void meshEntry::Update(unsigned int dt, objProp props, int rotation, float xPos,
     dt *= 1;
 	float scaleFactor = props.size;
 
+	// glm::rotate(glm::mat4(1.0f), (revolveAngle), glm::vec3(0.0, 1.0, 0.0))
+
+	// (dt) * M_PI/100000
+
+	if(props.name.compare("Plunger") == 0){
+		// 70.6
+		model = glm::rotate(model, (glm::mediump_float) 80, glm::vec3(0.0, 1.0, 0.0));
+	}
+
 	if(props.name.compare("Backboard") == 0){
 		model = glm::scale(model, glm::vec3(scaleFactor*1.15, scaleFactor/3, scaleFactor));
+	} else if(props.name.compare("Plunger") == 0) {
+		model = glm::scale(model, glm::vec3(scaleFactor/4.4, scaleFactor, scaleFactor));
 	} else {
 		model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 	}

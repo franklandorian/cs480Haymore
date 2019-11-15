@@ -21,6 +21,7 @@ class Camera
     void mouseMovement(float deltaX, float deltaY, unsigned int DT);
     glm::vec3 getCameraPos();
 		void printCameraPos();
+    void changeEyeView(int eye);
       
   private:
     float yaw;
@@ -34,6 +35,7 @@ class Camera
     model* modelFocus;
     glm::vec3 vec3Focus;
     glm::vec3 followDistance;
+    glm::vec3 eyePosition;
 
 
     glm::vec3 cameraPos;

@@ -196,6 +196,11 @@ void Graphics::updateCamera(SDL_Keycode keycode){
   }
 }
 
+void Graphics::updateEye(int eye)
+{
+  m_camera->changeEyeView(eye);
+}
+
 void Graphics::Render()
 {
   //clear the screen

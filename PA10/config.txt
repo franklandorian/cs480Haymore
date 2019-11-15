@@ -6,6 +6,9 @@ obj ../assets/Sphere.obj
 obj ../assets/Cylinder.obj
 obj ../assets/Cylinder.obj
 obj ../assets/Cylinder.obj
+obj ../assets/Plunger.obj
+obj ../assets/Flipper.obj
+obj ../assets/Flipper.obj
 obj ../assets/pinballBackboard3.obj
 prop ../assets/objProperties.txt
 

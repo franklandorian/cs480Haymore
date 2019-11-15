@@ -1,65 +1,65 @@
 Board: 2
 shape: 1
-<<<<<<< HEAD
-size: 1.0
-=======
 size: 3.5
->>>>>>> 6ae0c19a4a48cafd39852f65fcff11f00f121319
 x: 0.0
 y: 0.0
 z: 0.0
 !
-Cube: 1
+Pinball: 1
 shape: 1
 size: 0.4
-<<<<<<< HEAD
-x: 0.0
-y: 2.0
-z: 5.0
-=======
 x: -3.5
 y: 3.0
 z: -7.0
->>>>>>> 6ae0c19a4a48cafd39852f65fcff11f00f121319
 !
 Sphere: 1
 shape: 2
 size: 0.25
 x: -1.0
-<<<<<<< HEAD
-y: 1.0
-=======
 y: 5.0
->>>>>>> 6ae0c19a4a48cafd39852f65fcff11f00f121319
 z: -2.0
 !
 Cylinder: 2
 shape: 3
-<<<<<<< HEAD
-size: 0.25
-x: 1.0
-y: 0.0
-z: -2.0
-!
-=======
-size: 0.3
-x: 1.0
-y: 1.0
-z: -2.0
-!
-Cylinder: 2
-shape: 3
-size: 0.3
-x: -1.0
-y: 1.0
-z: -2.0
-!
-Cylinder: 2
-shape: 3
-size: 0.3
-x: 0.0
+size: 0.5
+x: 2.5
 y: 1.0
 z: 0.0
+!
+Cylinder: 2
+shape: 3
+size: 0.5
+x: -0.5
+y: 1.0
+z: 0.0
+!
+Cylinder: 2
+shape: 3
+size: 0.5
+x: 1.0
+y: 1.0
+z: 2.5
+!
+Plunger: 2
+shape: 3
+size: 0.6
+x: -3.5
+y: 0.0
+z: -9.4
+!
+Flipper: 2
+shape: 2
+size: 0.6
+x: 4.0
+y: 1.0
+z: -5.0
+!
+Flipper: 2
+shape: 2
+size: 0.6
+x: -1.0
+y: 1.0
+z: -5.0
 !
 Backboard: 2
 shape: 1
@@ -68,6 +68,5 @@ x: 0.4
 y: 3.0
 z: 12.0
 !
->>>>>>> 6ae0c19a4a48cafd39852f65fcff11f00f121319
 
 

@@ -30,6 +30,7 @@ class Graphics
     void toggleFreeFly();
 	  void updateCamera();
     void updateCamera(SDL_Keycode keycode);
+    void updateEye(int eye);
 
 	  void MoveCube(std::string command);
 	  model* getModel(int objIndex);
