@@ -45,6 +45,8 @@ class Graphics
 
 	// util functions
 	void initSetting(char* settingFilename);
+
+	unsigned int m_dt;
 };
 
 #endif /* GRAPHICS_H */

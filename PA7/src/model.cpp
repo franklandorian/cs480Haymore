@@ -227,3 +227,8 @@ float model::getNumMoons() const
 {
 	return m_setting.numMoons;
 }
+
+void model::reset()
+{
+	//meshes[0]->
+}

@@ -40,7 +40,7 @@ void meshEntry::Update(unsigned int dt, float radius, float revolution, float ro
         model = glm::translate(glm::mat4(1.0f), glm::vec3( xPos + ((orbitOffset + revolution) * (glm::sin(angleRev))), yPos + 0, zPos + ((orbitOffset + revolution) * (glm::cos(angleRev))) ));
     } else {
         angleRev += (dt) * M_PI/100000 * (orbitSpeed);
-        model = glm::translate(glm::mat4(1.0f), glm::vec3( (xPos + revolution), yPos + 0, (zPos + revolution) ));
+        model = glm::translate(glm::mat4(1.0f), glm::vec3( (xPos), yPos, (zPos) ));
     }
 
     // Next rotate the actual object
