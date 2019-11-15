@@ -2,7 +2,7 @@
 ## Team Members - Kyle Respicio, Franklin Haymore, Ilya Kuznetsov
 
 ## Instructions
-Firstly, you must be in the PA7 folder. Then run the following
+Firstly, you must be in the PA10 folder. Then run the following
 
 ```bash
 mkdir build
