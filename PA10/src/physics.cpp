@@ -25,6 +25,7 @@ Physics::Physics()
 
     // Create more walls on the Board
     createDiagonal();
+    createDivider();
 }
 
 Physics::~Physics()
@@ -159,21 +160,6 @@ void Physics::createCeiling()
 
 void Physics::createDiagonal()
 {
-//     // This basically just creates the ceiling
-//     btTransform transform;
-//     transform.setIdentity();
-//     transform.setOrigin(btVector3(1,0,3));
-//     btStaticPlaneShape *ceiling = new btStaticPlaneShape(btVector3(0.0,-1,0.0), 0);
-//     btMotionState *motionCeiling = new btDefaultMotionState(transform);
-//     btRigidBody::btRigidBodyConstructionInfo ceilingInfo(0, motionCeiling, ceiling);
-//     btRigidBody * ceilingPlane = new btRigidBody(ceilingInfo);
-//
-//     int flags = ceilingPlane->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
-//     ceilingPlane->setCollisionFlags(flags);
-//     ceilingPlane->setActivationState(DISABLE_DEACTIVATION);
-//
-//     // Don't add to loadedBodies but make sure that there is floor collision
-//     dynamicsWorld->addRigidBody(ceilingPlane);
     btCollisionShape *shape;
 
     shape = new btBoxShape (btVector3(1,1,1));
@@ -196,9 +182,27 @@ void Physics::createDiagonal()
     dynamicsWorld->addRigidBody(rigidBody);
 }
 
-void createDivider()
+void Physics::createDivider()
 {
+    btCollisionShape *shape;
 
+    shape = new btBoxShape (btVector3(0.5,1,9.9));
+
+    btDefaultMotionState *shapeMotionState;
+    // Start at the given positions
+    btQuaternion math(0, 0, 1, 0);
+
+    shapeMotionState = new btDefaultMotionState(btTransform(math, btVector3(-2.25, 1.0, -8.4)));
+
+    // If the object is dynamic then mass is nonzero
+
+    btVector3 inertia(0,0,0);
+    shape->calculateLocalInertia(0, inertia);
+    btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(0, shapeMotionState, shape, inertia);
+    btRigidBody *rigidBody = new btRigidBody(shapeRigidBodyCI);
+
+    rigidBody->setActivationState(DISABLE_DEACTIVATION);
+    dynamicsWorld->addRigidBody(rigidBody);
 }
 
 void Physics::createWalls()
