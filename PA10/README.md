@@ -20,7 +20,7 @@ Interaction Keys | Description
 <kbd>&darr;</kbd> | Decrease Ambient Lighting
 <kbd>&larr;</kbd> | Increase Specular Lighing
 <kbd>&rarr;</kbd> | Decrease Specular Lighing
-<kbd>z</kbd> | Toggle between per-vertex and per-fragment lighting
+<kbd>x</kbd> | Toggle between per-vertex and per-fragment lighting
 <kbd>p</kbd> | Change color of the board
 
 ### Game Controls
