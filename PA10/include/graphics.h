@@ -45,6 +45,8 @@ class Graphics
 
     void LaunchPlunger(float force);
     void RestartGame();
+    void MoveLeftFlipper();
+    void MoveRightFlipper();
 
   private:
     std::string ErrorString(GLenum error);

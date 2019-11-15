@@ -137,10 +137,7 @@ void Engine::Keyboard()
     } else if (m_event.key.keysym.sym == SDLK_s)
     {
       m_graphics->MoveCube("down");
-    }  else if (m_event.key.keysym.sym == SDLK_z)
-    {
-      m_graphics->SwapShaders();
-    }  else if (m_event.key.keysym.sym == SDLK_x)
+    } else if (m_event.key.keysym.sym == SDLK_x)
     {
       m_graphics->SwapShaders();
     }   else if (m_event.key.keysym.sym == SDLK_UP)
@@ -162,9 +159,15 @@ void Engine::Keyboard()
     }   else if (m_event.key.keysym.sym == SDLK_p)
     {
       m_graphics->ChangeColorFilter();
-  }   else if (m_event.key.keysym.sym == SDLK_r)
+    }   else if (m_event.key.keysym.sym == SDLK_r)
     {
       m_graphics->RestartGame();
+  }   else if (m_event.key.keysym.sym == SDLK_z)
+    {
+      m_graphics->MoveLeftFlipper();
+  }   else if (m_event.key.keysym.sym == SDLK_m)
+    {
+      m_graphics->MoveRightFlipper();
     }
 
 	}

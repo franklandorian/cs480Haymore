@@ -510,3 +510,17 @@ void Graphics::RestartGame(){
       totalScore = 0;
   }
 }
+
+void Graphics::MoveLeftFlipper()
+{
+    // 6th index model is the left flipper
+    m_objs[6]->MoveLeftFlipper();
+    physicsWorld->MoveLeftFlipper();
+}
+
+void Graphics::MoveRightFlipper()
+{
+    // 7th index model is the left flipper
+    m_objs[7]->MoveRightFlipper();
+    physicsWorld->MoveRightFlipper();
+}

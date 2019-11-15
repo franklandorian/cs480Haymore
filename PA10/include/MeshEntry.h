@@ -25,6 +25,15 @@ class meshEntry {
     glm::mat4 model;
     float angleRev, angleRotate;
 
+    // Needed for bumper animation
+    int leftCount;
+    float leftAngle;
+    bool leftFlag, leftDownFlag;
+
+    int rightCount;
+    float rightAngle;
+    bool rightFlag, rightDownFlag;
+
 		void moveForward();
 		void moveLeft();
 		void moveBack();
@@ -47,6 +56,9 @@ class meshEntry {
     bool Init(const std::vector<Vertex> incomingVertices, const std::vector<unsigned int> incomingIndices);
     glm::mat4 GetModel();
     void SetModel(glm::mat4 newModel);
+
+    void MoveLeftFlipper();
+    void MoveRightFlipper();
 
     void Update(unsigned int dt, objProp props, int rotation = 0, float xPos = 0.0f, float yPos = 0.0f, float zPos = 0.0f);
 		void buttonHandler(SDL_Keycode&);
