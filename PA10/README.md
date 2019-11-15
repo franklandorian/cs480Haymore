@@ -23,4 +23,6 @@ Interaction Keys | Description
 <kbd>z</kbd> | Toggle between per-vertex and per-fragment lighting
 <kbd>r</kbd> | Restart the Game
 <kbd>w</kbd> | Launch the Ball
+<kbd>z</kbd> | Left Flipper
+<kbd>m</kbd> | Right Flipper
 <kbd>p</kbd> | Change color of the board
