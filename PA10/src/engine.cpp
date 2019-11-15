@@ -96,7 +96,21 @@ void Engine::Keyboard()
     }
 		else if(m_event.key.keysym.sym >= SDLK_0 && m_event.key.keysym.sym <= SDLK_3 || m_event.key.keysym.sym == SDLK_r)
 		{
-      m_graphics->updateCamera(m_event.key.keysym.sym);
+      // m_graphics->updateCamera(m_event.key.keysym.sym);
+      switch(m_event.key.keysym.sym){
+        case SDLK_0:
+          m_graphics->updateEye(0);
+          break;
+        case SDLK_1:
+          m_graphics->updateEye(1);
+          break;
+        case SDLK_2:
+          m_graphics->updateEye(2);
+          break;
+        case SDLK_3:
+          m_graphics->updateEye(3);
+          break;
+      }
     }
 		else if(m_event.key.keysym.sym == SDLK_f)
 		{

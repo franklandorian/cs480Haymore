@@ -16,11 +16,11 @@ Physics::Physics()
 
     // Set the world
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
+	dynamicsWorld->setGravity(btVector3(2, -9.81, 0));
 
     // We need a floor lmao
     createFloor();
-    // createWalls();
+    createWalls();
 }
 
 Physics::~Physics()
@@ -67,14 +67,21 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
 {
     btCollisionShape *shape;
 
+    if(objectTriangles){
+        triangleBoy = objectTriangles;
+    }
+
     // Change the collision shape based on whats being loaded
     if(info.name.compare("Board") == 0){
         // shape = new btStaticPlaneShape (btVector3(0,1,0), 0);
-        shape = new btBvhTriangleMeshShape(objectTriangles, true);
-        // std::cout  << shape->getName();
+        // shape = new btBvhTriangleMeshShape(objectTriangles, true);
+        shape = new btScaledBvhTriangleMeshShape(new btBvhTriangleMeshShape(triangleBoy, true), btVector3(info.size*100, info.size*100, info.size*100));
+        
+        std::cout  << info.size << " " << !!triangleBoy << std::endl;
+    } else if(info.name.compare("Flipper") == 0){
+        shape = new btBoxShape (btVector3(info.size,2*info.size,2*info.size));
     } else if(info.shape == 3 ){
         shape = new btBoxShape (btVector3(info.size,2*info.size,info.size));
-        // shape = new btBvhTriangleMeshShape(objectTriangles, true);
     } else{
         shape = new btBoxShape (btVector3(info.size,info.size,info.size));
     }
@@ -82,18 +89,6 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
     btDefaultMotionState *shapeMotionState;
     // Start at the given positions
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 1, 0), btVector3(info.startPos[0], info.startPos[1], info.startPos[2])));
-    
-
-    // if(info.name.compare("Board") == 0){
-    //     delete shapeMotionState;
-    //     shapeMotionState = nullptr;
-
-    //     btTransform transform;
-    //     // transform.setIdentity();
-    //     // transform.setOrigin(btVector3(0,1,0));
-
-    //     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0,-1,0)));
-    // }
 
     // If the object is dynamic then mass is nonzero
     btScalar mass;
@@ -112,6 +107,9 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
 
     rigidBody->setActivationState(DISABLE_DEACTIVATION);
     addBody(rigidBody);
+
+    if(info.name.compare("Board") == 0){
+    }
 }
 
 int Physics::addBody(btRigidBody * newBody)
@@ -154,13 +152,13 @@ void Physics::createWalls()
     }
 
     //backwall
-    transform[0].setOrigin(btVector3(0,0,7.0));
+    transform[0].setOrigin(btVector3(0,0,8.5));
     //frontwall
-    transform[1].setOrigin(btVector3(0,0,-7.0));
+    transform[1].setOrigin(btVector3(0,0,-8.5));
     //leftside
-    transform[2].setOrigin(btVector3(4.25,0,0));
+    transform[2].setOrigin(btVector3(7,0,0));
     //rightside
-    transform[3].setOrigin(btVector3(-4.25,0,0));
+    transform[3].setOrigin(btVector3(-7,0,0));
 
     std::vector<btStaticPlaneShape *> walls;
 
@@ -230,5 +228,9 @@ void Physics::Move(std::string command)
 
 void Physics::LaunchPlunger(float magnitude)
 {
+    // Apply an upwards force on ball
     loadedBodies[1]->applyCentralImpulse(btVector3(0.0,0.0,magnitude));
+
+    // Set game to on
+
 }

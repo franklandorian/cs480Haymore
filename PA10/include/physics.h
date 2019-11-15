@@ -29,6 +29,8 @@ class Physics
     int addBody(btRigidBody * newBody);
     int createObject(objProp info, btTriangleMesh* objectTriangles);
 
+    btTriangleMesh* triangleBoy;
+
     void Move(std::string command);
     void LaunchPlunger(float magnitude = 22.0f);
 };

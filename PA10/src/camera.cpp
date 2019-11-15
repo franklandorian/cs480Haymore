@@ -33,6 +33,7 @@ bool Camera::Initialize(int w, int h)
                                  float(w)/float(h), //Aspect Ratio, so Circles stay Circular
                                  0.01f, //Distance to the near plane, normally a small value like this
                                  200.0f); //Distance to the far plane, 
+  eyePosition = glm::vec3(0.0, 15.0, -16.0);
   return true;
 }
 
@@ -105,7 +106,7 @@ void Camera::update(){
 		glm::vec3 focusPoint(0.0,0.0,0.0);
 		glm::vec3 cameraPoint(0.0,1.0,0.0);
 	//   view = glm::lookAt(followDistance, vec3Focus, cameraUp);
-	  view = glm::lookAt(glm::vec3(0.0, 15.0, -16.0), //Eye Position
+	  view = glm::lookAt(eyePosition, //Eye Position
                       focusPoint, //Focus point
                       cameraPoint);
 		// view = glm::lookAt(glm::vec3(10.0, 15.0, -16.0), //Eye Position
@@ -140,5 +141,20 @@ void Camera::printCameraPos()
 	std::cout << "Camera POS: " << pos[0] << " " << pos[1] << " " << pos[2] << "\n"; 
 }
 
-
-
+void Camera::changeEyeView(int eye)
+{
+	switch(eye){
+		case 0:
+			eyePosition = glm::vec3(0.0, 15.0, -16.0);
+			break;
+		case 1:
+			eyePosition = glm::vec3(10.0, 15.0, -16.0);
+			break;
+		case 2:
+			eyePosition = glm::vec3(-10.0, 15.0, -16.0);
+			break;
+		case 3:
+			eyePosition = glm::vec3(0.0, 30.0, -16.0);
+			break;
+	}
+}

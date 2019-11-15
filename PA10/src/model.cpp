@@ -87,9 +87,9 @@ void model::InitMesh(unsigned int Index, const aiMesh* paiMesh){
         triangleMesh = new btTriangleMesh();
         for(unsigned int k = 0; k < paiMesh->mNumFaces; k++){
           aiFace * face = &paiMesh->mFaces[k];
-          for(unsigned int l = 0; l < 3; l++){
+          for(unsigned int l = 0; l < face->mNumIndices; l++){
             aiVector3D position = paiMesh->mVertices[face->mIndices[l]];
-            triangle[l] = btVector3(position.x * m_Prop.size, position.y * m_Prop.size, position.z * m_Prop.size);
+            triangle[l] = btVector3(position.x, position.y, position.z);
           }
         }
         triangleMesh->addTriangle(triangle[0], triangle[1], triangle[2]);
