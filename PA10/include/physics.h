@@ -34,6 +34,7 @@ class Physics
 
     void Move(std::string command);
     void LaunchPlunger(float magnitude = 22.0f);
+    void RestartBall(model *myModel);
 };
 
 #endif /*PHYSICS_H*/
