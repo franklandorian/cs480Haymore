@@ -19,7 +19,7 @@ Physics::Physics()
 	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
 
     // We need a floor lmao
-    createFloor();
+    // createFloor();
     // createWalls();
 }
 
@@ -70,8 +70,10 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
     // Change the collision shape based on whats being loaded
     if(info.name.compare("Board") == 0){
         // shape = new btStaticPlaneShape (btVector3(0,1,0), 0);
-        shape = new btBvhTriangleMeshShape(objectTriangles, true);
-        // std::cout  << shape->getName();
+        // shape = new btBvhTriangleMeshShape(objectTriangles, true);
+        shape = new btScaledBvhTriangleMeshShape(new btBvhTriangleMeshShape(objectTriangles, true), btVector3(info.size*100, info.size*100, info.size*100));
+        
+        std::cout  << info.size << " " << !!objectTriangles << std::endl;
     } else if(info.shape == 3 ){
         shape = new btBoxShape (btVector3(info.size,2*info.size,info.size));
         // shape = new btBvhTriangleMeshShape(objectTriangles, true);
@@ -82,18 +84,6 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
     btDefaultMotionState *shapeMotionState;
     // Start at the given positions
     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 1, 0), btVector3(info.startPos[0], info.startPos[1], info.startPos[2])));
-    
-
-    // if(info.name.compare("Board") == 0){
-    //     delete shapeMotionState;
-    //     shapeMotionState = nullptr;
-
-    //     btTransform transform;
-    //     // transform.setIdentity();
-    //     // transform.setOrigin(btVector3(0,1,0));
-
-    //     shapeMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0,-1,0)));
-    // }
 
     // If the object is dynamic then mass is nonzero
     btScalar mass;
@@ -104,14 +94,17 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
     btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, shape, inertia);
     btRigidBody *rigidBody = new btRigidBody(shapeRigidBodyCI);
 
-    if(info.name.compare("Board") == 0){
-        std::cout << "hewwo, this is the: " << info.name << "\n";
-        int flags = rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
-        rigidBody->setCollisionFlags(flags);
-    }
+    // if(info.name.compare("Board") == 0){
+    //     std::cout << "hewwo, this is the: " << info.name << "\n";
+    //     int flags = rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
+    //     rigidBody->setCollisionFlags(flags);
+    // }
 
     rigidBody->setActivationState(DISABLE_DEACTIVATION);
     addBody(rigidBody);
+
+    if(info.name.compare("Board") == 0){
+    }
 }
 
 int Physics::addBody(btRigidBody * newBody)
