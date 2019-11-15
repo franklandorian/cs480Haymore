@@ -472,6 +472,7 @@ void Graphics::IncreaseSpecular()
   if(specular.x < 5){
       specular += glm::vec4(0.5,0.5,0.5,1);
   }
+  // Testign out git
 }
 void Graphics::DecreaseSpecular()
 {
