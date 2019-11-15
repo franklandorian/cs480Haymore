@@ -21,6 +21,8 @@ class Physics
     void createFloor();
     void createWalls();
     void createCeiling();
+    void createDiagonal();
+    void createDivider();
 
   public:
     Physics();

@@ -138,6 +138,8 @@ bool Graphics::Initialize(int width, int height, char* vertexFilename, char* fra
   // We start with three lifes
   lifes = 3;
   gameOver = false;
+  totalScore = 0;
+  score = 0;
 
   return true;
 }
@@ -157,16 +159,25 @@ void Graphics::Update(unsigned int dt)
         float x = m_objs[1]->getX();
         float z = m_objs[1]->getZ();
 
+        // Only increase Score if in the play space
+        if(x >= -1.3 && x <= 4.6){
+            score += 1;
+        }
+
         // Detect if it is "lost"
         if((x >= -1.3 && x <= 4.6) && (z <= -6.0)){
             // lifes--;
             std::cout << "Lost Ball! You now have: " << --lifes << " lifes" << std::endl;
+            std::cout << "You gained: " << score << " points" << std::endl;
+
+            totalScore += score;
+            score = 0;
 
             // Restart the position
             physicsWorld->RestartBall(m_objs[1]);
 
             if(!lifes){
-                std::cout << "Game Over." << std::endl;
+                std::cout << "Game Over. Your final score is : " << totalScore << std::endl;
                 gameOver = true;
             }
         }
@@ -495,5 +506,7 @@ void Graphics::RestartGame(){
       std::cout << "Game has been restarted. You have 3 Lifes" << std::endl;
       lifes = 3;
       gameOver = false;
+      score = 0;
+      totalScore = 0;
   }
 }

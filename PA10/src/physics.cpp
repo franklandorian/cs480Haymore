@@ -18,10 +18,14 @@ Physics::Physics()
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
 	dynamicsWorld->setGravity(btVector3(0, -9.81, -10.0));
 
-    // We need a floor lmao
+    // Create the outer box
     createFloor();
     createWalls();
     createCeiling();
+
+    // Create more walls on the Board
+    createDiagonal();
+    createDivider();
 }
 
 Physics::~Physics()
@@ -77,8 +81,6 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
         // shape = new btStaticPlaneShape (btVector3(0,1,0), 0);
         // shape = new btBvhTriangleMeshShape(objectTriangles, true);
         shape = new btScaledBvhTriangleMeshShape(new btBvhTriangleMeshShape(triangleBoy, true), btVector3(info.size*100, info.size*100, info.size*100));
-
-        std::cout  << info.size << " " << !!triangleBoy << std::endl;
     } else if(info.name.compare("Flipper") == 0){
         shape = new btBoxShape (btVector3(info.size,2*info.size,2*info.size));
     } else if(info.shape == 3 ){
@@ -101,16 +103,13 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
     btRigidBody *rigidBody = new btRigidBody(shapeRigidBodyCI);
 
     if(info.name.compare("Board") == 0){
-        std::cout << "hewwo, this is the: " << info.name << "\n";
+        // std::cout << "hewwo, this is the: " << info.name << "\n";
         int flags = rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
         rigidBody->setCollisionFlags(flags);
     }
 
     rigidBody->setActivationState(DISABLE_DEACTIVATION);
     addBody(rigidBody);
-
-    if(info.name.compare("Board") == 0){
-    }
 }
 
 int Physics::addBody(btRigidBody * newBody)
@@ -157,6 +156,53 @@ void Physics::createCeiling()
 
     // Don't add to loadedBodies but make sure that there is floor collision
     dynamicsWorld->addRigidBody(ceilingPlane);
+}
+
+void Physics::createDiagonal()
+{
+    btCollisionShape *shape;
+
+    shape = new btBoxShape (btVector3(1,1,1));
+
+    btDefaultMotionState *shapeMotionState;
+    // Start at the given positions
+    btQuaternion math(0, 0, 1, 0);
+    math.setRotation(btVector3(0,1,0), 45);
+
+    shapeMotionState = new btDefaultMotionState(btTransform(math, btVector3(-4.1, 1.0, 4.5)));
+
+    // If the object is dynamic then mass is nonzero
+
+    btVector3 inertia(0,0,0);
+    shape->calculateLocalInertia(0, inertia);
+    btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(0, shapeMotionState, shape, inertia);
+    btRigidBody *rigidBody = new btRigidBody(shapeRigidBodyCI);
+
+    rigidBody->setActivationState(DISABLE_DEACTIVATION);
+    dynamicsWorld->addRigidBody(rigidBody);
+}
+
+void Physics::createDivider()
+{
+    btCollisionShape *shape;
+
+    shape = new btBoxShape (btVector3(0.5,1,9.9));
+
+    btDefaultMotionState *shapeMotionState;
+    // Start at the given positions
+    btQuaternion math(0, 0, 1, 0);
+
+    shapeMotionState = new btDefaultMotionState(btTransform(math, btVector3(-2.25, 1.0, -8.4)));
+
+    // If the object is dynamic then mass is nonzero
+
+    btVector3 inertia(0,0,0);
+    shape->calculateLocalInertia(0, inertia);
+    btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(0, shapeMotionState, shape, inertia);
+    btRigidBody *rigidBody = new btRigidBody(shapeRigidBodyCI);
+
+    rigidBody->setActivationState(DISABLE_DEACTIVATION);
+    dynamicsWorld->addRigidBody(rigidBody);
 }
 
 void Physics::createWalls()
@@ -250,8 +296,6 @@ void Physics::LaunchPlunger(float magnitude)
 {
     // Apply an upwards force on ball
     loadedBodies[1]->applyCentralImpulse(btVector3(0.0,0.0,magnitude));
-
-    // Set game to on
 }
 
 void Physics::RestartBall(model *myModel)
