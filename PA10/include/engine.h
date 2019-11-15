@@ -37,6 +37,10 @@ class Engine
     unsigned int m_DT;
     long long m_currentTimeMillis;
     bool m_running;
+
+    // These are specific to pinball hehe
+    float m_force;
+    unsigned int score;
 };
 
 #endif // ENGINE_H

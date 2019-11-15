@@ -16,11 +16,12 @@ Physics::Physics()
 
     // Set the world
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-	dynamicsWorld->setGravity(btVector3(2, -9.81, 0));
+	dynamicsWorld->setGravity(btVector3(0, -9.81, -10.0));
 
     // We need a floor lmao
     createFloor();
     createWalls();
+    createCeiling();
 }
 
 Physics::~Physics()
@@ -139,6 +140,25 @@ void Physics::createFloor()
     dynamicsWorld->addRigidBody(floorPlane);
 }
 
+void Physics::createCeiling()
+{
+    // This basically just creates the ceiling
+    btTransform transform;
+    transform.setIdentity();
+    transform.setOrigin(btVector3(0,3.5,0));
+    btStaticPlaneShape *ceiling = new btStaticPlaneShape(btVector3(0.0,-1,0.0), 0);
+    btMotionState *motionCeiling = new btDefaultMotionState(transform);
+    btRigidBody::btRigidBodyConstructionInfo ceilingInfo(0, motionCeiling, ceiling);
+    btRigidBody * ceilingPlane = new btRigidBody(ceilingIfnfo);
+
+    int flags = ceilingPlane->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
+    floorPlane->setCollisionFlags(flags);
+    floorPlane->setActivationState(DISABLE_DEACTIVATION);
+
+    // Don't add to loadedBodies but make sure that there is floor collision
+    dynamicsWorld->addRigidBody(floorPlane);
+}
+
 void Physics::createWalls()
 {
     // This basically just creates the walls (very similar to how floor is made)
@@ -156,9 +176,9 @@ void Physics::createWalls()
     //frontwall
     transform[1].setOrigin(btVector3(0,0,-8.5));
     //leftside
-    transform[2].setOrigin(btVector3(7,0,0));
+    transform[2].setOrigin(btVector3(6.1,0,0));
     //rightside
-    transform[3].setOrigin(btVector3(-7,0,0));
+    transform[3].setOrigin(btVector3(-5.2,0,0));
 
     std::vector<btStaticPlaneShape *> walls;
 

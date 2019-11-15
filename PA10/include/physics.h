@@ -20,6 +20,7 @@ class Physics
     std::vector<btRigidBody*> loadedBodies;
     void createFloor();
     void createWalls();
+    void createCeiling();
 
   public:
     Physics();
