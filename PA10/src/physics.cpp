@@ -44,7 +44,7 @@ Physics::~Physics()
 	delete dispatcher;
 	delete collisionConfiguration;
 	delete broadphase;
-    
+
     dynamicsWorld = nullptr;
     solver = nullptr;
     dispatcher = nullptr;
@@ -77,7 +77,7 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
         // shape = new btStaticPlaneShape (btVector3(0,1,0), 0);
         // shape = new btBvhTriangleMeshShape(objectTriangles, true);
         shape = new btScaledBvhTriangleMeshShape(new btBvhTriangleMeshShape(triangleBoy, true), btVector3(info.size*100, info.size*100, info.size*100));
-        
+
         std::cout  << info.size << " " << !!triangleBoy << std::endl;
     } else if(info.name.compare("Flipper") == 0){
         shape = new btBoxShape (btVector3(info.size,2*info.size,2*info.size));
@@ -94,7 +94,7 @@ int Physics::createObject(objProp info, btTriangleMesh* objectTriangles)
     // If the object is dynamic then mass is nonzero
     btScalar mass;
     (info.type != 1) ? mass = 0 : mass = 1;
-    
+
     btVector3 inertia(0,0,0);
     shape->calculateLocalInertia(mass, inertia);
     btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass, shapeMotionState, shape, inertia);
@@ -149,14 +149,14 @@ void Physics::createCeiling()
     btStaticPlaneShape *ceiling = new btStaticPlaneShape(btVector3(0.0,-1,0.0), 0);
     btMotionState *motionCeiling = new btDefaultMotionState(transform);
     btRigidBody::btRigidBodyConstructionInfo ceilingInfo(0, motionCeiling, ceiling);
-    btRigidBody * ceilingPlane = new btRigidBody(ceilingIfnfo);
+    btRigidBody * ceilingPlane = new btRigidBody(ceilingInfo);
 
     int flags = ceilingPlane->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT;
-    floorPlane->setCollisionFlags(flags);
-    floorPlane->setActivationState(DISABLE_DEACTIVATION);
+    ceilingPlane->setCollisionFlags(flags);
+    ceilingPlane->setActivationState(DISABLE_DEACTIVATION);
 
     // Don't add to loadedBodies but make sure that there is floor collision
-    dynamicsWorld->addRigidBody(floorPlane);
+    dynamicsWorld->addRigidBody(ceilingPlane);
 }
 
 void Physics::createWalls()
